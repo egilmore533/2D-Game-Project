@@ -4,6 +4,8 @@
 #include "graphics.h"
 #include <string.h>
 #include <stdio.h>
+#include <sstream> /*sstream is for timers*/
+
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
