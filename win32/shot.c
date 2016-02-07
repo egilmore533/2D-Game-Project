@@ -54,3 +54,4 @@ void renderParticles(Shot *shot, SDL_Renderer *gRenderer)
 		renderParticle(shot->particles[i], gRenderer);
 	}
 }
+
