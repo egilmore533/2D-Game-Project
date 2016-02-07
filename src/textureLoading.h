@@ -5,8 +5,9 @@
 
 typedef struct LTexture
 {
-	SDL_Texture* mTexture;			//the actual hardware texture
-	int mWidth, mHeight;			//image dimesions
+	SDL_Texture *mTexture;			//the actual hardware texture
+	
+	int mWidth, mHeight;					//image dimesions
 }LTexture;
 
 void freeLTexture(LTexture *texture);

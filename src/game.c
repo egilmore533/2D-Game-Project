@@ -19,12 +19,8 @@ int getCoordinatesFromFile(int *x, int *y,char * filename);
 void addCoordinateToFile(char *filepath,int x, int y);
 
 
-//added for particle system, doens't use DJ's graphics files
-SDL_Window *gWindow;
-SDL_Renderer *gRenderer;
-
 //initilize to use renderer instead of just surfaces
-bool init()
+bool init(SDL_Window *gWindow, SDL_Renderer *gRenderer)
 {
 	bool success = true;
 	Uint32 flags = 0;
@@ -82,7 +78,8 @@ bool init()
 int main(int argc, char *argv[])
 {
   
-  //LTexture *temp = malloc(sizeof *temp);
+  SDL_Texture *temp;
+  LTexture *texture = (LTexture *)malloc(sizeof(LTexture *));
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
@@ -91,6 +88,12 @@ int main(int argc, char *argv[])
   SDL_Event e;
   Shot shot;
 
+  //added for particle system, doens't use DJ's graphics files
+  SDL_Window *gWindow = NULL;
+  SDL_Renderer *gRenderer= NULL;
+  SDL_Texture *bitmapTex = NULL;
+  SDL_Surface *bitmapSurface = NULL;
+  
   /*
   Init_All();
   temp = IMG_Load("images/bgtest.png"); //notice that the path is part of the filename
@@ -103,15 +106,16 @@ int main(int argc, char *argv[])
   SDL_FreeSurface(temp);
   */
 
-  if(!init())
+  if(!init(gWindow, gRenderer))
   {
 	printf("Failed to initialize Window and Renderer\n");
 	exit(0);
 	return 0;
   }
+
   else
   {
-	if(loadFromFile(temp, "images/bgtest.png", gRenderer))
+	if(loadFromFile(texture, "images/bgtest.png", gRenderer))
 	{
 		printf("background loaded succesfully\n");
 		done = 0;
@@ -135,6 +139,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
   }
+
 
   /*
   done = 0;
