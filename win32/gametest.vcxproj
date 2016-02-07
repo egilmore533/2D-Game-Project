@@ -14,11 +14,14 @@
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
     <ClCompile Include="particles.c" />
+    <ClCompile Include="shot.c" />
+    <ClCompile Include="textureLoading.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h" />
     <ClInclude Include="particles.h" />
     <ClInclude Include="shot.h" />
+    <ClInclude Include="textureLoading.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FDED120-6E7E-4B36-A32B-C84298D67EDE}</ProjectGuid>

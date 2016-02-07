@@ -23,6 +23,7 @@ void addCoordinateToFile(char *filepath,int x, int y);
 int main(int argc, char *argv[])
 {
   SDL_Surface *temp = NULL;
+  SDL_Renderer *gRenderer = NULL;
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;

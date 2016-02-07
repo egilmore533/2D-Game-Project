@@ -24,6 +24,12 @@
     <ClCompile Include="particles.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="textureLoading.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h">
@@ -33,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="textureLoading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
