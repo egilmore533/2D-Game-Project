@@ -1,3 +1,4 @@
+/*
 #ifndef _TEXTURE_LOADING_
 #define _TEXTURE_LOADING_
 #include <string.h>
@@ -18,3 +19,4 @@ int getHeight(LTexture *texture);
 
 
 #endif
+*/

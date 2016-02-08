@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <sstream> /*sstream is for timers*/
 #include "shot.h"
+#include "particles.h"
 
 
 extern SDL_Surface *screen;
@@ -18,7 +19,7 @@ int getImagePathFromFile(char *filepath,char * filename);
 int getCoordinatesFromFile(int *x, int *y,char * filename);
 void addCoordinateToFile(char *filepath,int x, int y);
 
-
+/*
 //initilize to use renderer instead of just surfaces
 bool init(SDL_Window *gWindow, SDL_Renderer *gRenderer)
 {
@@ -71,50 +72,60 @@ bool init(SDL_Window *gWindow, SDL_Renderer *gRenderer)
 
 	return success;
 }
-
+*/
 
 /*this program must be run from the directory directly below images and src, not from within src*/
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
 int main(int argc, char *argv[])
 {
-  
-  SDL_Texture *temp;
-  LTexture *texture = (LTexture *)malloc(sizeof(LTexture *));
-  int done;
-  int tx = 0,ty = 0;
-  const Uint8 *keys;
-  char imagepath[512];
-  SDL_Rect srcRect={0,0,800,600};
-  SDL_Event e;
-  Shot shot;
+	SDL_Surface *tempSurface; //background img
 
-  //added for particle system, doens't use DJ's graphics files
-  SDL_Window *gWindow = NULL;
-  SDL_Renderer *gRenderer= NULL;
-  SDL_Texture *bitmapTex = NULL;
-  SDL_Surface *bitmapSurface = NULL;
-  
-  /*
-  Init_All();
-  temp = IMG_Load("images/bgtest.png"); //notice that the path is part of the filename
-  if(temp != NULL)
-  {
-      printf("temp image loaded successfully\n");
-      SDL_BlitSurface(temp,NULL,buffer,NULL);
-  }
-  gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
-  SDL_FreeSurface(temp);
-  */
+	//for particle system
+	LTexture *texture = (LTexture *)malloc(sizeof(LTexture *));
+	//Shot *shot = (Shot *)malloc(sizeof(Shot *));
+	//LTexture *gRedTexture = (LTexture *)malloc(sizeof(LTexture *));
+	//LTexture *gGreenTexture = (LTexture *)malloc(sizeof(LTexture *));
+	//LTexture *gBlueTexture = (LTexture *)malloc(sizeof(LTexture *));
 
-  if(!init(gWindow, gRenderer))
-  {
+	int done;
+	int tx = 0,ty = 0;
+	const Uint8 *keys;
+	char imagepath[512];
+	SDL_Rect srcRect={0,0,800,600};
+	
+
+	/*
+	if(!init(gWindow, gRenderer))
+	{
 	printf("Failed to initialize Window and Renderer\n");
 	exit(0);
 	return 0;
-  }
+	}
 
-  else
-  {
+	else
+	{
+	bitmapSurface = IMG_Load("images/bgtest.png");
+	bitmapTex = SDL_CreateTextureFromSurface(gRenderer, bitmapSurface);
+	if(bitmapTex == NULL)
+	{
+		printf("Unable to create texture! SDL Error: %s\n", SDL_GetError());
+	}
+	SDL_FreeSurface(bitmapSurface);
+
+	while (1) {
+		SDL_Event e;
+		if (SDL_PollEvent(&e)) {
+			if (e.type == SDL_QUIT) {
+				break;
+			}
+		}
+
+		SDL_RenderClear(gRenderer);
+		SDL_RenderCopy(gRenderer, bitmapTex, NULL, NULL);
+		SDL_RenderPresent(gRenderer);
+	}
+	/*
+	
 	if(loadFromFile(texture, "images/bgtest.png", gRenderer))
 	{
 		printf("background loaded succesfully\n");
@@ -138,27 +149,42 @@ int main(int argc, char *argv[])
 		exit(0);
 		return 0;
 	}
-  }
+	
+	}
+	*/
 
-
-  /*
-  done = 0;
-  do
-  {
-    ResetBuffer();
-    DrawMouse();
-    NextFrame();
-    SDL_PumpEvents();
-    keys = SDL_GetKeyboardState(NULL);
-    if(keys[SDL_SCANCODE_ESCAPE])
-    {
-        done = 1;
-    }
-  }while(!done);
-  */
-
-  exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
-  return 0;
+	Init_All();
+	tempSurface = IMG_Load("images/bgtest.png"); //notice that the path is part of the filename
+	if(tempSurface != NULL)
+	{
+		printf("temp image loaded successfully\n");
+		SDL_BlitSurface(tempSurface,NULL,buffer,NULL);
+	}
+	gt_graphics_render_surface_to_screen(tempSurface,srcRect,0,0);
+	SDL_FreeSurface(tempSurface);
+	//loadMedia(gRedTexture, gGreenTexture, gBlueTexture);
+	//addShot(shot);
+	loadFromFile(texture, "images/shot.png");
+	renderLTexture(texture, 200, 200);
+	//loadFromFile(shot->mTexture, "images/shot.png");
+	//loadFromFile(gRedTexture, "images/redSpark.png");
+	//loadFromFile(gGreenTexture, "images/greenSpark.png");
+	//loadFromFile(gBlueTexture, "images/blueSpark.png");
+	done = 0;
+	do
+	{
+	ResetBuffer();
+	DrawMouse();
+	NextFrame();
+	SDL_PumpEvents();
+	keys = SDL_GetKeyboardState(NULL);
+	if(keys[SDL_SCANCODE_ESCAPE])
+	{
+		done = 1;
+	}
+	}while(!done);
+	exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
+	return 0;
 }
 
 void CleanUpAll()
@@ -173,9 +199,9 @@ void Init_All()
   Init_Graphics(
 	"Game Test",
     800,
-    400,
+    500,
     800,
-    400,
+    500,
     bgcolor,
     0);
 

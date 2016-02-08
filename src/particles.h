@@ -1,7 +1,7 @@
 #ifndef _PARTICLES_
 #define _PARTICLES_
 
-#include "textureLoading.h"
+#include "graphics.h"
 
 #define TOTAL_PARTICLES  20;
 
@@ -13,6 +13,7 @@ typedef struct Particles
 
 }Particle;
 
+void loadMedia(LTexture *red, LTexture *green, LTexture *blue);
 void particle(Particle *particle, int x, int y);
 void renderParticle(Particle *particle, SDL_Renderer *gRenderer);
 bool isDeadParticle(Particle *particle);

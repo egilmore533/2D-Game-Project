@@ -6,11 +6,16 @@
 #include "textureLoading.h"
 
 //Scene textures
-LTexture *gShotTexture;
-LTexture *gRedTexture;
-LTexture *gGreenTexture;
-LTexture *gBlueTexture;
-LTexture *gShimmerTexture;
+static LTexture *gRedTexture;
+static LTexture *gGreenTexture;
+static LTexture *gBlueTexture;
+
+void loadMedia(LTexture *red, LTexture *green, LTexture *blue)
+{
+	gRedTexture = red;
+	gGreenTexture = green;
+	gBlueTexture = blue;
+}
 
 //used to construct a particle
 void particle(Particle *particle, int x, int y)
@@ -34,7 +39,7 @@ void particle(Particle *particle, int x, int y)
 void renderParticle(Particle *particle, SDL_Renderer *gRenderer)
 {
 	//show image
-	renderLTexture(particle->mTexture, particle->mPosX, particle->mPosY, gRenderer);
+	renderLTexture(particle->mTexture, particle->mPosX, particle->mPosY);
 	
 	//renderLTexture(gShimmerTexture, particle->mPosX, particle->mPosY);
 

@@ -32,7 +32,8 @@ void removeShot(Shot *shot)
 
 void renderShot(Shot *shot, SDL_Renderer *gRenderer)
 {
-	renderLTexture(shot->mTexture, shot->mPosX, shot->mPosY, gRenderer);
+	loadFromFile(shot->mTexture, "images/shot.png");
+	renderLTexture(shot->mTexture, shot->mPosX, shot->mPosY);
 
 	renderParticles(shot, gRenderer);
 }

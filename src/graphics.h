@@ -63,6 +63,27 @@ typedef struct Sprite_T
   int used;					/*used by the maintanenc functions to keep track of how many times a single sprite is being used*/
 }Sprite;
 
+/*
+//////////////////////////////////////
+My Code
+//////////////////////////////////////
+*/
+typedef struct LTexture
+{
+	SDL_Texture *mTexture;			//the actual hardware texture
+	
+	int mWidth, mHeight;					//image dimesions
+}LTexture;
+
+void freeLTexture(LTexture *texture);
+void renderLTexture(LTexture *texture, int x, int y);
+bool loadFromFile(LTexture *texture, char *path);
+int getWidth(LTexture *texture);
+int getHeight(LTexture *texture);
+
+/*
+//////////////////////////////////////////////////////////
+*/
 
 void Init_Graphics(
 	char *windowName,
