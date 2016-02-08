@@ -21,18 +21,12 @@
     <ClCompile Include="..\src\graphics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\particles.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\shot.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\particles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\shot.h">

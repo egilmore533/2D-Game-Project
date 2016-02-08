@@ -3,7 +3,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "shot.h"
-#include "textureLoading.h"
+
+void allocShot(Shot *shot)
+{
+	int i;
+	shot->mTexture = (LTexture *)malloc(sizeof(LTexture *));
+	for(i = 0; i < 20 - 1; i++)
+	{
+		allocParticle(shot->particles[i]);
+	}
+}
 
 void addShot(Shot *shot)
 {
@@ -16,7 +25,7 @@ void addShot(Shot *shot)
 
 	for(i =0; i < 20 - 1; i++)
 	{
-		particle(shot->particles[i], shot->mPosX, shot->mPosY);
+		addParticle(shot->particles[i], shot->mPosX, shot->mPosY);
 	}
 }
 
@@ -46,13 +55,13 @@ void renderParticles(Shot *shot, SDL_Renderer *gRenderer)
 		if(isDeadParticle(shot->particles[i]))
 		{
 			freeParticle(shot->particles[i]);
-			particle(shot->particles[i], shot->mPosX, shot->mPosY); 
+			addParticle(shot->particles[i], shot->mPosX, shot->mPosY); 
 		}
 	}
 
 	for(i = 0; i < 20 - 1; i++)
 	{
-		renderParticle(shot->particles[i], gRenderer);
+		renderParticle(shot->particles[i]);//this needs to be moved now that I moved Particles stuff into graphics
 	}
 }
 

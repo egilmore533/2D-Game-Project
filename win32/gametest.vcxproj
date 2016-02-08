@@ -13,12 +13,10 @@
   <ItemGroup>
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
-    <ClCompile Include="..\src\particles.c" />
     <ClCompile Include="..\src\shot.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h" />
-    <ClInclude Include="..\src\particles.h" />
     <ClInclude Include="..\src\shot.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

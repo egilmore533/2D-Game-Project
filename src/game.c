@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <sstream> /*sstream is for timers*/
 #include "shot.h"
-#include "particles.h"
 
 
 extern SDL_Surface *screen;
@@ -19,139 +18,34 @@ int getImagePathFromFile(char *filepath,char * filename);
 int getCoordinatesFromFile(int *x, int *y,char * filename);
 void addCoordinateToFile(char *filepath,int x, int y);
 
-/*
-//initilize to use renderer instead of just surfaces
-bool init(SDL_Window *gWindow, SDL_Renderer *gRenderer)
-{
-	bool success = true;
-	Uint32 flags = 0;
-	int imgFlags;
-
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
-		success = false;
-	}
-	else
-	{
-		//Set texture filtering to linear
-		if(!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ))
-		{
-			printf( "Warning: Linear texture filtering not enabled!" );
-		}
-
-		gWindow = SDL_CreateWindow("Pep's Spicy Adventure", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 400, flags);
-		if(gWindow == NULL)
-		{
-			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
-			success = false;
-		}
-		else
-		{
-			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-			if(gRenderer == NULL)
-			{
-				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
-                success = false;
-			}
-			else
-			{
-				//Initialize renderer color
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
-				//Initialize PNG loading
-				imgFlags = IMG_INIT_PNG;
-				if( !( IMG_Init( imgFlags ) & imgFlags ) )
-				{
-					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
-					success = false;
-				}
-			}
-		}
-	}
-
-	return success;
-}
-*/
-
 /*this program must be run from the directory directly below images and src, not from within src*/
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
 int main(int argc, char *argv[])
 {
 	SDL_Surface *tempSurface; //background img
 
-	//for particle system
+	//for testing LTextures
 	LTexture *texture = (LTexture *)malloc(sizeof(LTexture *));
+	
+	//can't figure out how to create a shot struct properly
 	//Shot *shot = (Shot *)malloc(sizeof(Shot *));
-	//LTexture *gRedTexture = (LTexture *)malloc(sizeof(LTexture *));
-	//LTexture *gGreenTexture = (LTexture *)malloc(sizeof(LTexture *));
-	//LTexture *gBlueTexture = (LTexture *)malloc(sizeof(LTexture *));
+	//allocShot(shot);
+	
+	//can't use these in particles so I'm gonna have to pass them to the functions as needed
+	//everything I programmed so far is super wasteful and I don't even have much to show for it
+	LTexture *gRedTexture = (LTexture *)malloc(sizeof(LTexture *));
+	LTexture *gGreenTexture = (LTexture *)malloc(sizeof(LTexture *));
+	LTexture *gBlueTexture = (LTexture *)malloc(sizeof(LTexture *));
+
+	//Particles Testing (note move Particle bakc to their own file)
+	Particle *particle = (Particle *)malloc(sizeof(Particle *));
+	particle->mTexture = (LTexture *)malloc(sizeof(LTexture *));
 
 	int done;
 	int tx = 0,ty = 0;
 	const Uint8 *keys;
 	char imagepath[512];
 	SDL_Rect srcRect={0,0,800,600};
-	
-
-	/*
-	if(!init(gWindow, gRenderer))
-	{
-	printf("Failed to initialize Window and Renderer\n");
-	exit(0);
-	return 0;
-	}
-
-	else
-	{
-	bitmapSurface = IMG_Load("images/bgtest.png");
-	bitmapTex = SDL_CreateTextureFromSurface(gRenderer, bitmapSurface);
-	if(bitmapTex == NULL)
-	{
-		printf("Unable to create texture! SDL Error: %s\n", SDL_GetError());
-	}
-	SDL_FreeSurface(bitmapSurface);
-
-	while (1) {
-		SDL_Event e;
-		if (SDL_PollEvent(&e)) {
-			if (e.type == SDL_QUIT) {
-				break;
-			}
-		}
-
-		SDL_RenderClear(gRenderer);
-		SDL_RenderCopy(gRenderer, bitmapTex, NULL, NULL);
-		SDL_RenderPresent(gRenderer);
-	}
-	/*
-	
-	if(loadFromFile(texture, "images/bgtest.png", gRenderer))
-	{
-		printf("background loaded succesfully\n");
-		done = 0;
-		do
-		{
-			DrawMouse();
-			NextFrame();
-			SDL_PumpEvents();
-			keys = SDL_GetKeyboardState(NULL);
-			if(keys[SDL_SCANCODE_ESCAPE])
-			{
-				done = 1;
-			}
-		}
-		while(!done);
-	}
-	else
-	{
-		printf("Failed to initialize Background\n");
-		exit(0);
-		return 0;
-	}
-	
-	}
-	*/
 
 	Init_All();
 	tempSurface = IMG_Load("images/bgtest.png"); //notice that the path is part of the filename
@@ -162,14 +56,27 @@ int main(int argc, char *argv[])
 	}
 	gt_graphics_render_surface_to_screen(tempSurface,srcRect,0,0);
 	SDL_FreeSurface(tempSurface);
-	//loadMedia(gRedTexture, gGreenTexture, gBlueTexture);
-	//addShot(shot);
-	loadFromFile(texture, "images/shot.png");
-	renderLTexture(texture, 200, 200);
+	
+	//shot still busted
+	//all LTextures work and Particle works
 	//loadFromFile(shot->mTexture, "images/shot.png");
-	//loadFromFile(gRedTexture, "images/redSpark.png");
-	//loadFromFile(gGreenTexture, "images/greenSpark.png");
-	//loadFromFile(gBlueTexture, "images/blueSpark.png");
+	loadFromFile(gRedTexture, "images/redSpark.png");
+	loadFromFile(gGreenTexture, "images/greenSpark.png");
+	loadFromFile(gBlueTexture, "images/blueSpark.png");
+	loadFromFile(texture, "images/shot.png");
+	loadMedia(gRedTexture, gGreenTexture, gBlueTexture);
+	
+	
+	//addShot(shot);
+
+	addParticle(particle, 600, 200);
+	renderParticle(particle);
+	renderLTexture(texture, 200, 200);
+	renderLTexture(gRedTexture, 300, 200);
+	renderLTexture(gGreenTexture, 400, 200);
+	renderLTexture(gBlueTexture, 500, 200);
+
+
 	done = 0;
 	do
 	{
@@ -197,7 +104,7 @@ void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
   Init_Graphics(
-	"Game Test",
+	"Pep's Spicy Adventure",
     800,
     500,
     800,

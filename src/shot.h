@@ -1,7 +1,6 @@
 #ifndef _SHOT_
 #define _SHOT_
 
-#include "particles.h"
 #include "SDL_events.h"
 #include "graphics.h"
 #include <stdlib.h>
@@ -21,6 +20,7 @@ typedef struct Shot
 
 }Shot;
 
+void allocShot(Shot *shot);
 void addParticles(Shot *shot);
 void addShot(Shot *shot);
 void removeShot(Shot *shot);
