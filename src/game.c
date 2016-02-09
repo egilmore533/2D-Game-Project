@@ -4,6 +4,7 @@
 #include "graphics.h"
 #include <string.h>
 #include <stdio.h>
+#include "sprite.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 
 void CleanUpAll()
 {
-  CloseSprites();
+  sprite_close_system();
   /*any other cleanup functions can be added here*/ 
 }
 
