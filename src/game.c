@@ -71,6 +71,8 @@ void Init_All()
     bgcolor,
     0);
 
+  sprite_initialize_system();//sprite.c needs to initialize before the game starts to load sprites
+
   InitMouse();
   atexit(CleanUpAll);
 }
