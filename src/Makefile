@@ -45,8 +45,10 @@ count:
 # Dependencies.
 #
 
-graphics.o: graphics.c graphics.h
-game.o: game.c graphics.h
+simple_logger.o: simple_logger.c simple_logger.h 
+sprite.o: sprite.c sprite.h simple_logger.h
+graphics.o: graphics.c graphics.h sprite.h simple_logger.h
+game.o: game.c graphics.h sprite.h simple_logger.h
 
 #
 # The default rule.

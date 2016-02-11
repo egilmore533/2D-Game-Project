@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "simple_logger.h"
 
 Sprite *spriteList = NULL;
 int numSprites;
