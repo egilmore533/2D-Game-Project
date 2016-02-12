@@ -1,6 +1,10 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
+
+/** @brief	A macro that defines degrees to radians from DJ's MoGUL types file. */
+#define ERIC_DEGTORAD	 0.017453292519943295769236907684886
+
 /**
 * @brief a simple 2d vector structure
 */
@@ -131,21 +135,80 @@ typedef struct
  * @param	neg 	The resulting negative vect2d.
  * @param	vect	The vect2d to be negated.
  */
-#define vect2d_negate(neg,vect)      (neg.x=(-vect.x), neg.y=-(vect.y))
+#define vect2d_negate(neg,vect) (neg.x=(-vect.x), neg.y=-(vect.y))
 
 /**
  * @brief	A macro that takes a vect3d and negates it.
  * @param	neg 	The resulting negative vect3d.
  * @param	vect	The vect3d to be negated.
  */
-#define vect3d_negate(neg,vect)      (neg.x=(-vect.x), neg.y=(-vect.y), neg.z=(-vect.z))
+#define vect3d_negate(neg,vect) (neg.x=(-vect.x), neg.y=(-vect.y), neg.z=(-vect.z))
 
 /**
  * @brief	A macro that takes a vect4d and negates it.
  * @param	neg 	The resulting negative vect4d.
  * @param	vect	The vect4d to be negated.
  */
-#define vect4d_negate(neg,vect)      (neg.x=(-vect.x), neg.y=(-vect.y), neg.z=(-vect.z), neg.w=(-vect.w))
+#define vect4d_negate(neg,vect) (neg.x=(-vect.x), neg.y=(-vect.y), neg.z=(-vect.z), neg.w=(-vect.w))
 
+/**
+ * @brief	A macro that takes a vect2d and a factor to mutiply the vect2d by
+ * @param	vect  	The resulting vect2d.
+ * @param	vectIn	The vect2d in.
+ * @param	factor	The factor that the vector is being scaled by.
+ */
+#define vect2d_scale(vect,vectIn,factor) (vect.x=vectIn.x*factor, vect.y=vectIn.y*factor)
+
+/**
+ * @brief	A macro that takes a vect3d and a factor to mutiply the vect3d by.
+ * @param	vect  	The resulting vect3d.
+ * @param	vectIn	The vect3d in.
+ * @param	factor	The factor that the vector is being scaled by.
+ */
+#define vect3d_scale(vect,vectIn,factor) (vect.x=vectIn.x*factor, vect.y=vectIn.y*factor, vect.z=vectIn.z*factor)
+
+/**
+ * @brief	A macro that takes a vect4d and a factor to mutiply the vect4d by.
+ * @param	vect  	The resulting vect4d.
+ * @param	vectIn	The vect4d in.
+ * @param	factor	The factor that the vect4d is being scaled by.
+ */
+#define vect4d_scale(vect,vectIn,factor) (vect.x=vectIn.x*factor, vect.y=vectIn.y*factor, vect.z=vectIn.z*factor, vect.w=vectIn.w*factor)
+
+
+void vect2d_normalize (Vect2d *vect);
+void vect3d_normalize (Vect3d *vect);
+void vect4d_normalize (Vect4d *vect);
+
+/**
+ * @brief	Vect 3D cross product because I learned it from Jimmy.
+ * @param [in,out]	out	If non-null, the resulting vect from the cross product.
+ * @param	v1		   	The first Vect3d.
+ * @param	v2		   	The second Vect3d.
+ */
+void vect3d_cross_product(Vect3d *out, Vect3d v1, Vect3d v2);
+
+/**
+ * @brief	Vect 3D angle to vector.
+ * @param	angles		  	The angles.
+ * @param [in,out]	foward	If non-null, the foward.
+ * @param [in,out]	right 	If non-null, the right.
+ * @param [in,out]	up	  	If non-null, the up.
+ */
+void vect3d_angle_to_vector(Vect3d angles, Vect3d *foward, Vect3d *right, Vect3d *up);
+
+float vect2d_get_length(Vect2d vect);
+float vect3d_get_length(Vect3d vect);
+float vect4d_get_length(Vect4d vect);
+
+void vect2d_normalize(Vect2d *vect);
+void vect3d_normalize(Vect3d *vect);
+void vect4d_normalize(Vect3d *vect);
+
+
+void vect3d_angle(Vect3d *out, float radians);
+void vect4d_angle(Vect4d *out, float radians);
+
+void vect3d_rotate_about_x(Vect3d *vect, float angle);
 
 #endif
