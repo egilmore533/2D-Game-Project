@@ -29,7 +29,7 @@ void sprite_free(Sprite *sprite)
 void sprite_close_system()
 {
 	int i;
-	for(i = 0; i < spriteMax; i++)
+	for(i = 0; i < spriteMax; ++i)
 	{
 		sprite_free(&spriteList[i]);
 	}
@@ -48,7 +48,7 @@ void sprite_initialize_system()
 	spriteList = (Sprite *)malloc(sizeof(Sprite) * spriteMax);
 	memset(spriteList, 0, sizeof(Sprite) * spriteMax);
 	numSprites = 0;
-	for(i = 0; i < spriteMax; i++)
+	for(i = 0; i < spriteMax; ++i)
 	{
 		spriteList[i].image = NULL;
 	}
@@ -61,7 +61,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, SDL_Renderer *renderer)
 	SDL_Surface *tempSurface;
 	SDL_Texture *tempTexture;
 	/*first search to see if the requested sprite image is alreday loaded*/
-	for(i = 0; i < numSprites; i++)
+	for(i = 0; i < numSprites; ++i)
 	{
 		if(strncmp(file, spriteList[i].filename, 128) ==0)
 		{
