@@ -43,7 +43,7 @@ void sprite_initialize_system(int maxSprite);
  * @param [in,out]	renderer	If non-null, the renderer that the sprite will be rendered to.
  * @return	null if it fails, else a Sprite*.
  */
-Sprite *sprite_load(char file[], int frameW, int frameH, SDL_Renderer *renderer);
+Sprite *sprite_load(char file[], int frameW, int frameH);
 
 /**
  * @brief	draws the sprite to the given position on the renderer.
@@ -53,7 +53,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, SDL_Renderer *renderer)
  * @param	drawx				The x coordinate that the sprite will be rendered to.
  * @param	drawy				The y coordinate that the sprite will be rendered to.
  */
-void sprite_draw(Sprite *sprite, int frame, SDL_Renderer *renderer, int drawx, int drawy);
+void sprite_draw(Sprite *sprite, int frame, int drawx, int drawy);
 
 
 #endif

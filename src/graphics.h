@@ -74,5 +74,6 @@ void ResetBuffer();
 void NextFrame();
 void InitMouse();
 void DrawMouse();
+SDL_Renderer *get_renderer();
 
 #endif

@@ -4,7 +4,11 @@
 #include "graphics.h"
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 #include "sprite.h"
+#include "simple_logger.h"
+#include "vector.h"
+#include "entity.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -25,7 +29,9 @@ int main(int argc, char *argv[])
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
-  SDL_Rect srcRect={0,0,800,600};
+  SDL_Rect srcRect={0,0,1024,768};
+  init_logger("log.txt");
+  slog("logger initialized");
   Init_All();
   temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
   if(temp != NULL)
@@ -35,11 +41,14 @@ int main(int argc, char *argv[])
   }
   gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
   SDL_FreeSurface(temp);
+
+
   done = 0;
   do
   {
     ResetBuffer();
     DrawMouse();
+	entity_update_all();
     NextFrame();
     SDL_PumpEvents();
     keys = SDL_GetKeyboardState(NULL);
@@ -63,15 +72,15 @@ void Init_All()
 	float bgcolor[] = {1,1,1,1};
   Init_Graphics(
 	"Game Test",
-    800,
-    400,
-    800,
-    400,
+    1024,
+    768,
+    1024,
+    768,
     bgcolor,
     0);
 
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
-
+  entity_initialize_system(10);
   InitMouse();
   atexit(CleanUpAll);
 }

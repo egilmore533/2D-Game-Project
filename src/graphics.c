@@ -680,7 +680,7 @@ void SwapSprite(SDL_Surface *sprite,int color1,int color2,int color3)
 /*this only handles the drawing and animation of.  Assuming you have a 16 by 16  tiled sprite sheet.  This will not handle input*/
 void InitMouse()
 {
-  Msprite = sprite_load("images/mouse.png",16, 16, __gt_graphics_renderer);
+  Msprite = sprite_load("images/mouse.png",16, 16);
   if(Msprite == NULL)fprintf(stdout,"mouse didn't load: %s\n", SDL_GetError());
   Mouse.state = 0;
   Mouse.shown = 0;
@@ -694,9 +694,14 @@ void DrawMouse()
 {
   int mx,my;
   SDL_GetMouseState(&mx,&my);
-  if(Msprite != NULL) sprite_draw(Msprite, Mouse.frame, __gt_graphics_renderer, mx, my);
+  if(Msprite != NULL) sprite_draw(Msprite, Mouse.frame, mx, my);
   Mouse.frame = (Mouse.frame + 1)%16;
  Mouse.x = mx;
  Mouse.y = my;
+}
+
+SDL_Renderer *get_renderer()
+{
+	return __gt_graphics_renderer;
 }
 
