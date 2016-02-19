@@ -35,7 +35,7 @@ Entity *entity_new();
  * @brief	Free's the entity from memory.
  * @param [in,out]	entity	If non-null, the entity.
  */
-void entity_free(Entity *entity);
+void entity_free(Entity **entity);
 
 
 /** @brief	Initializes the entity system by allocating space for the entityList according to   

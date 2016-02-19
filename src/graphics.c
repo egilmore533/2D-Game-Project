@@ -18,7 +18,6 @@ SDL_Surface *buffer; /*pointer to the background image buffer*/
 SDL_Surface *videobuffer; /*pointer to the draw buffer*/
 SDL_Rect Camera; /*x & y are the coordinates for the background map, w and h are of the screen*/
 Sprite *Msprite;
-int NumSprites;
 Uint32 NOW;					/*the current time since program started*/
 
 static SDL_Window   *   __gt_graphics_main_window = NULL;

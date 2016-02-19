@@ -4,19 +4,29 @@
 #include <stdio.h>
 
 Entity *entityList = NULL;
-int numEntity;
-int entityMax = 100;
+int entityNum;
+int entityMax = 0;
 
-void entity_free(Entity *entity)
+void entity_free(Entity **entity)
 {
-	entity->inUse--;
-
-	if(entity->sprite != NULL)
+	Entity *self;
+	if(!entity)
 	{
-		sprite_free(entity->sprite);
+		return;
+	}
+	if(!*entity) 
+	{
+		return;
+	}
+	self = *entity;
+	self->inUse--;
+
+	if(self->sprite != NULL)
+	{
+		sprite_free(&self->sprite);
 	}
 
-	entity->sprite = NULL;
+	*entity = NULL;
 }
 
 Entity *entity_new()
@@ -30,29 +40,32 @@ Entity *entity_new()
 void entity_close_system()
 {
 	int i;
+	Entity *entity;
 	for(i = 0; i < entityMax; ++i)
 	{
-		entity_free(&entityList[i]);
+		entity = &entityList[i];
+		entity_free(&entity);
 	}
-	numEntity = 0;
+	entityNum = 0;
 	memset(entityList, 0, sizeof(Sprite) * entityMax);
 }
 
-void entity_init_system()
+void entity_init_system(int maxEntity)
 {
 	int i;
-	if(entityMax == 0)
+	if(maxEntity == 0)
 	{
 		printf("Max sprite == 0\n");
 		return;
 	}
-	entityList = (Entity *) malloc (sizeof (Entity) * entityMax);
-	memset(entityList, 0, sizeof (Entity) * entityMax);
-	numEntity = 0;
-	for(i = 0; i < entityMax; ++i)
+	entityList = (Entity *) malloc (sizeof (Entity) * maxEntity);
+	memset(entityList, 0, sizeof (Entity) * maxEntity);
+	entityNum = 0;
+	for(i = 0; i < maxEntity; ++i)
 	{
 		entityList[i].sprite = NULL;
 	}
+	entityMax = maxEntity;
 	atexit(entity_close_system);
 }
 

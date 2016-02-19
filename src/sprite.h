@@ -24,7 +24,7 @@ typedef struct Sprite_t
  * @brief	removes one reference from spriteList, and frees the sprite from spriteList if the refCount is 0
  * @param [in,out]	sprite that is no longer being referenced
  */
-void sprite_free(Sprite *sprite);
+void sprite_free(Sprite **sprite);
 
 
 /** @brief	closes the sprite system by freeing the entire sprite list and setting the number of sprites in the list to 0*/
@@ -32,7 +32,7 @@ void sprite_close_system();
 
 
 /** @brief	initializes the sprite system by allocating memory for the sprite list and setting each sprite's image to NULL */
-void sprite_initialize_system();
+void sprite_initialize_system(int maxSprite);
 
 /**
  * @brief	loads a given filename to be a sprite, given an already loaded sprite it will add to the refCount of that sprite

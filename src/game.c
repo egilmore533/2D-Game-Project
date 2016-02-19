@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
-  char imagepath[512];
   SDL_Rect srcRect={0,0,800,600};
   Init_All();
   temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
@@ -71,7 +70,7 @@ void Init_All()
     bgcolor,
     0);
 
-  sprite_initialize_system();//sprite.c needs to initialize before the game starts to load sprites
+  sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
 
   InitMouse();
   atexit(CleanUpAll);

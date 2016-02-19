@@ -5,25 +5,36 @@
 #include "simple_logger.h"
 
 Sprite *spriteList = NULL;
-int numSprites;
-int spriteMax = 1000;
+int spriteNum;
+int spriteMax = 0;
 
 
-void sprite_free(Sprite *sprite)
+void sprite_free(Sprite **sprite)
 {
-	sprite->refCount--;
-	if(sprite->refCount == 0)
+	Sprite *target;
+	if(!sprite)
 	{
-		strcpy(sprite->filename,"\0");
+		return;
+	}
+	if(!*sprite)
+	{
+		return;
+	}
+	target = *sprite;
+
+	target->refCount--;
+	if(target->refCount == 0)
+	{
+		strcpy(target->filename,"\0");
 		
 		/* anal */
-		if(sprite->image != NULL)
+		if(target->image != NULL)
 		{
-			SDL_DestroyTexture(sprite->image); 
+			SDL_DestroyTexture(target->image); 
+			memset(target,0,sizeof(Sprite));
 		}
-
-		sprite->image = NULL;
 	}
+	*sprite = NULL;
 }
 
 void sprite_close_system()
@@ -31,27 +42,33 @@ void sprite_close_system()
 	int i;
 	for(i = 0; i < spriteMax; ++i)
 	{
-		sprite_free(&spriteList[i]);
+		if(spriteList[i].image != 0)
+		{
+			SDL_DestroyTexture(spriteList[i].image);
+		}
 	}
-	numSprites = 0;
-	memset(spriteList, 0, sizeof(Sprite) * spriteMax);
+	free(spriteList);
+	spriteList = NULL;
+	spriteNum = 0;
+	spriteMax = 0;
 }
 
-void sprite_initialize_system()
+void sprite_initialize_system(int maxSprite)
 {
 	int i;
-	if(spriteMax == 0)
+	if(maxSprite == 0)
 	{
 		printf("Max sprite == 0\n");
 		return;
 	}
-	spriteList = (Sprite *)malloc(sizeof(Sprite) * spriteMax);
-	memset(spriteList, 0, sizeof(Sprite) * spriteMax);
-	numSprites = 0;
-	for(i = 0; i < spriteMax; ++i)
+	spriteList = (Sprite *)malloc(sizeof(Sprite) * maxSprite);
+	memset(spriteList, 0, sizeof(Sprite) * maxSprite);
+	spriteNum = 0;
+	for(i = 0; i < maxSprite; ++i)
 	{
 		spriteList[i].image = NULL;
 	}
+	spriteMax = maxSprite;
 	atexit(sprite_close_system);
 }
 
@@ -61,7 +78,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, SDL_Renderer *renderer)
 	SDL_Surface *tempSurface;
 	SDL_Texture *tempTexture;
 	/*first search to see if the requested sprite image is alreday loaded*/
-	for(i = 0; i < numSprites; ++i)
+	for(i = 0; i < spriteNum; ++i)
 	{
 		if(strncmp(file, spriteList[i].filename, 128) ==0)
 		{
@@ -70,15 +87,15 @@ Sprite *sprite_load(char file[], int frameW, int frameH, SDL_Renderer *renderer)
 		}
 	}
 	/*makesure we have the room for a new sprite*/
-	if(numSprites + 1 >= spriteMax)
+	if(spriteNum + 1 >= spriteMax)
 	{
 		fprintf(stderr, "Maximum Sprites Reached.\n");
 		exit(1);
 	}
 	/*if its not already in memory, then load it.*/
-	numSprites++;
+	spriteNum++;
 	/*
-	for(i = 0; i <= numSprites; i++)
+	for(i = 0; i <= spriteNum; i++)
 	{
 		if(!spriteList[i].refCount)
 			break;
