@@ -121,6 +121,7 @@ void entity_update_all()
 
 		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
 
+
 		if(!entityList[i].update)
 		{
 			continue;
@@ -143,7 +144,15 @@ void entity_draw_all()
 		{
 			continue;
 		}
-
-		entityList[i].draw(&entityList[i], get_renderer());
+		entityList[i].draw(entityList[i].sprite, entityList[i].frame, entityList[i].sprite->frameW, entityList[i].sprite->frameH);
 	}
+}
+
+Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, Vect2d position, Vect2d velocity)
+{
+	entity->sprite = sprite_load(file, frameW, frameH);
+	entity->position = position;
+	entity->velocity = velocity;
+	
+	return entity;
 }

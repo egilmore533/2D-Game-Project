@@ -20,7 +20,7 @@ typedef struct Entity_s
 	int state;							/**< what state the enemy is in, states will need to be enumerated */
 	int health, maxHealth;				/**<the current healt and total health of the entity */
 	
-	void (*draw)(struct Entity_s *self, SDL_Renderer *renderer);
+	void (*draw)(Sprite *sprite, int frame, int frameW, int frameH);
 	int nextThink;
 	int thinkRate;
 	void (*think) (struct Entity_s *self);		/**<each entity will need to have its own think function */
@@ -62,5 +62,7 @@ void entity_think_all();
 /** @brief	closes the entity system by freeing the entire entityList and setting the number   
 /**			of entities in the list to 0. */
 void entity_close_system();
+
+Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, Vect2d position, Vect2d velocity);
 
 #endif 

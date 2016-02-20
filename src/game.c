@@ -30,27 +30,42 @@ int main(int argc, char *argv[])
   int tx = 0,ty = 0;
   const Uint8 *keys;
   SDL_Rect srcRect={0,0,1024,768};
+
+  Vect2d pos, vel;
+  Entity *entity;
+
   init_logger("log.txt");
   slog("logger initialized");
+
   Init_All();
+
   temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
   if(temp != NULL)
   {
-      printf("temp image loaded successfully\n");
+      slog("temp image loaded successfully");
       SDL_BlitSurface(temp,NULL,buffer,NULL);
   }
   gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
   SDL_FreeSurface(temp);
 
+  vect2d_set(pos, 100, 100);
+  vect2d_set(vel,10,10);
+  entity = entity_new();
+  entity->draw = &sprite_draw;
+  entity = entity_load(entity, "images/pep.png", 100, 60, pos, vel);
+
 
   done = 0;
   do
   {
-    ResetBuffer();
-    DrawMouse();
+	
 	entity_update_all();
+	entity_draw_all();
+    ResetBuffer();
+	DrawMouse();
     NextFrame();
     SDL_PumpEvents();
+
     keys = SDL_GetKeyboardState(NULL);
     if(keys[SDL_SCANCODE_ESCAPE])
     {

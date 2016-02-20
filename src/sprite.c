@@ -97,7 +97,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH)
 		return NULL;
 	}
 	/*first search to see if the requested sprite image is alreday loaded*/
-	for(i = 0; i < spriteNum; ++i)
+	for(i = 0; i < spriteNum; i++)
 	{
 		if(spriteList[i].refCount == 0)
 		{
@@ -123,6 +123,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH)
 	if(tempSurface == NULL)
 	{
 		slog("unable to load sprite as a surface");
+		while(true) {}
 		exit(0);
 	}
 	else

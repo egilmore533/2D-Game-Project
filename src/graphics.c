@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "graphics.h"
 #include "sprite.h"
+#include "entity.h"
+
 
 
 struct
@@ -680,6 +682,7 @@ void SwapSprite(SDL_Surface *sprite,int color1,int color2,int color3)
 /*this only handles the drawing and animation of.  Assuming you have a 16 by 16  tiled sprite sheet.  This will not handle input*/
 void InitMouse()
 {
+
   Msprite = sprite_load("images/mouse.png",16, 16);
   if(Msprite == NULL)fprintf(stdout,"mouse didn't load: %s\n", SDL_GetError());
   Mouse.state = 0;
