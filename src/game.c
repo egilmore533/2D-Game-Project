@@ -20,6 +20,36 @@ int getImagePathFromFile(char *filepath,char * filename);
 int getCoordinatesFromFile(int *x, int *y,char * filename);
 void addCoordinateToFile(char *filepath,int x, int y);
 
+void pep_think(Entity *pep)
+{
+	const Uint8 *keys;
+	keys = SDL_GetKeyboardState(NULL);
+	if(keys[SDL_SCANCODE_A])
+	{
+		pep->velocity.x = -10;
+	}
+	else if(keys[SDL_SCANCODE_D])
+	{
+		pep->velocity.x = 10;
+	}
+	else
+	{
+		pep->velocity.x = 0;
+	}
+	if(keys[SDL_SCANCODE_W])
+	{
+		pep->velocity.y = -10;
+	}
+	else if(keys[SDL_SCANCODE_S])
+	{
+		pep->velocity.y = 10;
+	}
+	else
+	{
+		pep->velocity.y = 0;
+	}
+}
+
 
 /*this program must be run from the directory directly below images and src, not from within src*/
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
@@ -39,28 +69,32 @@ int main(int argc, char *argv[])
 
   Init_All();
 
-  temp = IMG_Load("images/bgtest.png");/*notice that the path is part of the filename*/
+  temp = IMG_Load("images/sex.jpg");/*notice that the path is part of the filename*/
   if(temp != NULL)
   {
       slog("temp image loaded successfully");
       SDL_BlitSurface(temp,NULL,buffer,NULL);
   }
   gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
-  SDL_FreeSurface(temp);
 
   vect2d_set(pos, 100, 100);
   vect2d_set(vel,10,10);
   entity = entity_new();
   entity->draw = &sprite_draw;
-  entity = entity_load(entity, "images/pep.png", 100, 60, pos, vel);
+  entity->think = &pep_think;
+  entity = entity_load(entity, "images/mouse.png", 100, 60, pos, vel);
 
 
   done = 0;
   do
   {
-	
+
+	SDL_RenderClear(get_renderer());
+	gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
+	entity_think_all();
 	entity_update_all();
 	entity_draw_all();
+
     ResetBuffer();
 	DrawMouse();
     NextFrame();
@@ -72,6 +106,7 @@ int main(int argc, char *argv[])
         done = 1;
     }
   }while(!done);
+  SDL_FreeSurface(temp);
   exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
   return 0;
 }
@@ -86,7 +121,7 @@ void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
   Init_Graphics(
-	"Game Test",
+	"Pep's Spicy Adventure",
     1024,
     768,
     1024,

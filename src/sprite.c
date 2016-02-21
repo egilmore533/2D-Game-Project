@@ -145,27 +145,27 @@ Sprite *sprite_load(char file[], int frameW, int frameH)
 	
 	/*now sprites don't have to be 16 frames per line, but most will be.*/
 	spriteList[i].framesPerLine = 16;
-	spriteList[i].frameW = frameW;
-	spriteList[i].frameH = frameH;
+	spriteList[i].frameSize.x = frameW;
+	spriteList[i].frameSize.y = frameH;
 	spriteList[i].refCount++;
 	SDL_FreeSurface(tempSurface);
 	return &spriteList[i];
 }
 
 
-void sprite_draw(Sprite *sprite, int frame, int drawx, int drawy)
+void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 {
 	SDL_Rect source, destination;
 	SDL_Renderer *renderer = get_renderer();
-	source.x = frame % sprite->framesPerLine * sprite->frameW;
-	source.y = frame / sprite->framesPerLine * sprite->frameH;
-	source.w = sprite->frameW;
-	source.h = sprite->frameH;
+	source.x = frame % sprite->framesPerLine * sprite->frameSize.x;
+	source.y = frame / sprite->framesPerLine * sprite->frameSize.y;
+	source.w = sprite->frameSize.x;
+	source.h = sprite->frameSize.y;
 	
-	destination.x = drawx;
-	destination.y = drawy;
-	destination.w = sprite->frameW;
-	destination.h = sprite->frameH;
+	destination.x = drawPos.x;
+	destination.y = drawPos.y;
+	destination.w = sprite->frameSize.x;
+	destination.h = sprite->frameSize.y;
 	SDL_RenderCopy(renderer, sprite->image, &source, &destination);
 }
 

@@ -20,7 +20,7 @@ typedef struct Entity_s
 	int state;							/**< what state the enemy is in, states will need to be enumerated */
 	int health, maxHealth;				/**<the current healt and total health of the entity */
 	
-	void (*draw)(Sprite *sprite, int frame, int frameW, int frameH);
+	void (*draw)(Sprite *sprite, int frame, Vect2d drawPos);
 	int nextThink;
 	int thinkRate;
 	void (*think) (struct Entity_s *self);		/**<each entity will need to have its own think function */

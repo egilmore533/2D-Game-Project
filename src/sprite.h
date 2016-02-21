@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "vector.h"
 
 /**
 * @brief Sprite structure used to hold texture, filename, frame dimensions, total image dimensions and the number of frames
@@ -10,11 +11,9 @@
 typedef struct Sprite_t
 {
 	SDL_Texture *image;		//means we loaded an image from a disk, have a way to display it, have a texture of appropriate size
-	int imageW;
-	int imageH;
+	Vect2d imageSize;
+	Vect2d frameSize;
 	int framesPerLine;
-	int frameW;
-	int frameH;
 	int refCount; 				//memset the array to all be 0 when you load a rocket refCount++ 
 	char filename[128];
 
@@ -53,7 +52,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH);
  * @param	drawx				The x coordinate that the sprite will be rendered to.
  * @param	drawy				The y coordinate that the sprite will be rendered to.
  */
-void sprite_draw(Sprite *sprite, int frame, int drawx, int drawy);
+void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos);
 
 
 #endif

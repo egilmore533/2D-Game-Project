@@ -120,7 +120,7 @@ void entity_update_all()
 		}
 
 		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
-
+		entityList[i].frame = (entityList[i].frame + 1) % entityList[i].sprite->framesPerLine;
 
 		if(!entityList[i].update)
 		{
@@ -144,7 +144,7 @@ void entity_draw_all()
 		{
 			continue;
 		}
-		entityList[i].draw(entityList[i].sprite, entityList[i].frame, entityList[i].sprite->frameW, entityList[i].sprite->frameH);
+		entityList[i].draw(entityList[i].sprite, entityList[i].frame, entityList[i].position);
 	}
 }
 
