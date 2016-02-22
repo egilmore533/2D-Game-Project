@@ -5,9 +5,9 @@
 #include "simple_logger.h"
 #include "graphics.h"
 
-Entity *entityList = NULL;
-int entityNum;
-int entityMax = 0;
+static Entity *entityList = NULL;
+static int entityNum;
+static int entityMax = 0;
 
 void entity_free(Entity **entity)
 {
@@ -34,6 +34,12 @@ void entity_free(Entity **entity)
 Entity *entity_new()
 {
 	int i;
+	/*makesure we have the room for a new sprite*/
+	if(entityNum + 1 > entityMax)
+	{
+		slog("Maximum Entity Reached.");
+		exit(1);
+	}
 	for(i = 0; i < entityMax; i++)
 	{
 		if(entityList[i].inUse)
@@ -42,6 +48,7 @@ Entity *entity_new()
 		}
 		memset(&entityList[i],0,sizeof(Entity));
 		entityList[i].inUse = 1;
+		entityNum++;
 		return &entityList[i];
 	}
 	return NULL;

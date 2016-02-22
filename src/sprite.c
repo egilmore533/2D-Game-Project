@@ -110,7 +110,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH)
 		}
 	}
 	/*makesure we have the room for a new sprite*/
-	if(spriteNum + 1 >= spriteMax)
+	if(spriteNum + 1 > spriteMax)
 	{
 		slog("Maximum Sprites Reached.");
 		exit(1);

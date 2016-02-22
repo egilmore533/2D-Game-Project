@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
+  int i;
   SDL_Rect srcRect={0,0,1024,768};
 
   Vect2d pos, vel;
@@ -83,7 +84,6 @@ int main(int argc, char *argv[])
   entity->draw = &sprite_draw;
   entity->think = &pep_think;
   entity = entity_load(entity, "images/mouse.png", 100, 60, pos, vel);
-
 
   done = 0;
   do
