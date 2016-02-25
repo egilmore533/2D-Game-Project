@@ -59,7 +59,6 @@ int main(int argc, char *argv[])
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
-  int i;
   SDL_Rect srcRect={0,0,1024,768};
 
   Vect2d pos, vel;
@@ -76,21 +75,21 @@ int main(int argc, char *argv[])
       slog("temp image loaded successfully");
       SDL_BlitSurface(temp,NULL,buffer,NULL);
   }
-  gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
+  g_graphics_render_surface_to_screen(temp,srcRect,0,0);
 
   vect2d_set(pos, 100, 100);
   vect2d_set(vel,10,10);
   entity = entity_new();
   entity->draw = &sprite_draw;
   entity->think = &pep_think;
-  entity = entity_load(entity, "images/mouse.png", 100, 60, pos, vel);
+  entity = entity_load(entity, "images/pep.png", 100, 60, 0, pos, vel);
 
   done = 0;
   do
   {
 
 	SDL_RenderClear(get_renderer());
-	gt_graphics_render_surface_to_screen(temp,srcRect,0,0);
+	g_graphics_render_surface_to_screen(temp,srcRect,0,0);
 	entity_think_all();
 	entity_update_all();
 	entity_draw_all();

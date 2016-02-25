@@ -83,7 +83,7 @@ void sprite_initialize_system(int maxSprite)
 	atexit(sprite_close_system);
 }
 
-Sprite *sprite_load(char file[], int frameW, int frameH)
+Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 {
 	int i;
 	SDL_Surface *tempSurface;

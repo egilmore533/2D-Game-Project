@@ -1,6 +1,8 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
+#include <SDL.h>
+
 
 /** @brief	A macro that defines degrees to radians from DJ's MoGUL types file. */
 #define ERIC_DEGTORAD	 0.017453292519943295769236907684886
@@ -210,5 +212,15 @@ void vect3d_angle(Vect3d *out, float radians);
 void vect4d_angle(Vect4d *out, float radians);
 
 void vect3d_rotate_about_x(Vect3d *vect, float angle);
+
+/**
+ * @brief	check if two rectangles intersect
+ * @param	a	The SDL_Rect to process.
+ * @param	b	The SDL_Rect to process.
+ * @return  a flag true or false.
+ */
+int rect_intersect(SDL_Rect a, SDL_Rect b);
+
+SDL_Rect rect(int x, int y, int w, int h);
 
 #endif

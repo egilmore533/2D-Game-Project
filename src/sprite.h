@@ -6,23 +6,26 @@
 #include "vector.h"
 
 /**
-* @brief Sprite structure used to hold texture, filename, frame dimensions, total image dimensions and the number of frames
-*/
+ * @brief	Sprite structure used to hold texture, filename, frame dimensions, image
+ * 			dimensions and the number of frames per line, and a reference count.
+ */
 typedef struct Sprite_t
 {
-	SDL_Texture *image;		//means we loaded an image from a disk, have a way to display it, have a texture of appropriate size
-	Vect2d imageSize;
-	Vect2d frameSize;
-	int framesPerLine;
-	int refCount; 				//memset the array to all be 0 when you load a rocket refCount++ 
-	char filename[128];
+	SDL_Texture *image;			/**< actual texture*/
+	Vect2d imageSize;			/**< x and y image dimensions*/
+	Vect2d frameSize;			/**< x and y frame dimensions*/
+	int framesPerLine;			/**< frames per line of the image*/
+	int refCount; 				/**< number of times this sprite has been referenced*/
+	char filename[128];			/**< filename for this sprite*/
 
 }Sprite;
 
 /**
- * @brief	removes one reference from spriteList, and frees the sprite from spriteList if the refCount is 0
- * @param [in,out]	sprite that is no longer being referenced
+ * @brief	removes one reference from spriteList, and frees the sprite from spriteList if the
+ * 			refCount is 0. also frees the pointer to the sprite (thats why pointer to a pointer)
+ * @param [in,out]	sprite	that is no longer being referenced.
  */
+
 void sprite_free(Sprite **sprite);
 
 
@@ -34,15 +37,16 @@ void sprite_close_system();
 void sprite_initialize_system(int maxSprite);
 
 /**
- * @brief	loads a given filename to be a sprite, given an already loaded sprite it will add to the refCount of that sprite
- * 			 and reuse the Sprite, ends execution if the sprite limit has been reached
- * @param	file				The file to be used as a sprite.
- * @param	frameW				Width of each sprite in the image.
- * @param	frameH				Height of each sprite in the image.
- * @param [in,out]	renderer	If non-null, the renderer that the sprite will be rendered to.
+ * @brief	loads a given filename to be a sprite, given an already loaded sprite it will add to
+ * 			the refCount of that sprite
+ * 			 and reuse the Sprite, ends execution if the sprite limit has been reached.
+ * @param	file  	The file to be used as a sprite.
+ * @param	frameW	Width of each sprite in the image.
+ * @param	frameH	Height of each sprite in the image.
+ * @param	fpl   	number of frames per line (usually 16)
  * @return	null if it fails, else a Sprite*.
  */
-Sprite *sprite_load(char file[], int frameW, int frameH);
+Sprite *sprite_load(char file[], int frameW, int frameH, int fpl);
 
 /**
  * @brief	draws the sprite to the given position on the renderer.

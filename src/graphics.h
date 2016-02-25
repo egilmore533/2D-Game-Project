@@ -24,7 +24,7 @@ void Init_Graphics(
     float bgcolor[4],
     int fullscreen);
 
-void gt_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
+void g_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
 
 void ResetBuffer();
 void NextFrame();

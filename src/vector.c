@@ -154,4 +154,26 @@ void vect3d_rotate_about_x(Vect3d *vect, float angle)
 	vect->z=temp.z;
 }
 
+SDL_Rect rect(int x, int y, int w, int h)
+{
+	SDL_Rect r;
+	r.x = x;
+	r.y = y;
+	r.w = w;
+	r.h = h;
+	return r;
+}
+
+int rect_intersect(SDL_Rect a, SDL_Rect b)
+{
+	if((a.x + a.w >= b.x) && 
+	   (b.x + b.w >= a.x) && 
+	   (a.y + a.h >= b.y) && 
+	   (b.y + b.h >= a.y) )
+	{
+		return 1;
+	}
+	return 0;
+}
+
 

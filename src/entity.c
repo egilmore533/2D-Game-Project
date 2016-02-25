@@ -127,8 +127,7 @@ void entity_update_all()
 		}
 
 		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
-		entityList[i].frame = (entityList[i].frame + 1) % entityList[i].sprite->framesPerLine;
-
+		
 		if(!entityList[i].update)
 		{
 			continue;
@@ -155,11 +154,57 @@ void entity_draw_all()
 	}
 }
 
-Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, Vect2d position, Vect2d velocity)
+Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl, Vect2d position, Vect2d velocity)
 {
-	entity->sprite = sprite_load(file, frameW, frameH);
+	entity->sprite = sprite_load(file, frameW, frameH, fpl);
 	entity->position = position;
 	entity->velocity = velocity;
 	
 	return entity;
+}
+
+Entity *entity_intersect_all(Entity *a)
+{
+	int i;
+	if(!a)
+		return 0;
+	for(i = 0; i  < entityMax; i++)
+	{
+		if(!entityList[i].inUse)
+		{
+			continue;
+		}
+		/* don't check yourself*/
+		if(a == &entityList[i])
+		{
+			continue;
+		}
+		/* this only tells you which entity you are intersecting thats first in the list*/
+		if(entity_intersect(a, &entityList[i]))
+		{
+			return &entityList[i];
+		}
+	}
+	return 0;
+}
+
+int entity_intersect(Entity *a, Entity *b)
+{
+	SDL_Rect aB, bB;
+	if(!a || !b)
+	{
+		slog("entity error");
+		return 0;
+	}
+	aB = rect(a->position.x + a->bounds.x,
+				a->position.y + a->bounds.y,
+				a->bounds.w,
+				a->bounds.h
+		);
+	bB = rect(b->position.x + b->bounds.x,
+				b->position.y + b->bounds.y,
+				b->bounds.w,
+				b->bounds.h
+		);
+	return rect_intersect(aB, bB);
 }
