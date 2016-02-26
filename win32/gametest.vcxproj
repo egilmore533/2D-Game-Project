@@ -11,27 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\camera.cpp" />
+    <ClCompile Include="..\src\camera.c" />
     <ClCompile Include="..\src\entity.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
-    <ClCompile Include="..\src\level.cpp" />
-    <ClCompile Include="..\src\player.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</MinimalRebuild>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
-      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</MinimalRebuild>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</BasicRuntimeChecks>
-      <DebugInformationFormat Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
-    </ClCompile>
+    <ClCompile Include="..\src\level.c" />
+    <ClCompile Include="..\src\player.c" />
     <ClCompile Include="..\src\simple_logger.c" />
     <ClCompile Include="..\src\sprite.c" />
     <ClCompile Include="..\src\vector.c" />
@@ -40,7 +25,6 @@
     <ClInclude Include="..\src\camera.h" />
     <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="..\src\graphics.h" />
-    <ClInclude Include="..\src\level.h" />
     <ClInclude Include="..\src\player.h" />
     <ClInclude Include="..\src\simple_logger.h" />
     <ClInclude Include="..\src\sprite.h" />

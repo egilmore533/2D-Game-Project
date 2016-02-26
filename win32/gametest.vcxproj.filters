@@ -33,13 +33,13 @@
     <ClCompile Include="..\src\entity.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\camera.cpp">
+    <ClCompile Include="..\src\level.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\level.cpp">
+    <ClCompile Include="..\src\camera.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\player.cpp">
+    <ClCompile Include="..\src\player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\player.h">

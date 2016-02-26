@@ -1,38 +1,59 @@
-#ifndef __LEVEL_H__
-#define __LEVEL_H__
+#pragma once
 
-#include "vector.h"
-#include "sprite.h"
-#include <string.h> // for file reading and writing
-#include <stdio.h> //for file reading and writing
+namespace gametest {
 
-typedef struct
-{
-	char		name[128];			/**< level name*/
-	Sprite		*background;		/**< static background image*/
-	Vect2d		levelSize;			/**< exact level width and height*/
-	//will need a mechanism for setting enemy positons and types statically
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
 
-}Level;
+	/// <summary>
+	/// Summary for level
+	/// </summary>
+	public ref class level : public System::Windows::Forms::Form
+	{
+	public:
+		level(void)
+		{
+			InitializeComponent();
+			//
+			//TODO: Add the constructor code here
+			//
+		}
 
-/**
- * @brief	load a level from a given file
- * @param [in,out]	file	the file to load background from
- * @return	A Level.
- */
-Level level_load(char *file);
+	protected:
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		~level()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}
 
-/**
- * @brief			draws the portion of the background sprite that the camera can see. 
- * 					if this was tile based it would draw the tiles that fit that portion of the screen.
- * @param [in,out]	level	pointer to a file that should be drawn to the screen, 
- */
-void level_draw(Level *level);
+	private:
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		System::ComponentModel::Container ^components;
 
-/**
- * @brief	frees the level from memory and sets the level pointer to null so no one can refer to it.
- * @param [in,out]	level	double pointer to the level.
- */
-void level_free(Level **level);
-
-#endif
+#pragma region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		void InitializeComponent(void)
+		{
+			this->components = gcnew System::ComponentModel::Container();
+			this->Size = System::Drawing::Size(300,300);
+			this->Text = L"level";
+			this->Padding = System::Windows::Forms::Padding(0);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+		}
+#pragma endregion
+	};
+}
