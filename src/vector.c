@@ -176,4 +176,19 @@ int rect_intersect(SDL_Rect a, SDL_Rect b)
 	return 0;
 }
 
+Vect2d vect2d_new(float a, float b)
+{
+	Vect2d v = {a, b};
+	return v;
+}
 
+Vect3d vect3d_new(float a, float b, int c)
+{
+	Vect3d v = {a, b, c};
+	return v;
+}
+Vect4d vect4d_new(float a, float b, int c, int d)
+{
+	Vect4d v = {a, b, c, d};
+	return v;
+}

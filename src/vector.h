@@ -57,6 +57,10 @@ typedef struct
 	};
 }Vect4d;
 
+Vect2d vect2d_new(float a, float b);
+Vect3d vect3d_new(float a, float b, int c);
+Vect4d vect4d_new(float a, float b, int c, int d);
+
 /**
  * @brief	A macro that adds two vect2d together.
  * @param	a  	The first vect2d to add.

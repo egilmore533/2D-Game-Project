@@ -9,6 +9,7 @@
 #include "simple_logger.h"
 #include "vector.h"
 #include "entity.h"
+#include "player.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -20,37 +21,6 @@ int getImagePathFromFile(char *filepath,char * filename);
 int getCoordinatesFromFile(int *x, int *y,char * filename);
 void addCoordinateToFile(char *filepath,int x, int y);
 
-void pep_think(Entity *pep)
-{
-	const Uint8 *keys;
-	keys = SDL_GetKeyboardState(NULL);
-	if(keys[SDL_SCANCODE_A])
-	{
-		pep->velocity.x = -10;
-	}
-	else if(keys[SDL_SCANCODE_D])
-	{
-		pep->velocity.x = 10;
-	}
-	else
-	{
-		pep->velocity.x = 0;
-	}
-	if(keys[SDL_SCANCODE_W])
-	{
-		pep->velocity.y = -10;
-	}
-	else if(keys[SDL_SCANCODE_S])
-	{
-		pep->velocity.y = 10;
-	}
-	else
-	{
-		pep->velocity.y = 0;
-	}
-}
-
-
 /*this program must be run from the directory directly below images and src, not from within src*/
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
 int main(int argc, char *argv[])
@@ -60,9 +30,7 @@ int main(int argc, char *argv[])
   int tx = 0,ty = 0;
   const Uint8 *keys;
   SDL_Rect srcRect={0,0,1024,768};
-
-  Vect2d pos, vel;
-  Entity *entity;
+  Entity *player;
 
   init_logger("log.txt");
   slog("logger initialized");
@@ -77,12 +45,7 @@ int main(int argc, char *argv[])
   }
   g_graphics_render_surface_to_screen(temp,srcRect,0,0);
 
-  vect2d_set(pos, 100, 100);
-  vect2d_set(vel,10,10);
-  entity = entity_new();
-  entity->draw = &sprite_draw;
-  entity->think = &pep_think;
-  entity = entity_load(entity, "images/pep.png", 100, 60, 0, pos, vel);
+  player = player_load();
 
   done = 0;
   do
