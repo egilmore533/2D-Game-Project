@@ -1,12 +1,14 @@
 #include "player.h"
+#include "weapon.h"
 
 #define MOVEMENT_SPEED	10
 
+static Entity *player = NULL;
 
-Entity *player_load()
+
+void player_load()
 {
 	Vect2d pos, vel;
-	Entity *player;
 
 	pos = vect2d_new(100, 100);
 	vel = vect2d_new(0, 0);
@@ -14,7 +16,6 @@ Entity *player_load()
 	player->draw = &sprite_draw;
 	player->think = &player_think;
 	player = entity_load(player, "images/pep2.png", 128, 128, 16, pos, vel);
-	return player;
 }
 
 void player_think(Entity *player)
@@ -44,5 +45,9 @@ void player_think(Entity *player)
 	else
 	{
 		player->velocity.y = 0;
+	}
+	if(keys[SDL_SCANCODE_SPACE])
+	{
+		weapon_fire(player);
 	}
 }

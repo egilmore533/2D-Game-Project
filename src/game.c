@@ -10,6 +10,7 @@
 #include "vector.h"
 #include "entity.h"
 #include "player.h"
+#include "mouse.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -30,7 +31,6 @@ int main(int argc, char *argv[])
   int tx = 0,ty = 0;
   const Uint8 *keys;
   SDL_Rect srcRect={0,0,1024,768};
-  Entity *player;
 
   init_logger("log.txt");
   slog("logger initialized");
@@ -45,8 +45,6 @@ int main(int argc, char *argv[])
   }
   g_graphics_render_surface_to_screen(temp,srcRect,0,0);
 
-  player = player_load();
-
   done = 0;
   do
   {
@@ -58,7 +56,6 @@ int main(int argc, char *argv[])
 	entity_draw_all();
 
     ResetBuffer();
-	DrawMouse();
     NextFrame();
     SDL_PumpEvents();
 
@@ -92,8 +89,11 @@ void Init_All()
     0);
 
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
-  entity_initialize_system(10);
-  InitMouse();
+  entity_initialize_system(10); // entity after sprites
+  
+  //this order is important background should init first followed by entities followed by UI and mouse
+  player_load();
+  mouse_init();
   atexit(CleanUpAll);
 }
 

@@ -3,7 +3,7 @@
 
 #include "entity.h"
 
-Entity *player_load();
+void player_load();
 void player_think(Entity *player);
 void player_update();
 

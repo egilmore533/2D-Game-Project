@@ -5,9 +5,9 @@
 #include "simple_logger.h"
 #include "graphics.h"
 
-Sprite *spriteList = NULL;
-int spriteNum;
-int spriteMax = 0;
+static Sprite *spriteList = NULL;
+static int spriteNum;
+static int spriteMax = 0;
 
 
 void sprite_free(Sprite **sprite)

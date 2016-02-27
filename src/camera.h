@@ -11,4 +11,4 @@ void camera_set_size(Vect2d size);
 Vect2d camera_get_size();
 
 
-#endif __CAMERA_H__
+#endif
