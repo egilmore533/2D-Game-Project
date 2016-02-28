@@ -15,7 +15,17 @@
 #define MAX(a,b) (a>b?a:b)
 #define MIN(a,b) (a<b?a:b)
 
-void Init_Graphics(
+/**
+ * @brief	initializes the .
+ * @param [in,out]	windowName	If non-null, name of the window, will be displayed at the top of the window.
+ * @param	viewWidth		  	Width of the view.
+ * @param	viewHeight		  	Height of the view.
+ * @param	renderWidth		  	Width of the render.
+ * @param	renderHeight	  	Height of the render.
+ * @param	bgcolor			  	The bgcolor.
+ * @param	fullscreen		  	flag to use fullscreen or not.
+ */
+void graphics_init(
 	char *windowName,
     int viewWidth,
     int viewHeight,
@@ -24,12 +34,27 @@ void Init_Graphics(
     float bgcolor[4],
     int fullscreen);
 
-void g_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
+/**
+ * @brief	render SDL surface to screen.
+ * @param [in,out]	surface	If non-null, the surface.
+ * @param	srcRect		   	Source rectangle.
+ * @param	x			   	The x coordinate.
+ * @param	y			   	The y coordinate.
+ */
+void graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
 
-void ResetBuffer();
-void NextFrame();
-void InitMouse();
-void DrawMouse();
-SDL_Renderer *get_renderer();
+
+/** @brief	delay's frame rate so the screen isn't ahead of the of the code. */
+void graphics_frame_delay();
+
+
+/** @brief	goes to the next frame then holds for a frame delay. */
+void graphics_next_frame();
+
+/**
+ * @brief	getter for the game's renderer so the rest of the code can use it.
+ * @return	a SDL_Renderer* used for all the game's rendering.
+ */
+SDL_Renderer *graphics_get_renderer();
 
 #endif

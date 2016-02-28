@@ -8,34 +8,34 @@
 #define ERIC_DEGTORAD	 0.017453292519943295769236907684886
 
 /**
-* @brief a simple 2d vector structure
+* @brief a simple 2d vector structure containing two floats
 */
 typedef struct
 {
-	float x,y;	/**<the x and y component of the vector */
+	float x,y;	/**< the x and y components of the vector */
 }Vect2d;
 
 /**
-* @brief a simple 3d vector structure
+* @brief a simple 3d vector structure containg three floats
 */
 typedef struct
 {
 	union {
-			float x;	/**<the x component of the vector */
-			float r;	/**<the red component of the color */
+		float x;	/**< the x component of the vector */
+		float r;	/**< the red component of the color */
 	};
 	union {
-		float y;	/**<the y component of the vector */
-		float g;	/**<the green component of the color */
+		float y;	/**< the y component of the vector */
+		float g;	/**< the green component of the color */
 	};
 	union {
-		float z;	/**<the z component of the vector */
-		float b;	/**<the blue component of the color */
+		float z;	/**< the z component of the vector */
+		float b;	/**< the blue component of the color */
 	};
 }Vect3d;
 
 /**
-* @brief a simple 4d vector structure
+* @brief a simple 4d vector structure containing four floats
 */
 typedef struct
 {
@@ -57,9 +57,32 @@ typedef struct
 	};
 }Vect4d;
 
+/**
+ * @brief	quick constructor for a vect2d.
+ * @param	a	The float to become the x.
+ * @param	b	The float to become the y.
+ * @return	the new vect2d.
+ */
 Vect2d vect2d_new(float a, float b);
-Vect3d vect3d_new(float a, float b, int c);
-Vect4d vect4d_new(float a, float b, int c, int d);
+
+/**
+ * @brief	quick constructor for a vect3d.
+ * @param	a	The float to become the x.
+ * @param	b	The float to become the y.
+ * @param	c	The float to become the z.
+ * @return	the new vect2d.
+ */
+Vect3d vect3d_new(float a, float b, float c);
+
+/**
+ * @brief	quick constructor for a vect4d.
+ * @param	a	The float to become the x.
+ * @param	b	The float to become the y.
+ * @param	c	The float to become the z.
+ * @param	d	The float to become the w.
+ * @return	the new vect2d.
+ */
+Vect4d vect4d_new(float a, float b, float c, float d);
 
 /**
  * @brief	A macro that adds two vect2d together.
@@ -181,11 +204,6 @@ Vect4d vect4d_new(float a, float b, int c, int d);
  */
 #define vect4d_scale(vect,vectIn,factor) (vect.x=vectIn.x*factor, vect.y=vectIn.y*factor, vect.z=vectIn.z*factor, vect.w=vectIn.w*factor)
 
-
-void vect2d_normalize (Vect2d *vect);
-void vect3d_normalize (Vect3d *vect);
-void vect4d_normalize (Vect4d *vect);
-
 /**
  * @brief	Vect 3D cross product because I learned it from Jimmy.
  * @param [in,out]	out	If non-null, the resulting vect from the cross product.
@@ -203,18 +221,64 @@ void vect3d_cross_product(Vect3d *out, Vect3d v1, Vect3d v2);
  */
 void vect3d_angle_to_vector(Vect3d angles, Vect3d *foward, Vect3d *right, Vect3d *up);
 
+/**
+ * @brief	Vect2d get length via ya homie pythagoras.
+ * @param	vect	The vect.
+ * @return	A float.
+ */
 float vect2d_get_length(Vect2d vect);
+
+/**
+ * @brief	Vect3d get length via ya homie pythagoras.
+ * @param	vect	The vect.
+ * @return	A float.
+ */
 float vect3d_get_length(Vect3d vect);
+
+/**
+ * @brief	Vect4d get length via ya homie pythagoras.
+ * @param	vect	The vect.
+ * @return	A float.
+ */
 float vect4d_get_length(Vect4d vect);
 
+/**
+ * @brief	Vect 2D normalize.
+ * @param [in,out]	vect	If non-null, the vect.
+ */
 void vect2d_normalize(Vect2d *vect);
+
+/**
+ * @brief	Vect 3D normalize.
+ * @param [in,out]	vect	If non-null, the vect.
+ */
 void vect3d_normalize(Vect3d *vect);
-void vect4d_normalize(Vect3d *vect);
 
+/**
+ * @brief	Vect 4d normalize.
+ * @param [in,out]	vect	If non-null, the vect.
+ */
+void vect4d_normalize(Vect4d *vect);
 
-void vect3d_angle(Vect3d *out, float radians);
-void vect4d_angle(Vect4d *out, float radians);
+/**
+ * @brief	Vect3d set angle.
+ * @param [in,out]	out	the outgoing vect3d, that is being passed in so no return.
+ * @param	radians	   	The radians.
+ */
+void vect3d_set_angle(Vect3d *out, float radians);
 
+/**
+ * @brief	Vect4d set angle.
+ * @param [in,out]	out	the outgoing vect4d, that is being passed in so no return.
+ * @param	radians	   	The radians.
+ */
+void vect4d_set_angle(Vect4d *out, float radians);
+
+/**
+ * @brief	Vect3d rotate about x coordinate.
+ * @param [in,out]	vect	the vect that is being rotated about it's x coordinate.
+ * @param	angle			The angle to rotate to.
+ */
 void vect3d_rotate_about_x(Vect3d *vect, float angle);
 
 /**
@@ -225,6 +289,14 @@ void vect3d_rotate_about_x(Vect3d *vect, float angle);
  */
 int rect_intersect(SDL_Rect a, SDL_Rect b);
 
+/**
+ * @brief	rectangle constructor.
+ * @param	x	The x coordinate.
+ * @param	y	The y coordinate.
+ * @param	w	The width.
+ * @param	h	The height.
+ * @return	A SDL_Rect with given values.
+ */
 SDL_Rect rect(int x, int y, int w, int h);
 
 #endif

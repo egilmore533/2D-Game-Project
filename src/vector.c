@@ -118,7 +118,7 @@ void vect4d_normalize(Vect4d *vect)
 }
 
 
-void vect3d_angle(Vect3d *out, float radians)
+void vect3d_set_angle(Vect3d *out, float radians)
 {
 	if(out == NULL)
 	{
@@ -128,7 +128,7 @@ void vect3d_angle(Vect3d *out, float radians)
 	out->y = sin(radians);
 }
 
-void vect4d_angle(Vect4d *out, float radians)
+void vect4d_set_angle(Vect4d *out, float radians)
 {
 	if(out == NULL)
 	{

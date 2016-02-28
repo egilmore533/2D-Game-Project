@@ -34,7 +34,7 @@ static Uint32 g_amask;
 
 void g_graphics_close();
 
-void Init_Graphics(
+void graphics_init(
 	char *windowName,
     int viewWidth,
     int viewHeight,
@@ -129,19 +129,19 @@ void Init_Graphics(
     printf("graphics initialized\n");
 }
 
-void g_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y)
+void graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y)
 {
     SDL_Rect dstRect;
     SDL_Point point = {1,1};
     int w,h;
     if (!g_graphics_texture)
     {
-        printf("g_graphics_render_surface_to_screen: no texture available");
+        printf("graphics_render_surface_to_screen: no texture available");
         return;
     }
     if (!surface)
     {
-        printf("g_graphics_render_surface_to_screen: no surface provided");
+        printf("graphics_render_surface_to_screen: no surface provided");
         return;
     }
     SDL_QueryTexture(g_graphics_texture,
@@ -160,7 +160,7 @@ void g_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,i
                                                    surface->h);
         if (!g_graphics_texture)
         {
-            printf("g_graphics_render_surface_to_screen: failed to allocate more space for the screen texture!");
+            printf("graphics_render_surface_to_screen: failed to allocate more space for the screen texture!");
             return;
         }
     }
@@ -179,13 +179,7 @@ void g_graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,i
                      &dstRect);
 }
 
-
-void ResetBuffer()
-{
-    
-}
-
-void FrameDelay()
+void graphics_frame_delay()
 {
 	Uint32 diff;
 	g_graphics_then = g_graphics_now;
@@ -202,10 +196,10 @@ void FrameDelay()
     }
 }
 
-void NextFrame()
+void graphics_next_frame()
 {
   SDL_RenderPresent(g_graphics_renderer);
-  FrameDelay(); 
+  graphics_frame_delay(); 
 }
 
 void g_graphics_close()
@@ -237,7 +231,7 @@ void g_graphics_close()
     g_graphics_temp_buffer = NULL;
 }
 
-SDL_Renderer *get_renderer()
+SDL_Renderer *graphics_get_renderer()
 {
 	return g_graphics_renderer;
 }

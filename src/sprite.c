@@ -89,7 +89,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 	SDL_Surface *tempSurface;
 	SDL_Texture *tempTexture;
 
-	SDL_Renderer *renderer = get_renderer();
+	SDL_Renderer *renderer = graphics_get_renderer();
 
 	if(!spriteList)
 	{
@@ -156,7 +156,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 {
 	SDL_Rect source, destination;
-	SDL_Renderer *renderer = get_renderer();
+	SDL_Renderer *renderer = graphics_get_renderer();
 	source.x = frame % sprite->framesPerLine * sprite->frameSize.x;
 	source.y = frame / sprite->framesPerLine * sprite->frameSize.y;
 	source.w = sprite->frameSize.x;

@@ -43,20 +43,19 @@ int main(int argc, char *argv[])
       slog("temp image loaded successfully");
       SDL_BlitSurface(temp,NULL,buffer,NULL);
   }
-  g_graphics_render_surface_to_screen(temp,srcRect,0,0);
+  graphics_render_surface_to_screen(temp,srcRect,0,0);
 
   done = 0;
   do
   {
 
-	SDL_RenderClear(get_renderer());
-	g_graphics_render_surface_to_screen(temp,srcRect,0,0);
+	SDL_RenderClear(graphics_get_renderer());
+	graphics_render_surface_to_screen(temp,srcRect,0,0);
 	entity_think_all();
 	entity_update_all();
 	entity_draw_all();
 
-    ResetBuffer();
-    NextFrame();
+    graphics_next_frame();
     SDL_PumpEvents();
 
     keys = SDL_GetKeyboardState(NULL);
@@ -79,7 +78,7 @@ void CleanUpAll()
 void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
-  Init_Graphics(
+  graphics_init(
 	"Pep's Spicy Adventure",
     1024,
     768,
