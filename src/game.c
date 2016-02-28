@@ -89,7 +89,7 @@ void Init_All()
     0);
 
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
-  entity_initialize_system(10); // entity after sprites
+  entity_initialize_system(100); // entity after sprites
   
   //this order is important background should init first followed by entities followed by UI and mouse
   player_load();

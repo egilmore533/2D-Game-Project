@@ -7,5 +7,6 @@
 void mouse_init();
 void mouse_think(Entity *mouse);
 void mouse_update(Entity *mouse);
+void mouse_touch(Entity *self, Entity *other);
 
 #endif

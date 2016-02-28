@@ -78,7 +78,7 @@ void entity_initialize_system(int maxEntity)
 	int i;
 	if(maxEntity == 0)
 	{
-		slog("Max sprite == 0");
+		slog("Max entity == 0");
 		return;
 	}
 	entityList = (Entity *) malloc (sizeof (Entity) * maxEntity);
@@ -128,6 +128,8 @@ void entity_update_all()
 
 		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
 		
+		entity_intersect_all(&entityList[i]);
+
 		if(!entityList[i].update)
 		{
 			continue;
@@ -159,15 +161,15 @@ Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl
 	entity->sprite = sprite_load(file, frameW, frameH, fpl);
 	entity->position = position;
 	entity->velocity = velocity;
-	
+	entity->bounds = rect(0, 0, frameW, frameH);
 	return entity;
 }
 
-Entity *entity_intersect_all(Entity *a)
+void entity_intersect_all(Entity *a)
 {
 	int i;
 	if(!a)
-		return 0;
+		return;
 	for(i = 0; i  < entityMax; i++)
 	{
 		if(!entityList[i].inUse)
@@ -182,10 +184,17 @@ Entity *entity_intersect_all(Entity *a)
 		/* this only tells you which entity you are intersecting thats first in the list*/
 		if(entity_intersect(a, &entityList[i]))
 		{
-			return &entityList[i];
+			if(a->touch)
+			{
+				a->touch(a, &entityList[i]);
+			}
+			if(entityList[i].touch)
+			{
+				entityList[i].touch(&entityList[i], a);
+			}
 		}
 	}
-	return 0;
+	return;
 }
 
 int entity_intersect(Entity *a, Entity *b)

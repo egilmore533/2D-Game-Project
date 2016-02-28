@@ -18,6 +18,7 @@ void mouse_init()
 	mouse->draw = &sprite_draw;
 	mouse->think = &mouse_think;
 	mouse->update = &mouse_update;
+	mouse->touch = &mouse_touch;
 }
 
 void mouse_think(Entity *mouse)
@@ -35,4 +36,9 @@ void mouse_update(Entity *mouse)
 	{
 		mouse->position = mousePos;
 	}
+}
+
+void mouse_touch(Entity *self, Entity *other)
+{
+	slog("collision");
 }

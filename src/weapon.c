@@ -18,4 +18,11 @@ void weapon_fire(Entity *entity)
 	spice = entity_new(); 
 	spice = entity_load(spice, "images/Shot.png", 64, 64, 16, pos, vel);
 	spice->draw = &sprite_draw;
+	spice->think = &weapon_think;
+	//this needs to initialize the particles
+}
+
+void weapon_think(Entity *spice)
+{
+	//this needs to handle deletion and addition of particles
 }

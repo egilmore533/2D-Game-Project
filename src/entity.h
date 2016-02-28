@@ -72,6 +72,6 @@ Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl
 
 int entity_intersect(Entity *a, Entity *b);
 
-Entity *entity_intersect_all(Entity *a);
+void entity_intersect_all(Entity *a);
 
 #endif 
