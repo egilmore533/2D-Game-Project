@@ -2,27 +2,31 @@
 #include "simple_logger.h"
 #include <stdlib.h>
 
-static Particle *particleList = NULL;
-static int particleMax;
-static int particleNum;
-static Sprite *red_particle;
+static Particle *particleList = NULL;	/**< the list of active particles */
+static int particleMax;					/**< the maximum number of particles allowed for the game */
+static int particleNum;					/**< the number of particles currently running */
+static Sprite *red_particle;			/**< statically stored sprite for particles, if I want different particle's I will have to store their sprite's similarly and randomly select which sprite to use */
+static Sprite *green_particle;
+static Sprite *blue_particle;
 
 void particle_free(Particle **particle)
 {
 	Particle *self;
 	if(!particle)
 	{
+		slog("particle isn't pointing to anything");
 		return;
 	}
 	if(!*particle) 
 	{
+		slog("particle pointer isn't pointing to anything");
 		return;
 	}
 	self = *particle;
 	self->inUse--;
 	particleNum--;
-
-	*particle = NULL;
+	// do not free sprite because each particle is using the same sprites
+	memset(self, 0, sizeof (Particle));
 }
 
 void particle_close_system()
@@ -64,12 +68,19 @@ void particle_initialize_system(int maxParticle)
 	}
 	particleMax = maxParticle;
 	red_particle = sprite_load("images/redSpark.png", 32, 32, 16);
+	green_particle = sprite_load("images/greenSpark.png", 32, 32, 16);
+	blue_particle = sprite_load("images/blueSpark.png", 32, 32, 16);
 	atexit(particle_close_system);
 }
 
 Particle *particle_new()
 {
 	int i;
+	if(!particleList)
+	{
+		slog("particleList not yet initialized");
+		return NULL;
+	}
 	/*makesure we have the room for a new sprite*/
 	if(particleNum + 1 > particleMax)
 	{
@@ -90,17 +101,45 @@ Particle *particle_new()
 	return NULL;
 }
 
-Particle *particle_load(Particle *particle, Entity *generator)
+Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets)
 {
-	particle->position.x = generator->position.x - 5 + ( rand() % 25);
-	particle->position.y = generator->position.y - 5 + ( rand() % 25);
-	particle->sprite = red_particle; // only supports particles for pep's spice
-	particle->frame = (rand() % 5);
+	if(!particle)
+	{
+		slog("particle doesn't point to anything");
+		return NULL;
+	}
+	if(!generator)
+	{
+		slog("generator doesn't point to anything");
+		return NULL;
+	}
+	particle->position.x = (generator->position.x - 5 + ( rand() % 25)) + offsets.x;
+	particle->position.y = (generator->position.y - 5 + ( rand() % 25)) + offsets.y;
+	particle->frame = (rand() % 28); // make this number higher to make it appear slightly more random, and better looking overall, still need to slow down the generation in the think functions
+
+	switch( rand() % 3 )
+	{
+		case 1:
+			particle->sprite = red_particle; // this should be what it always is for pep's spice but why not do something dumb for no reason
+			break;
+		case 2:
+			particle->sprite = green_particle;
+			break;
+		case 0:
+			particle->sprite = blue_particle;
+			break;
+	}
+
 	return particle;
 }
 
 int particle_dead(Particle *particle)
 {
+	if(!particle)
+	{
+		slog("particle doesn't point to anything");
+		return NULL;
+	}
 	if(particle->frame >= 30)
 	{
 		return 1;
@@ -112,6 +151,11 @@ void particle_check_all_dead()
 {
 	int i;
 	Particle *particle; // stores address of the entlist address for freeing
+	if(!particleList)
+	{
+		slog("particleList not yet initialized");
+		return;
+	}
 	for(i = 0; i < particleMax; i++)
 	{
 		if(!particleList[i].inUse)
@@ -129,6 +173,11 @@ void particle_check_all_dead()
 void particle_draw_all()
 {
 	int i;
+	if(!particleList)
+	{
+		slog("particleList not yet initialized");
+		return;
+	}
 	for(i = 0; i < particleMax; i++)
 	{
 		if(!particleList[i].inUse)

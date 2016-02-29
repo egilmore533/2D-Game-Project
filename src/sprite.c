@@ -156,6 +156,11 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 
 void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 {
+	if(!sprite)
+	{
+		slog("sprite doesn't point to anything");
+		return;
+	}
 	SDL_Rect source, destination;
 	SDL_Renderer *renderer = graphics_get_renderer();
 	source.x = frame % sprite->framesPerLine * sprite->frameSize.x;

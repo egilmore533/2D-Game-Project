@@ -102,6 +102,7 @@ int entity_intersect(Entity *a, Entity *b);
 
 /**
  * @brief	go through entire entity list checking if the given ent perfroming touch functions if either entity has them.
+ * 			used in the main game loop with camera entity so that only the entity's in the camera's bounding box are drawn
  * @param [in,out]	a	If non-null, the Entity to process.
  */
 void entity_intersect_all(Entity *a);

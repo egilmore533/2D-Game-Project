@@ -109,7 +109,7 @@ void Init_All()
 
   //this order is important background should init first followed by entities followed by UI and mouse
   player_load();
-  mouse_init();
+  mouse_initialize();
   atexit(CleanUpAll);
 }
 

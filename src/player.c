@@ -21,6 +21,11 @@ void player_load()
 void player_think(Entity *player)
 {
 	const Uint8 *keys;
+	if(!player)
+	{
+		slog("player not yet initialized");
+		return;
+	}
 	keys = SDL_GetKeyboardState(NULL);
 	if(keys[SDL_SCANCODE_A])
 	{

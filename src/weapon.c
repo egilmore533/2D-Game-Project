@@ -28,8 +28,15 @@ void weapon_fire(Entity *entity)
 void weapon_think(Entity *spice)
 {
 	Particle *part;
+	Vect2d offset;
+	if(!spice)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	offset = vect2d_new(-30, -10);
 	part = particle_new();
-	part = particle_load(part, spice);
+	part = particle_load(part, spice, offset);
 
 	//if the bullet isn't touching the camera free the entity
 	if(!entity_intersect(spice, camera_get()))
@@ -40,6 +47,11 @@ void weapon_think(Entity *spice)
 
 void weapon_free(Entity *spice)
 {
+	if(!spice)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
 	spice->owner = NULL;
 	spice->draw = NULL;
 	spice->think = NULL;

@@ -2,7 +2,7 @@
 
 static Entity *mouse = NULL;
 
-void mouse_init()
+void mouse_initialize()
 {
 	Vect2d pos, vel;
 	pos = vect2d_new(0, 0);
@@ -24,10 +24,25 @@ void mouse_init()
 void mouse_think(Entity *mouse)
 {
 	//click behavior goes here
+	if(!mouse)
+	{
+		slog("mouse doesn't point to anything");
+		return;
+	}
 }
 
 void mouse_update(Entity *self)
 {
+	if(!self)
+	{
+		slog("self doesn't point to anything");
+		return;
+	}
+	if(!mouse)
+	{
+		slog("mouse hasn't been initialized");
+		return;
+	}
 	int mouseX, mouseY;
 	Vect2d mousePos;
 	SDL_GetMouseState(&mouseX, &mouseY);
@@ -40,5 +55,14 @@ void mouse_update(Entity *self)
 
 void mouse_touch(Entity *self, Entity *other)
 {
-	slog("collision");
+	if(!self)
+	{
+		slog("self doesn't point to anything");
+		return;
+	}
+	if(!other)
+	{
+		slog("other doesn't point to anything");
+		return;
+	}
 }
