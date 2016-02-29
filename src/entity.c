@@ -27,7 +27,7 @@ void entity_free(Entity **entity)
 	{
 		sprite_free(&self->sprite);
 	}
-
+	entityNum--;
 	*entity = NULL;
 }
 
@@ -128,8 +128,6 @@ void entity_update_all()
 
 		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
 		
-		entity_intersect_all(&entityList[i]);
-
 		if(!entityList[i].update)
 		{
 			continue;
@@ -154,6 +152,11 @@ void entity_draw_all()
 		}
 		entityList[i].draw(entityList[i].sprite, entityList[i].frame, entityList[i].position);
 	}
+}
+
+void entity_draw(Entity *entity)
+{
+	entity->draw(entity->sprite, entity->frame, entity->position);
 }
 
 Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl, Vect2d position, Vect2d velocity)

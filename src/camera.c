@@ -1,32 +1,37 @@
 #include "camera.h"
 
-static SDL_Rect _Camera = {0,0,0,0};
+static Entity *camera = NULL;
 
-SDL_Rect camera_get_active()
+void camera_initialize(Vect2d position, Vect2d dimensions)
 {
-	return _Camera;
+	SDL_Rect bounds;
+	camera = entity_new();
+	bounds = rect(position.x, position.y, dimensions.x, dimensions.y);
+	camera->bounds = bounds;
+	camera->position = position;
+	camera->cameraEnt = 1;
+	camera->think = &camera_think;
+	camera->update = &camera_update;
+	camera->touch = &camera_touch;
 }
 
-Vect2d camera_get_position()
+void camera_think(Entity *self)
 {
-	Vect2d pos = {_Camera.x, _Camera.y};
-	return pos;
+	
 }
 
-void camera_set_position(Vect2d pos)
+void camera_update(Entity *self)
 {
-	_Camera.x = pos.x;
-	_Camera.y = pos.y;
+	
 }
 
-void camera_set_size(Vect2d size)
+void camera_touch(Entity *self, Entity *other)
 {
-	_Camera.w = size.x;
-	_Camera.h = size.y;
+	//if an entity is touching the camera draw it
+	entity_draw(other);
 }
 
-Vect2d camera_get_size()
+Entity *camera_get()
 {
-	Vect2d size = {_Camera.w, _Camera.h};
-	return size;
+	return camera;
 }

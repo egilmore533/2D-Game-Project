@@ -51,7 +51,7 @@
     <ClCompile Include="..\src\milk_tank.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\particles.c">
+    <ClCompile Include="..\src\particle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClInclude Include="..\src\milk_tank.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\particles.h">
+    <ClInclude Include="..\src\particle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

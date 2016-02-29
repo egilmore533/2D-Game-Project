@@ -24,6 +24,8 @@ typedef struct Entity_s
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
 	int state;							/**< what state the enemy is in, states will need to be enumerated */
 	int health, maxHealth;				/**< the current healt and total health of the entity */
+
+	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
 	
 	void (*draw)(Sprite *sprite,
 				 int frame, 
@@ -74,8 +76,8 @@ void entity_think_all();
 void entity_close_system();
 
 
-/** @brief	draws an entity if the entity is in side the cameras bounds. */
-void entity_draw();
+/** @brief	draws an entity if the entity is inside the cameras bounds. */
+void entity_draw(Entity *entity);
 
 /**
  * @brief	entity constructor.

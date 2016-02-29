@@ -3,7 +3,6 @@
 
 #include "entity.h"
 #include "simple_logger.h"
-#include "particles.h"
 
 /**
  * @brief	loads the bullet by allocating memory and setting its position and velocity to make 
@@ -17,5 +16,7 @@ void weapon_fire(Entity *entity);
  * @param [in,out]	spice	If non-null, the spice.
  */
 void weapon_think(Entity *spice);
+
+void weapon_free(Entity *spice);
 
 #endif

@@ -1,4 +1,6 @@
 #include "weapon.h"
+#include "particle.h"
+#include "camera.h"
 
 void weapon_fire(Entity *entity)
 {
@@ -17,6 +19,7 @@ void weapon_fire(Entity *entity)
 
 	spice = entity_new(); 
 	spice = entity_load(spice, "images/Shot.png", 64, 64, 16, pos, vel);
+	spice->owner = entity; //the entity firing owns this projectile
 	spice->draw = &sprite_draw;
 	spice->think = &weapon_think;
 	//this needs to initialize the particles
@@ -24,5 +27,21 @@ void weapon_fire(Entity *entity)
 
 void weapon_think(Entity *spice)
 {
-	//this needs to handle deletion and addition of particles
+	Particle *part;
+	part = particle_new();
+	part = particle_load(part, spice);
+
+	//if the bullet isn't touching the camera free the entity
+	if(!entity_intersect(spice, camera_get()))
+	{
+		weapon_free(spice);
+	}
+}
+
+void weapon_free(Entity *spice)
+{
+	spice->owner = NULL;
+	spice->draw = NULL;
+	spice->think = NULL;
+	entity_free(&spice);
 }

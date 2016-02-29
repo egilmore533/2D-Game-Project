@@ -34,6 +34,7 @@ void sprite_free(Sprite **sprite)
 			SDL_DestroyTexture(target->image); 
 			memset(target,0,sizeof(Sprite));
 		}
+		spriteNum--;
 	}
 	*sprite = NULL;
 }

@@ -11,6 +11,8 @@
 #include "entity.h"
 #include "player.h"
 #include "mouse.h"
+#include "particle.h"
+#include "camera.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -53,7 +55,11 @@ int main(int argc, char *argv[])
 	graphics_render_surface_to_screen(temp,srcRect,0,0);
 	entity_think_all();
 	entity_update_all();
-	entity_draw_all();
+
+	entity_intersect_all(camera_get());
+
+	particle_check_all_dead();
+	particle_draw_all();
 
     graphics_next_frame();
     SDL_PumpEvents();
@@ -78,18 +84,29 @@ void CleanUpAll()
 void Init_All()
 {
 	float bgcolor[] = {1,1,1,1};
+	int width = 1366;
+	int height = 768;
+	Vect2d cameraPosition, cameraDimensions;
+
   graphics_init(
 	"Pep's Spicy Adventure",
-    1024,
-    768,
-    1024,
-    768,
+    width,
+    height,
+    width,
+    height,
     bgcolor,
     0);
 
+  
+
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
   entity_initialize_system(100); // entity after sprites
-  
+  particle_initialize_system(1000); //particle after entity
+
+  cameraPosition = vect2d_new(0,0);
+  cameraDimensions = vect2d_new(width, height);
+  camera_initialize(cameraPosition, cameraDimensions);
+
   //this order is important background should init first followed by entities followed by UI and mouse
   player_load();
   mouse_init();

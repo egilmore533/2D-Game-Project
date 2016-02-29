@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "vector.h"
+#include "entity.h"
 
 /**
  * @brief	getter for the game's camera.
@@ -34,5 +35,10 @@ void camera_set_size(Vect2d size);
  */
 Vect2d camera_get_size();
 
+void camera_initialize(Vect2d position, Vect2d dimensions);
+void camera_think(Entity *camera);
+void camera_update(Entity *self);
+void camera_touch(Entity *self, Entity *other);
+Entity *camera_get();
 
 #endif

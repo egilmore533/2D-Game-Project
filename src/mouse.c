@@ -26,7 +26,7 @@ void mouse_think(Entity *mouse)
 	//click behavior goes here
 }
 
-void mouse_update(Entity *mouse)
+void mouse_update(Entity *self)
 {
 	int mouseX, mouseY;
 	Vect2d mousePos;
