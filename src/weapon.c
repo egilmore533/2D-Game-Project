@@ -22,6 +22,9 @@ void weapon_fire(Entity *entity)
 	spice->owner = entity; //the entity firing owns this projectile
 	spice->draw = &sprite_draw;
 	spice->think = &weapon_think;
+	spice->update = &weapon_update;
+	spice->free = &weapon_free;
+	spice->touch = &weapon_touch;
 	//this needs to initialize the particles
 }
 
@@ -56,4 +59,33 @@ void weapon_free(Entity *spice)
 	spice->draw = NULL;
 	spice->think = NULL;
 	entity_free(&spice);
+}
+
+void weapon_update(Entity *spice)
+{
+	if(!spice)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	vect2d_add(spice->position, spice->velocity, spice->position);
+}
+
+void weapon_touch(Entity *spice, Entity *other)
+{
+	if(!spice)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	if(!other)
+	{
+		slog("other doesn't point to anything");
+		return;
+	}
+	if(other == spice->target)
+	{
+		spice->free;
+		other->free;
+	}
 }

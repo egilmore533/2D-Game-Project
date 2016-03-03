@@ -13,6 +13,7 @@
 #include "mouse.h"
 #include "particle.h"
 #include "camera.h"
+#include "milk_tank.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -32,6 +33,12 @@ int main(int argc, char *argv[])
   int done;
   int tx = 0,ty = 0;
   const Uint8 *keys;
+
+  Entity *milk_tank = NULL;
+  Vect2d pos, vel;
+
+  slog("%f", sqrt(0.0));
+
   SDL_Rect srcRect={0,0,1024,768};
 
   init_logger("log.txt");
@@ -47,16 +54,15 @@ int main(int argc, char *argv[])
   }
   graphics_render_surface_to_screen(temp,srcRect,0,0);
 
+  milk_tank_load(milk_tank);
+
   done = 0;
   do
   {
-
 	SDL_RenderClear(graphics_get_renderer());
 	graphics_render_surface_to_screen(temp,srcRect,0,0);
 	entity_think_all();
 	entity_update_all();
-
-	entity_intersect_all(camera_get());
 
 	particle_check_all_dead();
 	particle_draw_all();
@@ -101,11 +107,11 @@ void Init_All()
 
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
   entity_initialize_system(100); // entity after sprites
-  particle_initialize_system(1000); //particle after entity
+  particle_initialize_system(1750); //particle after entity
 
   cameraPosition = vect2d_new(0,0);
   cameraDimensions = vect2d_new(width, height);
-  camera_initialize(cameraPosition, cameraDimensions);
+  camera_initialize(cameraPosition, cameraDimensions, 1, 0);
 
   //this order is important background should init first followed by entities followed by UI and mouse
   player_load();

@@ -14,7 +14,9 @@ void player_load()
 	vel = vect2d_new(0, 0);
 	player = entity_new();
 	player->draw = &sprite_draw;
+	player->id = 0;
 	player->think = &player_think;
+	player->update = &player_update;
 	player = entity_load(player, "images/pep2.png", 128, 128, 16, pos, vel);
 }
 
@@ -55,4 +57,15 @@ void player_think(Entity *player)
 	{
 		weapon_fire(player);
 	}
+
+	entity_intersect_all(player);
+}
+void player_update(Entity *player)
+{
+	if(!player)
+	{
+		slog("player not yet initialized");
+		return;
+	}
+	vect2d_add(player->position, player->velocity, player->position);
 }

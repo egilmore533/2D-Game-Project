@@ -3,17 +3,22 @@
 
 static Entity *camera = NULL;
 
-void camera_initialize(Vect2d position, Vect2d dimensions)
+void camera_initialize(Vect2d position, Vect2d dimensions, int id, int targetID)
 {
 	SDL_Rect bounds;
+	SDL_Rect cameraBounds;
 	camera = entity_new();
 	bounds = rect(position.x, position.y, dimensions.x, dimensions.y);
+	cameraBounds = rect(position.x, position.y, dimensions.x / 2, dimensions.y / 2);
+	camera->id = id;
+	camera->target = entity_get_by_id(targetID);
 	camera->bounds = bounds;
+	camera->cameraBounds = cameraBounds;
 	camera->position = position;
 	camera->cameraEnt = 1;
 	camera->think = &camera_think;
 	camera->update = &camera_update;
-	camera->touch = &camera_touch;
+	camera->touch = &camera_only_touching_bounds;
 }
 
 void camera_think(Entity *self)
@@ -23,6 +28,7 @@ void camera_think(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
+	entity_intersect_all(self);
 }
 
 void camera_update(Entity *self)
@@ -32,6 +38,12 @@ void camera_update(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
+	/*
+	if(camera_intersect(self, self->target))
+	{
+		camera_only_touching_bounds(self, self->target);
+	}
+	*/
 }
 
 void camera_touch(Entity *self, Entity *other)
@@ -46,7 +58,25 @@ void camera_touch(Entity *self, Entity *other)
 		slog("other doesn't point to anything");
 		return;
 	}
-	//if an entity is touching the camera draw it
+	if(other->position.x > self->position.x)
+	{
+		self->position.x += 2;
+	}
+}
+
+void camera_only_touching_bounds(Entity *self, Entity *other)
+{
+	if(!self)
+	{
+		slog("self doesn't point to anything");
+		return;
+	}
+	if(!other)
+	{
+		slog("other doesn't point to anything");
+		return;
+	}
+	//if an entity is touching the camera at all draw it
 	entity_draw(other);
 }
 

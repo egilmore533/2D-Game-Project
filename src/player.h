@@ -13,8 +13,10 @@ void player_load();
  */
 void player_think(Entity *player);
 
-
-/** @brief	player update, currently does nothing. */
-void player_update();
+/**
+ * @brief	updates the player's position.
+ * @param [in,out]	player	the player entity.
+ */
+void player_update(Entity *player);
 
 #endif 

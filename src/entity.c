@@ -125,8 +125,6 @@ void entity_update_all()
 		{
 			continue;
 		}
-
-		vect2d_add(entityList[i].position, entityList[i].velocity, entityList[i].position);
 		
 		if(!entityList[i].update)
 		{
@@ -219,4 +217,21 @@ int entity_intersect(Entity *a, Entity *b)
 				b->bounds.h
 		);
 	return rect_intersect(aB, bB);
+}
+
+Entity *entity_get_by_id(int id)
+{
+	int i;
+	for (i = 0; i < entityMax; i++)
+	{
+		if(entityList[i].inUse == 0)
+		{
+			continue;
+		}
+		if(entityList[i].id == id)
+		{
+			return &entityList[i];
+		}
+	}
+	return NULL;
 }

@@ -23,4 +23,17 @@ void weapon_think(Entity *spice);
  */
 void weapon_free(Entity *spice);
 
+/**
+ * @brief	update the bullet's position.
+ * @param [in,out]	spice	If non-null, the spice.
+ */
+void weapon_update(Entity *spice);
+
+/**
+ * @brief	collision behavior.
+ * @param [in,out]	spice	the bullet.
+ * @param [in,out]	other	whats touching the bullet.
+ */
+void weapon_touch(Entity *spice, Entity *other);
+
 #endif

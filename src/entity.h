@@ -15,10 +15,15 @@
 typedef struct Entity_s
 {
 	int inUse;							/**< flag to know if the entity is currently active */
+	int id;								/**< id of the entity to find it */
 	Vect2d position;					/**< x and y coordinates of the entity */
 	Vect2d velocity;					/**< x and y velocities that the entity is moving */
+	Vect2d direction;					/**< normalized vector of which way the  entity will be moving */
 	SDL_Rect bounds;					/**< the bounding box of the entity */
+	
 	int cameraEnt;						/**< flag that is set to 1 if the entity is a camera*/
+	SDL_Rect cameraBounds;				/**< second bounding box for the camera so it moves along with the character when the character moves foward at half screen */
+
 	Sprite *sprite;						/**< sprite component of the entity */
 	int frame;							/**< frame numebr the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
@@ -26,7 +31,8 @@ typedef struct Entity_s
 	int health, maxHealth;				/**< the current healt and total health of the entity */
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
-	
+	struct Entity_s *target;			/**< the target of this struct (entity will be chasing player) */
+
 	void (*draw)(Sprite *sprite,
 				 int frame, 
 				 Vect2d drawPos);			/**< draw function for the entity, most if not all entities will just be using sprite_draw */
@@ -106,5 +112,12 @@ int entity_intersect(Entity *a, Entity *b);
  * @param [in,out]	a	If non-null, the Entity to process.
  */
 void entity_intersect_all(Entity *a);
+
+/**
+ * @brief	returns the entity with the specified id.
+ * @param	id	The identifier.
+ * @return	null if it fails, else an Entity* with the specified id.
+ */
+Entity *entity_get_by_id(int id);
 
 #endif 

@@ -27,37 +27,37 @@ void vect3d_angle_to_vector(Vect3d angles, Vect3d *forward, Vect3d *right, Vect3
   
 	if(forward)
 	{
-	forward->x = cp*cy;
-	forward->y = cp*sy;
-	forward->z = -sp;
+		forward->x = cp*cy;
+		forward->y = cp*sy;
+		forward->z = -sp;
 	}
 	if(right)
 	{
-	right->x = (-1*sr*sp*cy+-1*cr*-sy);
-	right->y = (-1*sr*sp*sy+-1*cr*cy);
-	right->z = -1*sr*cp;
+		right->x = (-1*sr*sp*cy+-1*cr*-sy);
+		right->y = (-1*sr*sp*sy+-1*cr*cy);
+		right->z = -1*sr*cp;
 	}
 	if(up)
 	{
-	up->x = (cr*sp*cy+-sr*-sy);
-	up->y = (cr*sp*sy+-sr*cy);
-	up->z = cr*cp;
+		up->x = (cr*sp*cy+-sr*-sy);
+		up->y = (cr*sp*sy+-sr*cy);
+		up->z = cr*cp;
 	}
 }
 
 float vect2d_get_length(Vect2d vect)
 {
-	return sqrt (vect.x * vect.y + vect.y * vect.y);
+	return sqrt(vect.x * vect.x + vect.y * vect.y);
 }
 
 float vect3d_get_length(Vect3d vect)
 {
-	return sqrt (vect.x * vect.y + vect.y * vect.y + vect.z * vect.z);
+	return sqrt(vect.x * vect.x + vect.y * vect.y + vect.z * vect.z);
 }
 
 float vect4d_get_length(Vect4d vect)
 {
-	return sqrt (vect.x * vect.y + vect.y * vect.y + vect.z * vect.z + vect.w * vect.w);
+	return sqrt(vect.x * vect.x + vect.y * vect.y + vect.z * vect.z + vect.w * vect.w);
 }
 
 void vect2d_normalize(Vect2d *vect)
@@ -105,7 +105,7 @@ void vect4d_normalize(Vect4d *vect)
 		return;
 	}
 	length = vect4d_get_length(*vect);
-	if(length == 0.0f)
+	if(!length)
 	{
 		return;
 	}

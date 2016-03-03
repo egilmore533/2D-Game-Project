@@ -85,6 +85,30 @@ Vect3d vect3d_new(float a, float b, float c);
 Vect4d vect4d_new(float a, float b, float c, float d);
 
 /**
+ * @brief	A macro that subtracts the second vect2d from the second, and puts it into the third vect2d.
+ * @param	a   	The whole.
+ * @param	b   	the part being removed from the whole.
+ * @param	diff	The difference.
+ */
+#define vect2d_subtract(a,b,diff)(diff.x=a.x-b.x,diff.y=a.y-b.y);
+
+/**
+ * @brief	A macro that subtracts the second vect3d from the second, and puts it into the third vect3d.
+ * @param	a   	The whole.
+ * @param	b   	the part being removed from the whole.
+ * @param	diff	The difference.
+ */
+#define vect3d_subtract(a,b,diff)(diff.x=a.x-b.x,diff.y=a.y-b.y, diff.z=a.z-b.z);
+
+/**
+ * @brief	A macro that subtracts the second vect4d from the second, and puts it into the third vect4d.
+ * @param	a   	The whole.
+ * @param	b   	the part being removed from the whole.
+ * @param	diff	The difference.
+ */
+#define vect4d_subtract(a,b,diff)(diff.x=a.x-b.x,diff.y=a.y-b.y, diff.z=a.z-b.z, diff.w=a.w-b.w);
+
+/**
  * @brief	A macro that adds two vect2d together.
  * @param	a  	The first vect2d to add.
  * @param	b  	The second vect2d to add.
