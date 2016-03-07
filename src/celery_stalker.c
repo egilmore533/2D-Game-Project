@@ -1,5 +1,6 @@
 #include "celery_stalker.h"
 #include "simple_logger.h"
+#include "camera.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED	15
@@ -17,7 +18,7 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 	celery_stalker->target = entity_get_by_id(target);
 
 	celery_stalker->update = &celery_stalker_update;
-	celery_stalker->free = &entity_free;
+	celery_stalker->free = &celerly_stalker_free;
 	celery_stalker->touch = &celerly_stalker_touch;
 	celery_stalker = entity_load(celery_stalker, "images/celery_stalker.png", 128, 128, 1, pos, vel);
 	celery_stalker->direction = dir;
@@ -48,13 +49,28 @@ void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
 {
 	if(!celery_stalker->think)
 	{
-		if(other == entity_get_by_id(1))
+		if(other == camera_get())
 		{
 			celery_stalker->think = &celery_stalker_think_start;
 		}
 	}
-	else if(other->owner == celery_stalker->target)
+	if(other->owner == celery_stalker->target)
 	{
-		celery_stalker->free;
+		other->free(other);
+		celery_stalker->free(celery_stalker);
 	}
+}
+
+void celerly_stalker_free(Entity *celery_stalker)
+{
+	if(!celery_stalker)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	celery_stalker->update = NULL;
+	celery_stalker->touch = NULL;
+	celery_stalker->draw = NULL;
+	celery_stalker->think = NULL;
+	entity_free(&celery_stalker);
 }

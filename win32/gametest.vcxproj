@@ -18,6 +18,7 @@
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
     <ClCompile Include="..\src\level.c" />
+    <ClCompile Include="..\src\melt.c" />
     <ClCompile Include="..\src\milk_tank.c" />
     <ClCompile Include="..\src\mouse.c" />
     <ClCompile Include="..\src\particle.c" />
@@ -34,6 +35,7 @@
     <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="..\src\graphics.h" />
     <ClInclude Include="..\src\level.h" />
+    <ClInclude Include="..\src\melt.h" />
     <ClInclude Include="..\src\milk_tank.h" />
     <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\particle.h" />

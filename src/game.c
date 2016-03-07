@@ -17,6 +17,7 @@
 #include "level.h"
 #include "celery_stalker.h"
 #include "clarence.h"
+#include "melt.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -48,8 +49,8 @@ int main(int argc, char *argv[])
 
   Init_All();
   background = sprite_load("images/background.png", 13660, 768, 1);
-  clarence_load(celery_stalker, 3, 0, 100, 100);
-  clarence_load(celery_stalker2, 4, 0, 600, 300);
+  melt_load(celery_stalker, 3, 0, 100, 100);
+  melt_load(celery_stalker2, 4, 0, 600, 100);
   done = 0;
   do
   {

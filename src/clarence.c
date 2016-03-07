@@ -18,7 +18,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 	clarence->id = id;
 	clarence->target = entity_get_by_id(target);
 	clarence->think = &clarence_think_start;
-	clarence->free = &entity_free;
+	clarence->free = &clarence_free;
 	clarence->touch = &clarence_touch;
 	clarence->direction = dir;
 	clarence = entity_load(clarence, "images/clarence.png", 128, 128, 16, pos, vel);
@@ -52,4 +52,23 @@ void clarence_touch(Entity *clarence, Entity *other)
 	{
 		slog("Player Dead");
 	}
+	if(other->owner == clarence->target)
+	{
+		other->free(other);
+		clarence->free(clarence);
+	}
+}
+
+void clarence_free(Entity *clarence)
+{
+	if(!clarence)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	clarence->update = NULL;
+	clarence->touch = NULL;
+	clarence->draw = NULL;
+	clarence->think = NULL;
+	entity_free(&clarence);
 }

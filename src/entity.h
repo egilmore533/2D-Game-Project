@@ -42,7 +42,7 @@ typedef struct Entity_s
 	void (*update) (struct Entity_s *self);	/**< update function for changing the entity's data */
 	void (*touch) (struct Entity_s *self,	
 				   struct Entity_s *other); /**< collision behavior of the entity */
-	void (*free) (struct Entity_s **self);	/**< function to free the entity's structs */
+	void (*free) (struct Entity_s *self);	/**< function to free the entity's structs */
 
 }Entity;
 

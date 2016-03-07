@@ -17,6 +17,10 @@ void weapon_fire(Entity *entity);
  */
 void weapon_think_particle(Entity *spice);
 
+/**
+ * @brief	think doen't create a particle instead only checks if out of camera's bounds, if so free it.
+ * @param [in,out]	spice	If non-null, the spice.
+ */
 void weapon_think(Entity *spice);
 
 /**
@@ -37,5 +41,21 @@ void weapon_update(Entity *spice);
  * @param [in,out]	other	whats touching the bullet.
  */
 void weapon_touch(Entity *spice, Entity *other);
+
+ /*
+ melt firing section
+  */
+
+/**
+ * @brief	Weapon melt fire.
+ * @param [in,out]	entity	If non-null, the entity.
+ */
+void weapon_melt_fire(Entity *entity);
+void weapon_melt_think_particle(Entity *cream);
+void weapon_melt_think(Entity *cream);
+void weapon_melt_update(Entity *cream);
+void weapon_melt_touch(Entity *cream, Entity *other);
+
+
 
 #endif
