@@ -41,8 +41,12 @@ void celery_stalker_think_moving(Entity *celery_stalker)
 
 void celery_stalker_update(Entity *celery_stalker)
 {
-	vect2d_add(celery_stalker->position, celery_stalker->velocity, celery_stalker->position);
-	vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+	if(celery_stalker->think)
+	{
+		vect2d_add(celery_stalker->position, celery_stalker->velocity, celery_stalker->position);
+		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+	}
+	entity_intersect_all(celery_stalker);
 }
 
 void celerly_stalker_touch(Entity *celery_stalker, Entity *other)

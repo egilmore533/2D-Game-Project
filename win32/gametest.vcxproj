@@ -23,6 +23,7 @@
     <ClCompile Include="..\src\mouse.c" />
     <ClCompile Include="..\src\particle.c" />
     <ClCompile Include="..\src\player.c" />
+    <ClCompile Include="..\src\professor_slice.c" />
     <ClCompile Include="..\src\simple_logger.c" />
     <ClCompile Include="..\src\sprite.c" />
     <ClCompile Include="..\src\vector.c" />

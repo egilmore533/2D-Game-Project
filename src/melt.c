@@ -35,6 +35,7 @@ void melt_think(Entity *melt)
 	vect2d_normalize(&melt->direction);
 	vect2d_set(melt->direction, -1, melt->direction.y);
 	vect2d_mutiply(melt->velocity, melt->direction, melt->velocity);
+	entity_intersect_all(melt);
 	if(!(SDL_GetTicks() >= melt->nextThink))
 	{
 		return;
@@ -45,8 +46,11 @@ void melt_think(Entity *melt)
 
 void melt_update(Entity *melt)
 {
-	vect2d_add(melt->position, melt->velocity, melt->position);
-	vect2d_set(melt->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
+	if(melt->think)
+	{
+		vect2d_add(melt->position, melt->velocity, melt->position);
+		vect2d_set(melt->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
+	}
 	entity_intersect_all(melt);
 }
 
@@ -72,6 +76,10 @@ void melt_touch(Entity *melt, Entity *other)
 		{
 			melt->think = &melt_think;
 		}
+	}
+	if(other == melt->target)
+	{
+		slog("Player Dead");
 	}
 	if(other->owner == melt->target)
 	{

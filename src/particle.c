@@ -43,7 +43,7 @@ void particle_close_system()
 		particle = &particleList[i];
 		particle_free(&particle);
 	}
-	free(particleList);
+//	free(particleList);
 	particleList = NULL;
 }
 

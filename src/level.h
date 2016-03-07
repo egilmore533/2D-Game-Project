@@ -19,4 +19,6 @@ void level_close();
 
 void level_initialize_system();
 
+Level *level_get();
+
 #endif

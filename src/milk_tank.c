@@ -1,6 +1,6 @@
 #include "milk_tank.h"
 #include "simple_logger.h"
-
+#include "camera.h"
 
 /** @brief	A macro that defines the factor that all milk_tank will be moving by. */
 #define MOVEMENT_SPEED	4
@@ -16,7 +16,6 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 	milk_tank->draw = &sprite_draw;
 	milk_tank->id = id;
 	milk_tank->target = entity_get_by_id(target);
-	milk_tank->think = &milk_tank_think;
 	milk_tank->update = &milk_tank_update;
 	milk_tank->free = &milk_tank_free;
 	milk_tank->touch = &milk_tank_touch;
@@ -32,8 +31,11 @@ void milk_tank_think(Entity *milk_tank)
 
 void milk_tank_update(Entity *milk_tank)
 {
-	vect2d_add(milk_tank->position, milk_tank->velocity, milk_tank->position);
-	vect2d_set(milk_tank->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+	if(milk_tank->think)
+	{
+		vect2d_add(milk_tank->position, milk_tank->velocity, milk_tank->position);
+		vect2d_set(milk_tank->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+	}
 	entity_intersect_all(milk_tank);
 }
 
@@ -42,6 +44,10 @@ void milk_tank_touch(Entity *milk_tank, Entity *other)
 	if(other == milk_tank->target)
 	{
 		slog("Player Dead");
+	}
+	if(other == camera_get())
+	{
+		milk_tank->think = &milk_tank_think;
 	}
 	if(other->owner == milk_tank->target)
 	{

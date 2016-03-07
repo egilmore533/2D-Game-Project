@@ -38,8 +38,7 @@ void camera_update(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
-	//self->position.x = self->target->position.x;
-	//self->bounds.x = self->position.x;
+	self->position.x = self->target->position.x - 200; // this sets the camera so that pep is always on the same x position on the screen
 }
 
 void camera_only_touching_bounds(Entity *self, Entity *other)

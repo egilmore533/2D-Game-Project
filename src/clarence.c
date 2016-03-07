@@ -17,7 +17,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 	clarence->draw = &sprite_draw;
 	clarence->id = id;
 	clarence->target = entity_get_by_id(target);
-	clarence->think = &clarence_think_start;
+	clarence->think = &clarence_think_start; // can do this because clarence only moves based on  player's position
 	clarence->free = &clarence_free;
 	clarence->touch = &clarence_touch;
 	clarence->direction = dir;
@@ -27,6 +27,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 void clarence_think_start(Entity *clarence)
 {
 	Vect2d dir = vect2d_new(0, 1);
+	entity_intersect_all(clarence);
 	if(clarence->target->position.x >= clarence->position.x)
 	{
 		clarence->think = &clarence_think_moving;

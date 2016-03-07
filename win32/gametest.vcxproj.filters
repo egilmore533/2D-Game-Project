@@ -63,6 +63,9 @@
     <ClCompile Include="..\src\melt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\professor_slice.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h">

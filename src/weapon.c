@@ -123,6 +123,7 @@ void weapon_melt_fire(Entity *entity)
 	cream = entity_new(); 
 	cream = entity_load(cream, "images/Shot.png", 64, 64, 16, pos, vel);
 	cream->owner = entity; //the entity firing owns this projectile
+	cream->target = cream->owner->target; //the cream's target is its owner's target
 	cream->draw = &sprite_draw;
 	cream->think = &weapon_think; //same think until i have a seperate particle effect for cream
 	cream->update = &weapon_update; //same update for all bullet entities, just move it along
@@ -132,18 +133,16 @@ void weapon_melt_fire(Entity *entity)
 	cream->nextThink = 0;
 }
 
-void weapon_melt_think_particle(Entity *cream)
-{
-
-}
-
-void weapon_melt_update(Entity *cream)
-{
-
-}
-
 void weapon_melt_touch(Entity *cream, Entity *other)
 {
-	
+	if(other == cream->target)
+	{
+		slog("Player Dead");
+		cream->free(cream);
+	}
 }
+
+/*
+Professor Slice weapon 
+*/
 
