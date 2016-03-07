@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\camera.c" />
+    <ClCompile Include="..\src\celery_stalker.c" />
+    <ClCompile Include="..\src\clarence.c" />
     <ClCompile Include="..\src\entity.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\graphics.c" />
@@ -27,8 +29,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\camera.h" />
+    <ClInclude Include="..\src\celery_stalker.h" />
+    <ClInclude Include="..\src\clarence.h" />
     <ClInclude Include="..\src\entity.h" />
     <ClInclude Include="..\src\graphics.h" />
+    <ClInclude Include="..\src\level.h" />
     <ClInclude Include="..\src\milk_tank.h" />
     <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\particle.h" />

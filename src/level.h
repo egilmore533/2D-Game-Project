@@ -1,59 +1,22 @@
-#pragma once
+#ifndef __LEVEL_H__
+#define __LEVEL_H__
 
-namespace gametest {
+#include "sprite.h"
 
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
+#define LEVEL_NAME_LENGTH	80
 
-	/// <summary>
-	/// Summary for level
-	/// </summary>
-	public ref class level : public System::Windows::Forms::Form
-	{
-	public:
-		level(void)
-		{
-			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
-		}
+typedef struct
+{
+	int loaded;
+	char file[LEVEL_NAME_LENGTH];
+	Sprite *background;
+	SDL_Rect bounds;
+}Level;
 
-	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		~level()
-		{
-			if (components)
-			{
-				delete components;
-			}
-		}
+void level_load(char *filename);
 
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+void level_close();
 
-#pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		void InitializeComponent(void)
-		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"level";
-			this->Padding = System::Windows::Forms::Padding(0);
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-		}
-#pragma endregion
-	};
-}
+void level_initialize_system();
+
+#endif

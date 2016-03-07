@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "simple_logger.h"
 #include "graphics.h"
+#include "camera.h"
 
 static Entity *entityList = NULL;
 static int entityNum;
@@ -154,7 +155,11 @@ void entity_draw_all()
 
 void entity_draw(Entity *entity)
 {
-	entity->draw(entity->sprite, entity->frame, entity->position);
+	Vect2d positionRelative;
+	Entity *cam;
+	cam = camera_get();
+	vect2d_subtract(entity->position, cam->position, positionRelative);
+	entity->draw(entity->sprite, entity->frame, positionRelative);
 }
 
 Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl, Vect2d position, Vect2d velocity)
@@ -182,7 +187,7 @@ void entity_intersect_all(Entity *a)
 		{
 			continue;
 		}
-		/* this only tells you which entity you are intersecting thats first in the list*/
+		
 		if(entity_intersect(a, &entityList[i]))
 		{
 			if(a->touch)

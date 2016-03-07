@@ -38,30 +38,8 @@ void camera_update(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
-	/*
-	if(camera_intersect(self, self->target))
-	{
-		camera_only_touching_bounds(self, self->target);
-	}
-	*/
-}
-
-void camera_touch(Entity *self, Entity *other)
-{
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
-	if(!other)
-	{
-		slog("other doesn't point to anything");
-		return;
-	}
-	if(other->position.x > self->position.x)
-	{
-		self->position.x += 2;
-	}
+	//self->position.x = self->target->position.x;
+	//self->bounds.x = self->position.x;
 }
 
 void camera_only_touching_bounds(Entity *self, Entity *other)

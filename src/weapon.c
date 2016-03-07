@@ -23,12 +23,12 @@ void weapon_fire(Entity *entity)
 	spice->draw = &sprite_draw;
 	spice->think = &weapon_think;
 	spice->update = &weapon_update;
-	spice->free = &weapon_free;
+	spice->free = &entity_free;
 	spice->touch = &weapon_touch;
 	//this needs to initialize the particles
 }
 
-void weapon_think(Entity *spice)
+void weapon_think_particle(Entity *spice)
 {
 	Particle *part;
 	Vect2d offset;
@@ -41,6 +41,15 @@ void weapon_think(Entity *spice)
 	part = particle_new();
 	part = particle_load(part, spice, offset);
 
+	//if the bullet isn't touching the camera free the entity
+	if(!entity_intersect(spice, camera_get()))
+	{
+		weapon_free(spice);
+	}
+}
+
+void weapon_think(Entity *spice)
+{
 	//if the bullet isn't touching the camera free the entity
 	if(!entity_intersect(spice, camera_get()))
 	{

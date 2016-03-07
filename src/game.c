@@ -14,6 +14,9 @@
 #include "particle.h"
 #include "camera.h"
 #include "milk_tank.h"
+#include "level.h"
+#include "celery_stalker.h"
+#include "clarence.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -29,38 +32,29 @@ void addCoordinateToFile(char *filepath,int x, int y);
 /*notice the default arguments for main.  SDL expects main to look like that, so don't change it*/
 int main(int argc, char *argv[])
 {
-  SDL_Surface *temp = NULL;
   int done;
+  Sprite *background;
   int tx = 0,ty = 0;
   const Uint8 *keys;
 
-  Entity *milk_tank = NULL;
+  Entity *celery_stalker = NULL;
+  Entity *celery_stalker2 = NULL;
   Vect2d pos, vel;
-
-  slog("%f", sqrt(0.0));
-
+  pos = vect2d_new(0,0);
   SDL_Rect srcRect={0,0,1024,768};
 
-  init_logger("log.txt");
+  init_logger("text/log.txt");
   slog("logger initialized");
 
   Init_All();
-
-  temp = IMG_Load("images/sex.jpg");/*notice that the path is part of the filename*/
-  if(temp != NULL)
-  {
-      slog("temp image loaded successfully");
-      SDL_BlitSurface(temp,NULL,buffer,NULL);
-  }
-  graphics_render_surface_to_screen(temp,srcRect,0,0);
-
-  milk_tank_load(milk_tank);
-
+  background = sprite_load("images/background.png", 13660, 768, 1);
+  clarence_load(celery_stalker, 3, 0, 100, 100);
+  clarence_load(celery_stalker2, 4, 0, 600, 300);
   done = 0;
   do
   {
 	SDL_RenderClear(graphics_get_renderer());
-	graphics_render_surface_to_screen(temp,srcRect,0,0);
+	sprite_draw(background, 0, pos);
 	entity_think_all();
 	entity_update_all();
 
@@ -76,7 +70,6 @@ int main(int argc, char *argv[])
         done = 1;
     }
   }while(!done);
-  SDL_FreeSurface(temp);
   exit(0);		/*technically this will end the program, but the compiler likes all functions that can return a value TO return a value*/
   return 0;
 }
@@ -107,14 +100,15 @@ void Init_All()
 
   sprite_initialize_system(1000);//sprite.c needs to initialize before the game starts to load sprites
   entity_initialize_system(100); // entity after sprites
-  particle_initialize_system(1750); //particle after entity
-
-  cameraPosition = vect2d_new(0,0);
-  cameraDimensions = vect2d_new(width, height);
-  camera_initialize(cameraPosition, cameraDimensions, 1, 0);
+  particle_initialize_system(2000); //particle after entity
+  level_initialize_system();
+  //level_load("text/level_demo.txt");
 
   //this order is important background should init first followed by entities followed by UI and mouse
   player_load();
+  cameraPosition = vect2d_new(0,0);
+  cameraDimensions = vect2d_new(width, height);
+  camera_initialize(cameraPosition, cameraDimensions, 1, 0);
   mouse_initialize();
   atexit(CleanUpAll);
 }

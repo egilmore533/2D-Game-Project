@@ -15,6 +15,8 @@ void weapon_fire(Entity *entity);
  * @brief	think creates a particle and check's if the bullet is out of the camera's bounds, if it is free it.
  * @param [in,out]	spice	the bullet.
  */
+void weapon_think_particle(Entity *spice);
+
 void weapon_think(Entity *spice);
 
 /**

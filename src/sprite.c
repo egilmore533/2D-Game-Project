@@ -145,7 +145,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 	strncpy(spriteList[i].filename,file,128);
 	
 	/*now sprites don't have to be 16 frames per line, but most will be.*/
-	spriteList[i].framesPerLine = 16;
+	spriteList[i].framesPerLine = fpl;
 	spriteList[i].frameSize.x = frameW;
 	spriteList[i].frameSize.y = frameH;
 	spriteList[i].refCount++;

@@ -8,7 +8,7 @@
  * 			giving it a touch, think, update, sprite, position, velocity.
  * @param [in,out]	milk_tank	pointer to the milk tank that needs to be created.
  */
-void milk_tank_load(Entity *milk_tank);
+void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y);
 
 /**
  * @brief	how the milk tank will behave in game, it will chase the player and just try to touch him.

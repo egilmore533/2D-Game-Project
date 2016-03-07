@@ -115,7 +115,7 @@ Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets)
 	}
 	particle->position.x = (generator->position.x - 5 + ( rand() % 25)) + offsets.x;
 	particle->position.y = (generator->position.y - 5 + ( rand() % 25)) + offsets.y;
-	particle->frame = (rand() % 28); // make this number higher to make it appear slightly more random, and better looking overall, still need to slow down the generation in the think functions
+	particle->frame = (rand() % 30); // make this number higher to make it appear slightly more random, and better looking overall, still need to slow down the generation in the think functions
 
 	switch( rand() % 3 )
 	{
