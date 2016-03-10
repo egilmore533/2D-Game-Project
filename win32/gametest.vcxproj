@@ -41,6 +41,7 @@
     <ClInclude Include="..\src\mouse.h" />
     <ClInclude Include="..\src\particle.h" />
     <ClInclude Include="..\src\player.h" />
+    <ClInclude Include="..\src\professor_slice.h" />
     <ClInclude Include="..\src\simple_logger.h" />
     <ClInclude Include="..\src\sprite.h" />
     <ClInclude Include="..\src\vector.h" />

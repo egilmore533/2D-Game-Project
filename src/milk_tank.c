@@ -3,15 +3,15 @@
 #include "camera.h"
 
 /** @brief	A macro that defines the factor that all milk_tank will be moving by. */
-#define MOVEMENT_SPEED	4
-
+#define MOVEMENT_SPEED_X	4
+#define MOVEMENT_SPEED_Y	4
 
 void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 {
 	Vect2d pos, vel;
 
 	pos = vect2d_new(x, y);
-	vel = vect2d_new(MOVEMENT_SPEED, MOVEMENT_SPEED);
+	vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	milk_tank = entity_new();
 	milk_tank->draw = &sprite_draw;
 	milk_tank->id = id;
@@ -34,7 +34,7 @@ void milk_tank_update(Entity *milk_tank)
 	if(milk_tank->think)
 	{
 		vect2d_add(milk_tank->position, milk_tank->velocity, milk_tank->position);
-		vect2d_set(milk_tank->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+		vect2d_set(milk_tank->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(milk_tank);
 }

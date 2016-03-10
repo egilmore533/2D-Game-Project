@@ -3,14 +3,15 @@
 #include "camera.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
-#define MOVEMENT_SPEED	15
+#define MOVEMENT_SPEED_X	15
+#define MOVEMENT_SPEED_Y	15
 
 void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, float y)
 {
 	Vect2d pos, vel, dir;
 
 	pos = vect2d_new(x, y);
-	vel = vect2d_new(MOVEMENT_SPEED, MOVEMENT_SPEED);
+	vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	dir = vect2d_new(0,0);
 	celery_stalker = entity_new();
 	celery_stalker->draw = &sprite_draw;
@@ -44,7 +45,7 @@ void celery_stalker_update(Entity *celery_stalker)
 	if(celery_stalker->think)
 	{
 		vect2d_add(celery_stalker->position, celery_stalker->velocity, celery_stalker->position);
-		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(celery_stalker);
 }

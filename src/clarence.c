@@ -3,7 +3,8 @@
 #include "weapon.h"
 
 /** @brief	A macro that defines the factor that all clarences will fall at. */
-#define MOVEMENT_SPEED	15
+#define MOVEMENT_SPEED_X	15
+#define MOVEMENT_SPEED_Y	15
 
 
 void clarence_load(Entity *clarence, int id, int target, float x, float y)
@@ -11,7 +12,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 	Vect2d pos, vel, dir;
 
 	pos = vect2d_new(x, y);
-	vel = vect2d_new(MOVEMENT_SPEED, MOVEMENT_SPEED);
+	vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	dir = vect2d_new(0,0);
 	clarence = entity_new();
 	clarence->draw = &sprite_draw;
@@ -44,7 +45,7 @@ void clarence_think_moving(Entity *clarence)
 void clarence_update(Entity *clarence)
 {
 	vect2d_add(clarence->position, clarence->velocity, clarence->position);
-	vect2d_set(clarence->velocity, MOVEMENT_SPEED, MOVEMENT_SPEED);
+	vect2d_set(clarence->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 }
 
 void clarence_touch(Entity *clarence, Entity *other)

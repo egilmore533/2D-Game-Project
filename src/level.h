@@ -4,6 +4,7 @@
 #include "sprite.h"
 
 #define LEVEL_NAME_LENGTH	80
+#define MAX_ENTITIES		50 //limit on enemies that can appear in a scripted level
 
 typedef struct
 {
@@ -11,6 +12,7 @@ typedef struct
 	char file[LEVEL_NAME_LENGTH];
 	Sprite *background;
 	SDL_Rect bounds;
+	int entityCount; //number of entities that will appear in this level
 }Level;
 
 void level_load(char *filename);

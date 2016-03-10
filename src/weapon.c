@@ -1,35 +1,83 @@
 #include "weapon.h"
 #include "particle.h"
 #include "camera.h"
+#include <stdlib.h>
 
-void weapon_fire(Entity *entity)
+/*
+universal weapon functions
+*/
+Entity *weapon_fire(Entity *owner)
+{
+	Entity *shot;
+	if(!owner)
+	{
+		slog("No entity to fire from");
+		return NULL;
+	}
+
+	shot = entity_new(); 
+	shot->owner = owner; //the entity firing owns this projectile
+	shot->draw = &sprite_draw;
+	shot->update = &weapon_update;
+	shot->free = &weapon_free;
+	shot->target = owner->target;
+	return shot;
+}
+
+void weapon_think(Entity *shot)
+{
+	//if the bullet isn't touching the camera free the entity
+	if(!entity_intersect(shot, camera_get()))
+	{
+		shot->free(shot);
+	}
+}
+
+void weapon_free(Entity *shot)
+{
+	if(!shot)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	shot->owner = NULL;
+	shot->draw = NULL;
+	shot->think = NULL;
+	entity_free(&shot);
+}
+
+void weapon_update(Entity *shot)
+{
+	if(!shot)
+	{
+		slog("spice doesn't point to anything");
+		return;
+	}
+	vect2d_add(shot->position, shot->velocity, shot->position);
+}
+
+/*
+Pep firing functions
+*/
+void weapon_pep_fire(Entity *player)
 {
 	Entity *spice;
+	spice = weapon_fire(player);
 	Vect2d pos, vel;
 	int offsetX = 128; // this is the offset needed for pep's sprite this would change depending on the size of the sprite and where the bullet would come out
 	int offsetY = 40; // this is the offset needed for pep's sprite this would change depending on the size of the sprite and where the bullet would come out
-	if(!entity)
-	{
-		slog("No entity to fire from");
-		return;
-	}
-
-	pos = vect2d_new(entity->position.x + offsetX, entity->position.y + offsetY);
-	vel = vect2d_new(15, 0);
-
-	spice = entity_new(); 
-	spice = entity_load(spice, "images/Shot.png", 64, 64, 16, pos, vel);
-	spice->owner = entity; //the entity firing owns this projectile
-	spice->draw = &sprite_draw;
-	spice->think = &weapon_think_particle;
-	spice->update = &weapon_update;
-	spice->free = &weapon_free;
-	spice->touch = &weapon_touch;
-	spice->thinkRate = 20;
+	
+	pos = vect2d_new(player->position.x + offsetX, player->position.y + offsetY); 
+	vel = vect2d_new(15, 0); 
+	spice = entity_load(spice, "images/spice.png", 32, 16, 1, pos, vel); 
+	spice->think = &weapon_think;
+	spice->touch = &weapon_pep_touch;
+	spice->thinkRate = 200;
 	spice->nextThink = 0;
+
 }
 
-void weapon_think_particle(Entity *spice)
+void weapon_pep_think_particle(Entity *spice)
 {
 	Particle *part;
 	Vect2d offset;
@@ -55,39 +103,7 @@ void weapon_think_particle(Entity *spice)
 
 }
 
-void weapon_think(Entity *spice)
-{
-	//if the bullet isn't touching the camera free the entity
-	if(!entity_intersect(spice, camera_get()))
-	{
-		spice->free(spice);
-	}
-}
-
-void weapon_free(Entity *spice)
-{
-	if(!spice)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
-	spice->owner = NULL;
-	spice->draw = NULL;
-	spice->think = NULL;
-	entity_free(&spice);
-}
-
-void weapon_update(Entity *spice)
-{
-	if(!spice)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
-	vect2d_add(spice->position, spice->velocity, spice->position);
-}
-
-void weapon_touch(Entity *spice, Entity *other)
+void weapon_pep_touch(Entity *spice, Entity *other)
 {
 	if(!spice)
 	{
@@ -105,31 +121,25 @@ void weapon_touch(Entity *spice, Entity *other)
 weapon stuff for melt
  */
 
-void weapon_melt_fire(Entity *entity)
+void weapon_melt_fire(Entity *melt)
 {
 	Entity *cream;
 	Vect2d pos, vel;
 	int offsetX = 0; //change the cream sprite and then change this
 	int offsetY = 64; 
-	if(!entity)
+	if(!melt)
 	{
 		slog("No entity to fire from");
 		return;
 	}
+	cream = weapon_fire(melt);
 
-	pos = vect2d_new(entity->position.x + offsetX, entity->position.y + offsetY);
+	pos = vect2d_new(melt->position.x + offsetX, melt->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
-
-	cream = entity_new(); 
-	cream = entity_load(cream, "images/Shot.png", 64, 64, 16, pos, vel);
-	cream->owner = entity; //the entity firing owns this projectile
-	cream->target = cream->owner->target; //the cream's target is its owner's target
-	cream->draw = &sprite_draw;
+	cream = entity_load(cream, "images/cream.png", 32, 16, 1, pos, vel); //make a new sprite for cream
 	cream->think = &weapon_think; //same think until i have a seperate particle effect for cream
-	cream->update = &weapon_update; //same update for all bullet entities, just move it along
-	cream->free = &weapon_free; //same free for all weapons
 	cream->touch = &weapon_melt_touch;
-	cream->thinkRate = 20;
+	cream->thinkRate = 200;
 	cream->nextThink = 0;
 }
 
@@ -145,4 +155,60 @@ void weapon_melt_touch(Entity *cream, Entity *other)
 /*
 Professor Slice weapon 
 */
+void weapon_professor_slice_fire(Entity *professor_slice)
+{
+	Entity *bread;
+	Vect2d pos, vel;
+	int offsetX = 0; //change the cream sprite and then change this
+	int offsetY = 64; 
+	if(!professor_slice)
+	{
+		slog("No entity to fire from");
+		return;
+	}
+	bread = weapon_fire(professor_slice);
 
+	pos = vect2d_new(professor_slice->position.x + offsetX, professor_slice->position.y + offsetY);
+	vel = vect2d_new(-15, 0);
+	bread = entity_load(bread, "images/bread_crumb.png", 32, 32, 1, pos, vel); //make a new sprite for bread
+	bread->think = &weapon_professor_slice_think; 
+	bread->touch = &weapon_professor_slice_touch;
+	bread->thinkRate = rand() % 200; // randomly decides how fast it will think, which means it slows down at different rates
+	bread->nextThink = 0;
+}
+
+void weapon_professor_slice_touch(Entity *bread, Entity *other)
+{
+	if(other == bread->target)
+	{
+		slog("Player Dead");
+		bread->free(bread);
+	}
+}
+
+void weapon_professor_slice_think(Entity *bread)
+{
+	//if the bullet isn't touching the camera free the entity
+	if(!entity_intersect(bread, camera_get()))
+	{
+		bread->free(bread);
+	}
+	if(bread->velocity.x == 0)
+	{
+		return;
+	}
+	if(!(SDL_GetTicks() >= bread->nextThink))
+	{
+		return;
+	}
+	
+	else if(bread->velocity.x < 0)
+	{
+		bread->velocity.x++;
+		if(bread->velocity.x >= 0)
+		{
+			bread->velocity.x = 0;
+		}
+	}
+	bread->nextThink = SDL_GetTicks() + bread->thinkRate;
+}

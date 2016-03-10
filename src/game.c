@@ -18,6 +18,7 @@
 #include "celery_stalker.h"
 #include "clarence.h"
 #include "melt.h"
+#include "professor_slice.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
 
 	Init_All();
 	level = level_get();
+	melt_load(celery_stalker, 4, 0, 1200, 200);
 	
 	done = 0;
 	do
@@ -103,14 +105,15 @@ void Init_All()
 	entity_initialize_system(100); // entity after sprites
 	particle_initialize_system(2000); //particle after entity
 	level_initialize_system();
-	level_load("text/level_demo.txt");
-
+	
+	
 	//this order is important background should init first followed by entities followed by UI and mouse
+	level_load("text/level_demo.txt");
 	player_load();
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
 	camera_initialize(cameraPosition, cameraDimensions, 1, 0);
-	mouse_initialize();
+	//mouse_initialize();
 	atexit(CleanUpAll);
 }
 
