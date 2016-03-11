@@ -162,11 +162,9 @@ void entity_draw(Entity *entity)
 	entity->draw(entity->sprite, entity->frame, positionRelative);
 }
 
-Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl, Vect2d position, Vect2d velocity)
+Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl)
 {
 	entity->sprite = sprite_load(file, frameW, frameH, fpl);
-	entity->position = position;
-	entity->velocity = velocity;
 	entity->bounds = rect(0, 0, frameW, frameH);
 	return entity;
 }
@@ -193,6 +191,11 @@ void entity_intersect_all(Entity *a)
 			if(a->touch)
 			{
 				a->touch(a, &entityList[i]);
+			}
+			//in case the entity touches something and frees itself
+			if(!a->inUse)
+			{
+				return;
 			}
 			if(entityList[i].touch)
 			{

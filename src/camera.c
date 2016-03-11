@@ -3,22 +3,20 @@
 
 static Entity *camera = NULL;
 
-void camera_initialize(Vect2d position, Vect2d dimensions, int id, int targetID)
+void camera_initialize(Vect2d position, Vect2d dimensions, int id)
 {
 	SDL_Rect bounds;
-	SDL_Rect cameraBounds;
 	camera = entity_new();
 	bounds = rect(position.x, position.y, dimensions.x, dimensions.y);
-	cameraBounds = rect(position.x, position.y, dimensions.x / 2, dimensions.y / 2);
 	camera->id = id;
-	camera->target = entity_get_by_id(targetID);
 	camera->bounds = bounds;
-	camera->cameraBounds = cameraBounds;
 	camera->position = position;
 	camera->cameraEnt = 1;
 	camera->think = &camera_think;
+	camera->thinkRate = 33;
+	camera->nextThink = 0;
 	camera->update = &camera_update;
-	camera->touch = &camera_only_touching_bounds;
+	camera->touch = &camera_touch;
 }
 
 void camera_think(Entity *self)
@@ -28,7 +26,12 @@ void camera_think(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
-	entity_intersect_all(self);
+	if(!(SDL_GetTicks() >= self->nextThink))
+	{
+		return;
+	}
+	self->position.x += 1;
+	self->nextThink = SDL_GetTicks() + self->thinkRate;
 }
 
 void camera_update(Entity *self)
@@ -38,10 +41,10 @@ void camera_update(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
-	self->position.x = self->target->position.x - 200; // this sets the camera so that pep is always on the same x position on the screen
+	entity_intersect_all(self);
 }
 
-void camera_only_touching_bounds(Entity *self, Entity *other)
+void camera_touch(Entity *self, Entity *other)
 {
 	if(!self)
 	{

@@ -22,8 +22,7 @@ typedef struct Entity_s
 	SDL_Rect bounds;					/**< the bounding box of the entity */
 	
 	int cameraEnt;						/**< flag that is set to 1 if the entity is a camera*/
-	SDL_Rect cameraBounds;				/**< second bounding box for the camera so it moves along with the character when the character moves foward at half screen */
-
+	
 	Sprite *sprite;						/**< sprite component of the entity */
 	int frame;							/**< frame numebr the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
@@ -92,11 +91,9 @@ void entity_draw(Entity *entity);
  * @param	frameW		  	The frame width.
  * @param	frameH		  	The frame height.
  * @param	fpl			  	The frames per line.
- * @param	position	  	The x y coordinates.
- * @param	velocity	  	The x and y velocities.
  * @return	null if it fails, else an Entity* that has been loaded with given parameters.
  */
-Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl, Vect2d position, Vect2d velocity);
+Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl);
 
 /**
  * @brief	check's if the two given entities are inside each other's bounding box's using rect_intersect defined in vector.h.

@@ -8,7 +8,7 @@ void mouse_initialize()
 	pos = vect2d_new(0, 0);
 	vel = vect2d_new(0, 0);
 	mouse = entity_new();
-	mouse = entity_load(mouse, "images/mouse.png", 16, 16, 16, pos, vel);
+	mouse = entity_load(mouse, "images/mouse.png", 16, 16, 16);
 	if(mouse->sprite == NULL)
 	{
 		slog("Mouse didn't load");
@@ -19,6 +19,8 @@ void mouse_initialize()
 	mouse->think = &mouse_think;
 	mouse->update = &mouse_update;
 	mouse->touch = &mouse_touch;
+	mouse->velocity = vel;
+	mouse->position = pos;
 }
 
 void mouse_think(Entity *mouse)

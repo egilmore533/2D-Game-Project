@@ -69,11 +69,13 @@ void weapon_pep_fire(Entity *player)
 	
 	pos = vect2d_new(player->position.x + offsetX, player->position.y + offsetY); 
 	vel = vect2d_new(15, 0); 
-	spice = entity_load(spice, "images/spice.png", 32, 16, 1, pos, vel); 
+	spice = entity_load(spice, "images/spice.png", 32, 16, 1); 
 	spice->think = &weapon_think;
 	spice->touch = &weapon_pep_touch;
 	spice->thinkRate = 200;
 	spice->nextThink = 0;
+	spice->position = pos;
+	spice->velocity = vel;
 
 }
 
@@ -136,11 +138,13 @@ void weapon_melt_fire(Entity *melt)
 
 	pos = vect2d_new(melt->position.x + offsetX, melt->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
-	cream = entity_load(cream, "images/cream.png", 32, 16, 1, pos, vel); //make a new sprite for cream
+	cream = entity_load(cream, "images/cream.png", 32, 16, 1); //make a new sprite for cream
 	cream->think = &weapon_think; //same think until i have a seperate particle effect for cream
 	cream->touch = &weapon_melt_touch;
 	cream->thinkRate = 200;
 	cream->nextThink = 0;
+	cream->velocity = vel;
+	cream->position = pos;
 }
 
 void weapon_melt_touch(Entity *cream, Entity *other)
@@ -170,11 +174,13 @@ void weapon_professor_slice_fire(Entity *professor_slice)
 
 	pos = vect2d_new(professor_slice->position.x + offsetX, professor_slice->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
-	bread = entity_load(bread, "images/bread_crumb.png", 32, 32, 1, pos, vel); //make a new sprite for bread
+	bread = entity_load(bread, "images/bread_crumb.png", 32, 32, 1); //make a new sprite for bread
 	bread->think = &weapon_professor_slice_think; 
 	bread->touch = &weapon_professor_slice_touch;
 	bread->thinkRate = rand() % 200; // randomly decides how fast it will think, which means it slows down at different rates
 	bread->nextThink = 0;
+	bread->position = pos;
+	bread->velocity = vel;
 }
 
 void weapon_professor_slice_touch(Entity *bread, Entity *other)

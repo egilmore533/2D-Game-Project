@@ -19,6 +19,7 @@
 #include "clarence.h"
 #include "melt.h"
 #include "professor_slice.h"
+#include "power_ups.h"
 
 extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
@@ -51,7 +52,7 @@ int main(int argc, char *argv[])
 
 	Init_All();
 	level = level_get();
-	melt_load(celery_stalker, 4, 0, 1200, 200);
+	power_up_double_tap(celery_stalker, 4, 0, 1200, 200);
 	
 	done = 0;
 	do
@@ -109,10 +110,10 @@ void Init_All()
 	
 	//this order is important background should init first followed by entities followed by UI and mouse
 	level_load("text/level_demo.txt");
-	player_load();
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
-	camera_initialize(cameraPosition, cameraDimensions, 1, 0);
+	camera_initialize(cameraPosition, cameraDimensions, 1);
+	player_load();
 	//mouse_initialize();
 	atexit(CleanUpAll);
 }

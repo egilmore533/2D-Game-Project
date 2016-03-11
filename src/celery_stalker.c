@@ -21,8 +21,10 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 	celery_stalker->update = &celery_stalker_update;
 	celery_stalker->free = &celerly_stalker_free;
 	celery_stalker->touch = &celerly_stalker_touch;
-	celery_stalker = entity_load(celery_stalker, "images/celery_stalker.png", 128, 128, 1, pos, vel);
+	celery_stalker = entity_load(celery_stalker, "images/celery_stalker.png", 128, 128, 1);
 	celery_stalker->direction = dir;
+	celery_stalker->velocity = vel;
+	celery_stalker->position = pos;
 }
 
 void celery_stalker_think_start(Entity *celery_stalker)

@@ -13,7 +13,7 @@
  * @param	id		  	The camera entity's identifier.
  * @param	targetID  	Identifier for the player.
  */
-void camera_initialize(Vect2d position, Vect2d dimensions, int id, int targetID);
+void camera_initialize(Vect2d position, Vect2d dimensions, int id);
 
 /**
  * @brief	does nothing for now.
@@ -45,6 +45,6 @@ Entity *camera_get();
  * @param [in,out]	self 	If non-null, the class instance that this method operates on.
  * @param [in,out]	other	If non-null, the other.
  */
-void camera_only_touching_bounds(Entity *self, Entity *other);
+void camera_touch(Entity *self, Entity *other);
 
 #endif

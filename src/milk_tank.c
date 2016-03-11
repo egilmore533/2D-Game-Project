@@ -19,7 +19,9 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 	milk_tank->update = &milk_tank_update;
 	milk_tank->free = &milk_tank_free;
 	milk_tank->touch = &milk_tank_touch;
-	milk_tank = entity_load(milk_tank, "images/milk_tank.png", 128, 128, 16, pos, vel);
+	milk_tank = entity_load(milk_tank, "images/milk_tank.png", 128, 128, 1);
+	milk_tank->velocity = vel;
+	milk_tank->position = pos;
 }
 
 void milk_tank_think(Entity *milk_tank)

@@ -23,8 +23,10 @@ void melt_load(Entity *melt, int id, int target, float x, float y)
 	melt->update = &melt_update;
 	melt->free = &melt_free;
 	melt->touch = &melt_touch;
-	melt = entity_load(melt, "images/melt.png", 128, 128, 1, pos, vel);
+	melt = entity_load(melt, "images/melt.png", 128, 128, 1);
 	melt->direction = dir;
+	melt->position = pos;
+	melt->velocity = vel;
 	melt->thinkRate = 800;
 	melt->nextThink = 0;
 }
@@ -35,7 +37,6 @@ void melt_think(Entity *melt)
 	vect2d_normalize(&melt->direction);
 	vect2d_set(melt->direction, -1, melt->direction.y);
 	vect2d_mutiply(melt->velocity, melt->direction, melt->velocity);
-	entity_intersect_all(melt);
 	if(!(SDL_GetTicks() >= melt->nextThink))
 	{
 		return;
