@@ -9,13 +9,15 @@
 typedef struct
 {
 	int loaded;
-	char file[LEVEL_NAME_LENGTH];
+	char *file;
 	Sprite *background;
 	SDL_Rect bounds;
 	int entityCount; //number of entities that will appear in this level
 }Level;
 
-void level_load(char *filename);
+void level_load(char filename[LEVEL_NAME_LENGTH]);
+
+void level_entity_load();
 
 void level_close();
 

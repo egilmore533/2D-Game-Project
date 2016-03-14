@@ -16,7 +16,7 @@ void player_load()
 	vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	player = entity_new();
 	player->draw = &sprite_draw;
-	player->id = 0;
+	player->id = 1;
 	player->think = &player_think;
 	player->update = &player_update;
 	player->thinkRate = 200;
