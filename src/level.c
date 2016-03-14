@@ -13,10 +13,20 @@ void level_load(char filename[])
 {
 	FILE *levelfile = NULL;
 	char buf[128];
+	int linenum = 0;
+
+	//background loading storage
 	char background_file[128];
 	int width, height;
 	int i;
 	Sprite * temp;
+
+	//entity loading storage 
+	char entity_type[30];
+	Entity *ent = NULL;
+	int id;
+	int targetID;
+	float x, y;
 
 	levelfile = fopen(filename,"r");
 	if (levelfile == NULL)
@@ -26,6 +36,8 @@ void level_load(char filename[])
 	}
 	while(fscanf(levelfile, "%s", buf) != EOF)
 	{
+		linenum++;
+		slog("%s: linenum %i", buf, linenum);
 		// # are bash comments skip these lines
 		if (buf[0] == '#')
 		{
@@ -34,14 +46,55 @@ void level_load(char filename[])
 		else if (strncmp(buf,"image:",128)==0)
 		{
 			fscanf(levelfile,"%s",background_file);
+			slog("backgroundfile %s", background_file);
 		}
 		else if (strncmp(buf,"width:",128)==0)
 		{
-			fscanf(levelfile,"%i",&width);      
+			fscanf(levelfile,"%i",&width); 
+			slog("width %i",width);
 		}
 		else if (strncmp(buf,"height:",128)==0)
 		{
-			fscanf(levelfile,"%i",&height);      
+			fscanf(levelfile,"%i",&height);
+			slog("height %i",height);
+		}
+
+		//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
+		else if(buf[0] == '~')
+		{
+			if(strncmp(entity_type, "melt", 30))
+			{
+				melt_load(ent, id, targetID, x, y);
+			}
+			else if(strncmp(entity_type, "double tap", 30))
+			{
+				power_up_double_tap(ent, id, targetID, x, y);
+			}
+		}
+		else if(strncmp(buf,"entity:",128) == 0)
+		{
+			fscanf(levelfile,"%s",entity_type);
+			slog("entity_type %s",entity_type);
+		}
+		else if(strncmp(buf,"id:",128))
+		{
+			fscanf(levelfile,"%i",&id);
+			slog("id %i",id);
+		}
+		else if(strncmp(buf,"target:",128))
+		{
+			fscanf(levelfile,"%i",&targetID);
+			slog("targetID %i",targetID);
+		}
+		else if(strncmp(buf,"x_position:",128))
+		{
+			fscanf(levelfile,"%i",&x);
+			slog("x %i",x);
+		}
+		else if(strncmp(buf,"y_position:",128))
+		{
+			fscanf(levelfile,"%i",&y);
+			slog("y %i",y);
 		}
 		else
 		{
@@ -62,90 +115,6 @@ void level_load(char filename[])
 	level.background = temp;
 	level.file = filename;
 	
-}
-
-void level_entity_load()
-{
-	FILE *levelfile = NULL;
-	char buf[128];
-	
-	char entity_type[30];
-	Entity *ent = NULL;
-	int id;
-	int targetID;
-	float x, y;
-	
-	levelfile = fopen(level.file,"r");
-	if (levelfile == NULL)
-	{
-		slog("could not open file: %s",level.file);
-		return;
-	}
-	while(fscanf(levelfile, "%s", buf) != EOF)
-	{
-		//this signifies the start of the entity list in the level file
-		if(strncmp(buf,"===Entity List===",128))
-		{
-			while(fscanf(levelfile,"%s", buf) != EOF)
-			{
-				/*
-				Needs to identify the entity list start
-					It needs to identify the start of an entity
-						It needs to store the entity type its going to load, its id, targetID, and x & y position values
-						It needs to identify the end of a specific entity and load one with the stored values	
-					Repeat finding the start of an entity.
-				stop loading when it identifies the end of the list
-				*/
-				if (buf[0] == '#')
-				{
-					fgets(buf, sizeof(buf), levelfile);
-				}
-				//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
-				else if(strncmp(buf, "~", 128) == 0)
-				{
-					if(strncmp(entity_type, "melt", 30))
-					{
-						melt_load(ent, id, targetID, x, y);
-					}
-					else if(strncmp(entity_type, "double tap", 30))
-					{
-						power_up_double_tap(ent, id, targetID, x, y);
-					}
-				}
-				else if(strncmp(buf,"entity:",128) == 0)
-				{
-					fscanf(levelfile,"%s",&entity_type);
-				}
-				else if(strncmp(buf,"id:",128))
-				{
-					fscanf(levelfile,"%i",&id);
-				}
-				else if(strncmp(buf,"target:",128))
-				{
-					fscanf(levelfile,"%i",&targetID);
-				}
-				else if(strncmp(buf,"x:",128))
-				{
-					fscanf(levelfile,"%f",&x);
-				}
-				else if(strncmp(buf,"y:",128))
-				{
-					fscanf(levelfile,"%f",&y);
-				}
-
-				//this signifies the end of the entity list in the level file
-				else if(strncmp(buf,"===End List===",128) == 0)
-				{
-					break;
-				}
-				else
-				{
-					/*eat up the rest of this line, and ignore it*/
-					fgets(buf, sizeof(buf), levelfile);
-				}
-			}
-		}
-	}
 }
 
 void level_close()

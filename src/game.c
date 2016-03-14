@@ -103,7 +103,6 @@ void Init_All()
 	
 	//this order is important background should init first followed by entities followed by UI and mouse
 	level_load("text/level_demo.txt");
-	level_entity_load();
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
 	camera_initialize(cameraPosition, cameraDimensions, 0);

@@ -17,8 +17,6 @@ typedef struct
 
 void level_load(char filename[LEVEL_NAME_LENGTH]);
 
-void level_entity_load();
-
 void level_close();
 
 void level_initialize_system();
