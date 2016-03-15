@@ -11,6 +11,9 @@
 static Level level;
 extern SDL_Surface *screen;
 
+static void (*entity_load_array[7]) (Entity *entity, int id, int target, float x, float y);
+char entity_types[7][16] = {"player","melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap"};
+
 void level_load(char filename[])
 {
 	FILE *levelfile = NULL;
@@ -29,7 +32,6 @@ void level_load(char filename[])
 	int id;
 	int targetID;
 	float x, y;
-	char entity_types[6][16] = {"melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap"};
 
 	levelfile = fopen(filename,"r");
 	if (levelfile == NULL)
@@ -85,9 +87,12 @@ void level_load(char filename[])
 		//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
 		else if(buf[0] == '~')
 		{
-			if(entity_type, entity_types[0], 16)
+			for(i = 0; i < 7; i++)
 			{
-				melt_load(ent, id, targetID, x, y);
+				if(strncmp(entity_type, entity_types[i], 16) == 0)
+				{
+					entity_load_array[i](ent,id,targetID,x,y);
+				}
 			}
 		}
 		else
@@ -108,7 +113,6 @@ void level_load(char filename[])
 	level.loaded = 1;
 	level.background = temp;
 	level.file = filename;
-	player_load();
 }
 
 void level_close()
@@ -126,6 +130,8 @@ void level_close()
 void level_initialize_system()
 {
 	memset(&level,0,sizeof(Level));
+	entity_load_array[0] = &player_load;
+	entity_load_array[1] = &melt_load;
 	atexit(level_close);
 }
 

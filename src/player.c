@@ -5,18 +5,16 @@
 #define MOVEMENT_SPEED_X	10
 #define MOVEMENT_SPEED_Y	10
 
-static Entity *player = NULL;
 
-
-void player_load()
+void player_load(Entity *player, int id, int target, float x, float y)
 {
 	Vect2d pos, vel;
 
-	pos = vect2d_new(100, 0);
+	pos = vect2d_new(x, y);
 	vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	player = entity_new();
 	player->draw = &sprite_draw;
-	player->id = 1;
+	player->id = id;
 	player->think = &player_think;
 	player->update = &player_update;
 	player->thinkRate = 200;

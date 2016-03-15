@@ -30,7 +30,7 @@ void camera_think(Entity *self)
 	{
 		return;
 	}
-	self->position.x += 1;
+	self->position.x += 3;
 	self->nextThink = SDL_GetTicks() + self->thinkRate;
 }
 
