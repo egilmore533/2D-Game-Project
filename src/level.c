@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "entity.h"
+
+#include "player.h"
 #include "melt.h"
 #include "power_ups.h"
 
@@ -27,6 +29,7 @@ void level_load(char filename[])
 	int id;
 	int targetID;
 	float x, y;
+	char entity_types[6][16] = {"melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap"};
 
 	levelfile = fopen(filename,"r");
 	if (levelfile == NULL)
@@ -36,8 +39,7 @@ void level_load(char filename[])
 	}
 	while(fscanf(levelfile, "%s", buf) != EOF)
 	{
-		linenum++;
-		slog("%s: linenum %i", buf, linenum);
+		slog("%s", buf, linenum);
 		// # are bash comments skip these lines
 		if (buf[0] == '#')
 		{
@@ -59,42 +61,34 @@ void level_load(char filename[])
 			slog("height %i",height);
 		}
 
-		//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
-		else if(buf[0] == '~')
-		{
-			if(strncmp(entity_type, "melt", 30))
-			{
-				melt_load(ent, id, targetID, x, y);
-			}
-			else if(strncmp(entity_type, "double tap", 30))
-			{
-				power_up_double_tap(ent, id, targetID, x, y);
-			}
-		}
 		else if(strncmp(buf,"entity:",128) == 0)
 		{
 			fscanf(levelfile,"%s",entity_type);
 			slog("entity_type %s",entity_type);
 		}
-		else if(strncmp(buf,"id:",128))
+		else if(strncmp(buf,"id:",128)==0)
 		{
 			fscanf(levelfile,"%i",&id);
 			slog("id %i",id);
 		}
-		else if(strncmp(buf,"target:",128))
+		else if(strncmp(buf,"target:",128)==0)
 		{
 			fscanf(levelfile,"%i",&targetID);
-			slog("targetID %i",targetID);
+			slog("target %i",targetID);
 		}
-		else if(strncmp(buf,"x_position:",128))
+		else if(strncmp(buf,"position:",128)==0)
 		{
-			fscanf(levelfile,"%i",&x);
-			slog("x %i",x);
+			fscanf(levelfile,"%f",&x);
+			fscanf(levelfile,"%f",&y);
+			slog("x %f : y %f",x,y);
 		}
-		else if(strncmp(buf,"y_position:",128))
+		//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
+		else if(buf[0] == '~')
 		{
-			fscanf(levelfile,"%i",&y);
-			slog("y %i",y);
+			if(entity_type, entity_types[0], 16)
+			{
+				melt_load(ent, id, targetID, x, y);
+			}
 		}
 		else
 		{
@@ -114,7 +108,7 @@ void level_load(char filename[])
 	level.loaded = 1;
 	level.background = temp;
 	level.file = filename;
-	
+	player_load();
 }
 
 void level_close()

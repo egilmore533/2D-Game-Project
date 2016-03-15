@@ -100,13 +100,11 @@ void Init_All()
 	particle_initialize_system(2000); //particle after entity
 	level_initialize_system();
 	
-	
-	//this order is important background should init first followed by entities followed by UI and mouse
-	level_load("text/level_demo.txt");
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
 	camera_initialize(cameraPosition, cameraDimensions, 0);
-	player_load();
+	//this order is important background should init first followed by entities followed by UI and mouse
+	level_load("text/level_demo.txt");
 	//mouse_initialize();
 	atexit(CleanUpAll);
 }
