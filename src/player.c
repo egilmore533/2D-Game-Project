@@ -27,21 +27,26 @@ void player_load(Entity *player, int id, int target, float x, float y)
 
 void player_think(Entity *player)
 {
-	const Uint8 *keys;
+	SDL_Event click_event;
+	static Uint32 clicked = 0;
 	if(!player)
 	{
 		slog("player not yet initialized");
 		return;
 	}
-	keys = SDL_GetKeyboardState(NULL);
-	
-	if(keys[SDL_SCANCODE_SPACE])
+	SDL_PollEvent(&click_event);
+	if(click_event.type == SDL_MOUSEBUTTONDOWN)
 	{
-		if(!(SDL_GetTicks() >= player->nextThink))
+		clicked = 1;
+	}
+	else if(click_event.type == SDL_MOUSEBUTTONUP)
+	{
+		if(!(SDL_GetTicks() >= player->nextThink) || !clicked)
 		{
 			return;
 		}
 		weapon_pep_fire(player);
+		clicked = 0;
 		player->nextThink = SDL_GetTicks() + player->thinkRate;
 	}
 }

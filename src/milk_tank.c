@@ -22,6 +22,8 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 	milk_tank = entity_load(milk_tank, "images/milk_tank.png", 128, 128, 1);
 	milk_tank->velocity = vel;
 	milk_tank->position = pos;
+	milk_tank->maxHealth = 5;
+	milk_tank->health = 5;
 }
 
 void milk_tank_think(Entity *milk_tank)
@@ -39,6 +41,10 @@ void milk_tank_update(Entity *milk_tank)
 		vect2d_set(milk_tank->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(milk_tank);
+	if(milk_tank->health <= 0)
+	{
+		milk_tank->free(milk_tank);
+	}
 }
 
 void milk_tank_touch(Entity *milk_tank, Entity *other)
@@ -51,10 +57,10 @@ void milk_tank_touch(Entity *milk_tank, Entity *other)
 	{
 		milk_tank->think = &milk_tank_think;
 	}
-	if(other->owner == milk_tank->target)
+	if(other->owner == milk_tank->target) //if the other entity is owned by milk_tank's entity then it is attacking milk_tank
 	{
 		other->free(other);
-		milk_tank->free(milk_tank);
+		milk_tank->health--;
 	}
 }
 

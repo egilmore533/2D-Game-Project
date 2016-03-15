@@ -6,6 +6,10 @@
 
 #include "player.h"
 #include "melt.h"
+#include "celery_stalker.h"
+#include "professor_slice.h"
+#include "milk_tank.h"
+#include "clarence.h"
 #include "power_ups.h"
 
 static Level level;
@@ -132,6 +136,11 @@ void level_initialize_system()
 	memset(&level,0,sizeof(Level));
 	entity_load_array[0] = &player_load;
 	entity_load_array[1] = &melt_load;
+	entity_load_array[2] = &celery_stalker_load;
+	entity_load_array[3] = &professor_slice_load;
+	entity_load_array[4] = &milk_tank_load;
+	entity_load_array[5] = &clarence_load;
+	entity_load_array[6] = &power_up_double_tap;
 	atexit(level_close);
 }
 
