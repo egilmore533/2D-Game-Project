@@ -29,11 +29,13 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 
 void celery_stalker_think_start(Entity *celery_stalker)
 {
-	vect2d_subtract(celery_stalker->target->position, celery_stalker->position, celery_stalker->direction);
-	vect2d_normalize(&celery_stalker->direction);
-	vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
-
-	celery_stalker->think = &celery_stalker_think_moving;
+	if(SDL_GetTicks() >= celery_stalker->nextThink)
+	{
+		vect2d_subtract(celery_stalker->target->position, celery_stalker->position, celery_stalker->direction);
+		vect2d_normalize(&celery_stalker->direction);
+		//vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
+		celery_stalker->think = &celery_stalker_think_moving;
+	}
 }
 
 void celery_stalker_think_moving(Entity *celery_stalker)
@@ -59,9 +61,16 @@ void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
 		if(other == camera_get())
 		{
 			celery_stalker->think = &celery_stalker_think_start;
+			celery_stalker->thinkRate = 1000;
+			celery_stalker->nextThink = SDL_GetTicks() + celery_stalker->thinkRate;
 		}
 	}
-	if(other->owner == celery_stalker->target)
+	else if(other == celery_stalker->target)
+	{
+		other->health--;
+		celery_stalker->free(celery_stalker);
+	}
+	else if(other->owner == celery_stalker->target)
 	{
 		other->free(other);
 		celery_stalker->free(celery_stalker);

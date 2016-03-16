@@ -155,10 +155,16 @@ void entity_draw_all()
 
 void entity_draw(Entity *entity)
 {
+	if(!entity)
+	{
+		slog("No entity to draw");
+		return;
+	}
 	Vect2d positionRelative;
 	Entity *cam;
 	cam = camera_get();
-	vect2d_subtract(entity->position, cam->position, positionRelative);
+	vect2d_subtract(entity->position, cam->position, positionRelative); 
+	//draw the entity to the position on the entity as if the camera was the actual screen
 	entity->draw(entity->sprite, entity->frame, positionRelative);
 }
 

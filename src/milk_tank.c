@@ -51,13 +51,14 @@ void milk_tank_touch(Entity *milk_tank, Entity *other)
 {
 	if(other == milk_tank->target)
 	{
-		slog("Player Dead");
+		other->health--;
+		milk_tank->free(milk_tank);
 	}
-	if(other == camera_get())
+	else if(!milk_tank->think && other == camera_get())
 	{
 		milk_tank->think = &milk_tank_think;
 	}
-	if(other->owner == milk_tank->target) //if the other entity is owned by milk_tank's entity then it is attacking milk_tank
+	else if(other->owner == milk_tank->target) //if the other entity is owned by milk_tank's entity then it is attacking milk_tank
 	{
 		other->free(other);
 		milk_tank->health--;

@@ -19,4 +19,6 @@ void player_think(Entity *player);
  */
 void player_update(Entity *player);
 
+void player_free(Entity *player);
+
 #endif 

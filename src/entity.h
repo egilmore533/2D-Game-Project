@@ -31,6 +31,7 @@ typedef struct Entity_s
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
 	struct Entity_s *target;			/**< the target of this struct (entity will be chasing player) */
+	struct Entity_s *projectile;
 
 	void (*draw)(Sprite *sprite,
 				 int frame, 
@@ -46,7 +47,7 @@ typedef struct Entity_s
 }Entity;
 
 /**
- * @brief	creates a new entity, allocates memory for it and returns it
+ * @brief	creates a new entity int the entity list, allocates memory for it and returns it
  * @return	A pointer to the new entity.
  */
 Entity *entity_new();
@@ -68,11 +69,11 @@ void entity_initialize_system(int maxEntity);
 void entity_draw_all();
 
 
-/** @brief	go through entity list and add velocities to positions. */
+/** @brief	go through entity list and if the entity is inuse and has an update then run that update function. */
 void entity_update_all();
 
 
-/** @brief	go through all the entities and have them think. */
+/** @brief	go through all the entities and have them think if they have a think function. */
 void entity_think_all();
 
 
@@ -81,11 +82,12 @@ void entity_think_all();
 void entity_close_system();
 
 
-/** @brief	draws an entity if the entity is inside the cameras bounds. */
+/** @brief	draws an entity to the screen using the camera's position and the enities position to find where the entity would be on the screen.   
+/** @param	entity	the entity in question*/
 void entity_draw(Entity *entity);
 
 /**
- * @brief	entity constructor.
+ * @brief	loads the entitie's sprite and creates the bounding box based on the size of the frame.
  * @param [in,out]	entity	If non-null, the entity.
  * @param	file		  	The filename for the entity's sprite.
  * @param	frameW		  	The frame width.
@@ -104,7 +106,7 @@ Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl
 int entity_intersect(Entity *a, Entity *b);
 
 /**
- * @brief	go through entire entity list checking if the given ent perfroming touch functions if either entity has them.
+ * @brief	go through entire entity list checking if the given ent is colliding with any others, perfroming touch functions if either entity has them.
  * 			used in the main game loop with camera entity so that only the entity's in the camera's bounding box are drawn
  * @param [in,out]	a	If non-null, the Entity to process.
  */

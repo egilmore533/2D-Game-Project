@@ -84,23 +84,24 @@ void professor_slice_touch(Entity *professor_slice, Entity *other)
 		slog("professor slice hasn't been loaded");
 		return;
 	}
-	if(!other)
+	else if(!other)
 	{
 		slog("Professor slice is hitting something that doesn't exist");
+		return;
 	}
-	if(!professor_slice->think)
+	else if(!professor_slice->think)
 	{
 		if(other == camera_get())
 		{
 			professor_slice->think = &professor_slice_think;
 		}
 	}
-	if(other == professor_slice->target)
+	else if(other == professor_slice->target)
 	{
-		slog("Player Dead");
-		return;
+		other->health--;
+		professor_slice->free(professor_slice);
 	}
-	if(other->owner == professor_slice->target)
+	else if(other->owner == professor_slice->target)
 	{
 		other->free(other);
 		professor_slice->free(professor_slice);

@@ -17,5 +17,13 @@ void power_up_double_tap(Entity *double_tap, int id, int targetID, float x, floa
 
 void power_up_double_tap_touch(Entity *double_tap, Entity *other);
 
+/*
+Heat Shield Code
+*/
+
+void power_up_heat_shield(Entity *heat_shield, int id, int targetID, float x, float y);
+
+void power_up_heat_shield_touch(Entity *heat_shield, Entity *other);
+
 
 #endif

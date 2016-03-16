@@ -78,11 +78,12 @@ void melt_touch(Entity *melt, Entity *other)
 			melt->think = &melt_think;
 		}
 	}
-	if(other == melt->target)
+	else if(other == melt->target)
 	{
-		slog("Player Dead");
+		other->health--;
+		melt->free(melt);
 	}
-	if(other->owner == melt->target)
+	else if(other->owner == melt->target)
 	{
 		other->free(other);
 		melt->free(melt);

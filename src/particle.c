@@ -1,5 +1,6 @@
 #include "particle.h"
 #include "simple_logger.h"
+#include "camera.h"
 #include <stdlib.h>
 
 static Particle *particleList = NULL;	/**< the list of active particles */
@@ -172,6 +173,9 @@ void particle_check_all_dead()
 
 void particle_draw_all()
 {
+	Entity *cam;
+	Vect2d positionRelative;
+	cam = camera_get();
 	int i;
 	if(!particleList)
 	{
@@ -184,7 +188,8 @@ void particle_draw_all()
 		{
 			continue;
 		}
-		sprite_draw(particleList[i].sprite, particleList[i].frame, particleList[i].position);
+		vect2d_subtract(particleList[i].position, cam->position, positionRelative); 
+		sprite_draw(particleList[i].sprite, particleList[i].frame, positionRelative);
 		particleList[i].frame++;
 	}
 }

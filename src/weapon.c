@@ -70,7 +70,7 @@ void weapon_pep_fire(Entity *player)
 	pos = vect2d_new(player->position.x + offsetX, player->position.y + offsetY); 
 	vel = vect2d_new(15, 0); 
 	spice = entity_load(spice, "images/spice.png", 32, 16, 1); 
-	spice->think = &weapon_think;
+	spice->think = &weapon_pep_think_particle;
 	spice->touch = &weapon_pep_touch;
 	spice->thinkRate = 200;
 	spice->nextThink = 0;
@@ -151,7 +151,7 @@ void weapon_melt_touch(Entity *cream, Entity *other)
 {
 	if(other == cream->target)
 	{
-		slog("Player Dead");
+		other->health--;
 		cream->free(cream);
 	}
 }
@@ -187,7 +187,7 @@ void weapon_professor_slice_touch(Entity *bread, Entity *other)
 {
 	if(other == bread->target)
 	{
-		slog("Player Dead");
+		other->health--;
 		bread->free(bread);
 	}
 }

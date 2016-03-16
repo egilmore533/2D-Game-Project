@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 	do
 	{
 		SDL_RenderClear(graphics_get_renderer());
+		level->background = sprite_load("images/background.png", 2732, 768, 1);
 		sprite_draw(level->background, 0, pos);
 		entity_think_all();
 		entity_update_all();

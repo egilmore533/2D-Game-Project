@@ -54,9 +54,10 @@ void clarence_touch(Entity *clarence, Entity *other)
 {
 	if(other == clarence->target)
 	{
-		slog("Player Dead");
+		other->health--;
+		clarence->free(clarence);
 	}
-	if(other->owner == clarence->target)
+	else if(other->owner == clarence->target)
 	{
 		other->free(other);
 		clarence->free(clarence);

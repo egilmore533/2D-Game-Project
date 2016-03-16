@@ -15,8 +15,10 @@
 static Level level;
 extern SDL_Surface *screen;
 
+#define ENTITIES_NUM	8
+
 static void (*entity_load_array[7]) (Entity *entity, int id, int target, float x, float y);
-char entity_types[7][16] = {"player","melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap"};
+char entity_types[ENTITIES_NUM][16] = {"player","melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield"};
 
 void level_load(char filename[])
 {
@@ -91,7 +93,7 @@ void level_load(char filename[])
 		//this signifies the end of a entity, needs to be after every entity even the last one before the end of the list
 		else if(buf[0] == '~')
 		{
-			for(i = 0; i < 7; i++)
+			for(i = 0; i < ENTITIES_NUM; i++)
 			{
 				if(strncmp(entity_type, entity_types[i], 16) == 0)
 				{
@@ -141,6 +143,7 @@ void level_initialize_system()
 	entity_load_array[4] = &milk_tank_load;
 	entity_load_array[5] = &clarence_load;
 	entity_load_array[6] = &power_up_double_tap;
+	entity_load_array[7] = &power_up_heat_shield;
 	atexit(level_close);
 }
 
