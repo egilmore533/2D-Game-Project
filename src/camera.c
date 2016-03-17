@@ -2,18 +2,21 @@
 #include "simple_logger.h"
 
 static Entity *camera = NULL;
+#define MOVEMENT_SPEED_X	1
+#define MOVEMENT_SPEED_Y	0
 
 void camera_initialize(Vect2d position, Vect2d dimensions, int id)
 {
+	Vect2d vel;
 	SDL_Rect bounds;
+	vect2d_set(vel, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	camera = entity_new();
 	bounds = rect(position.x, position.y, dimensions.x, dimensions.y);
 	camera->id = id;
 	camera->bounds = bounds;
 	camera->position = position;
+	camera->velocity = vel;
 	camera->think = &camera_think;
-	camera->thinkRate = 33;
-	camera->nextThink = 0;
 	camera->update = &camera_update;
 	camera->touch = &camera_touch;
 }
@@ -29,9 +32,6 @@ void camera_think(Entity *self)
 	{
 		return;
 	}
-	//move this so camera has it's own velocity, and moves in update like enemies
-	self->position.x += 3;
-	self->nextThink = SDL_GetTicks() + self->thinkRate;
 }
 
 void camera_update(Entity *self)
@@ -41,6 +41,7 @@ void camera_update(Entity *self)
 		slog("self doesn't point to anything");
 		return;
 	}
+	vect2d_add(self->position, self->velocity, self->position);
 	entity_intersect_all(self);
 }
 

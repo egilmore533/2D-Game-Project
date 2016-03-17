@@ -32,7 +32,7 @@ target: 1
 position: 4000 400
 ~
 
-entity: celery_stalker
+entity: spread
 id: 7
 target: 1
 position: 1300 400

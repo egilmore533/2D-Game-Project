@@ -7,6 +7,9 @@
 /** @brief	A macro that defines maximum inventory. */
 #define MAX_INVENTORY	12
 
+#define BOMB_SLOT		0 /**< bomb slot for the entities inventory */
+#define SPREAD_SLOT		1 /**< how many spread shot's the player has */
+
 
 /** @brief	entity structure with in use flag, id#, position, velocity, direction, bounding box, 
  *			sprite, frame#, inventory array, state, health, maxHealth
@@ -33,8 +36,8 @@ typedef struct Entity_s
 	void (*draw)(Sprite *sprite,
 				 int frame, 
 				 Vect2d drawPos);			/**< draw function for the entity, most if not all entities will just be using sprite_draw */
-	int nextThink;							/**< stuff for thinking and the think rate */
-	int thinkRate;							/**< rate of thinking */
+	Uint32 nextThink;							/**< stuff for thinking and the think rate */
+	Uint32 thinkRate;							/**< rate of thinking */
 	void (*think) (struct Entity_s *self);	/**< behavior of the entity will be defined in the think function */
 	void (*update) (struct Entity_s *self);	/**< update function for changing the entity's data */
 	void (*touch) (struct Entity_s *self,	

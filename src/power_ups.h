@@ -25,5 +25,18 @@ void power_up_heat_shield(Entity *heat_shield, int id, int targetID, float x, fl
 
 void power_up_heat_shield_touch(Entity *heat_shield, Entity *other);
 
+/*
+Bomb pickup code
+*/
+
+void power_up_bomb(Entity *bomb, int id, int targetID, float x, float y);
+void power_up_bomb_touch(Entity *bomb, Entity *other);
+
+/*
+Spread Code
+*/
+
+void power_up_spread(Entity *spread, int id, int targetID, float x, float y);
+void power_up_spread_touch(Entity *spread, Entity *other);
 
 #endif

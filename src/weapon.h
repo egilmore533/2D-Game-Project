@@ -35,24 +35,26 @@ void weapon_update(Entity *shot);
 Player specific weapon code
 */
 
+void weapon_pep_spread_fire(Entity *player);
+
 /**
  * @brief	loads the bullet to pep's position with offsets specific for pep, loads the sprite, and sets its think and touch to pep's specific weapon think and weapon touch.
  * @param [in,out]	player	If non-null, the player.
  */
-void weapon_pep_fire(Entity *player);
+void weapon_pep_spice_fire(Entity *player);
 
 /**
  * @brief	think that creates a particle for pep's spice shot and test's if the shot is out of the camera's bounds, deletes if so.
  * @param [in,out]	spice	the bullet.
  */
-void weapon_pep_think_particle(Entity *spice);
+void weapon_pep_spice_think(Entity *spice);
 
 /**
  * @brief	collision behavior for pep's bullet with other ents.
  * @param [in,out]	spice	the bullet.
  * @param [in,out]	other	whats touching the bullet.
  */
-void weapon_pep_touch(Entity *spice, Entity *other);
+void weapon_pep_spice_touch(Entity *spice, Entity *other);
 
 void weapon_pep_bomb(Entity *player);
 void weapon_pep_bomb_think(Entity *bomb);

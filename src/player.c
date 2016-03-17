@@ -4,7 +4,7 @@
 
 #define MOVEMENT_SPEED_X	10
 #define MOVEMENT_SPEED_Y	10
-
+#define CHARGE_RATE			1000
 
 void player_load(Entity *player, int id, int target, float x, float y)
 {
@@ -26,14 +26,16 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->owner = camera_get();
 	player->health = 1;
 	player->maxHealth = 1;
-	player->inventory[0] = 2; //position 0 for player's inventory is the player's bombs
+	player->inventory[BOMB_SLOT] = 2;
+	player->inventory[SPREAD_SLOT] = 1;
 }
 
 void player_think(Entity *player)
 {
+	static Uint32 full_charge;
 	const Uint8 *keys;
 	SDL_Event click_event;
-	static Uint32 clicked = 0;
+	static Uint8 clicked = 0;
 	if(!player)
 	{
 		slog("player not yet initialized");
@@ -43,25 +45,36 @@ void player_think(Entity *player)
 	keys = SDL_GetKeyboardState(NULL);
 	if(keys[SDL_SCANCODE_SPACE])
 	{
-		if(player->inventory[0] > 0)
+		if(SDL_GetTicks() >= player->nextThink)
 		{
-			weapon_pep_bomb(player);
-			player->inventory[0]--;
+			if(player->inventory[BOMB_SLOT] > 0)
+			{
+				weapon_pep_bomb(player);
+				player->inventory[BOMB_SLOT]--;
+				player->nextThink = SDL_GetTicks() + player->thinkRate;
+			}
 		}
 	}
 	if(click_event.type == SDL_MOUSEBUTTONDOWN)
 	{
 		clicked = 1;
+		full_charge = SDL_GetTicks() + CHARGE_RATE;
 	}
-	else if(click_event.type == SDL_MOUSEBUTTONUP)
+	else if(click_event.type == SDL_MOUSEBUTTONUP && clicked)
 	{
-		if(!(SDL_GetTicks() >= player->nextThink) || !clicked)
+		if(full_charge >= SDL_GetTicks())
 		{
-			return;
+			//this needs to be the spread version
+			weapon_pep_spread_fire(player);
+			player->nextThink = SDL_GetTicks() + player->thinkRate;
 		}
-		weapon_pep_fire(player);
+		else
+		{
+			//weapon_pep_big_spice_fire(player);
+			weapon_pep_spice_fire(player);
+			player->nextThink = SDL_GetTicks() + player->thinkRate;
+		}
 		clicked = 0;
-		player->nextThink = SDL_GetTicks() + player->thinkRate;
 	}
 }
 

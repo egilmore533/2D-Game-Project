@@ -3,6 +3,9 @@
 #include "camera.h"
 #include <stdlib.h>
 
+#define PEP_WEAPON_OFFSET_X	128
+#define PEP_WEAPON_OFFSET_Y	40
+
 /*
 universal weapon functions
 */
@@ -59,27 +62,50 @@ void weapon_update(Entity *shot)
 /*
 Pep firing functions
 */
-void weapon_pep_fire(Entity *player)
+
+void weapon_pep_spread_fire(Entity *player)
+{
+	Entity *spice_temp;
+	Uint8 shots;
+	Vect2d pos, vel;
+	int i;
+
+	shots = player->inventory[SPREAD_SLOT];
+	for(i = 0; i < shots; i++)
+	{
+		spice_temp = weapon_fire(player);
+		pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
+		spice_temp = entity_load(spice_temp, "images/spice.png", 32, 16, 1); 
+		spice_temp->think = &weapon_pep_spice_think;
+		spice_temp->touch = &weapon_pep_spice_touch;
+		spice_temp->thinkRate = 30;
+		spice_temp->nextThink = 0;
+		spice_temp->position = pos;
+		vel = vect2d_new(15, 0);
+		spice_temp->velocity = vel;
+	}
+}
+
+
+void weapon_pep_spice_fire(Entity *player)
 {
 	Entity *spice;
 	spice = weapon_fire(player);
 	Vect2d pos, vel;
-	int offsetX = 128; // this is the offset needed for pep's sprite this would change depending on the size of the sprite and where the bullet would come out
-	int offsetY = 40; // this is the offset needed for pep's sprite this would change depending on the size of the sprite and where the bullet would come out
 	
-	pos = vect2d_new(player->position.x + offsetX, player->position.y + offsetY); 
+	pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y); 
 	vel = vect2d_new(15, 0); 
-	spice = entity_load(spice, "images/spice.png", 32, 16, 1); 
-	spice->think = &weapon_pep_think_particle;
-	spice->touch = &weapon_pep_touch;
-	spice->thinkRate = 200;
+	spice = entity_load(spice, "images/pep_charge_shot.png", 64, 64, 1); 
+	spice->think = &weapon_pep_spice_think;
+	spice->touch = &weapon_pep_spice_touch;
+	spice->thinkRate = 30;
 	spice->nextThink = 0;
 	spice->position = pos;
 	spice->velocity = vel;
 
 }
 
-void weapon_pep_think_particle(Entity *spice)
+void weapon_pep_spice_think(Entity *spice)
 {
 	Particle *part;
 	Vect2d offset;
@@ -105,7 +131,7 @@ void weapon_pep_think_particle(Entity *spice)
 
 }
 
-void weapon_pep_touch(Entity *spice, Entity *other)
+void weapon_pep_spice_touch(Entity *spice, Entity *other)
 {
 	if(!spice)
 	{

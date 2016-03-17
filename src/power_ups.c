@@ -81,3 +81,43 @@ void power_up_heat_shield_touch(Entity *heat_shield, Entity *other)
 		heat_shield->free(heat_shield);
 	}
 }
+
+/*
+Bomb pickup code
+*/
+
+void power_up_bomb(Entity *bomb, int id, int targetID, float x, float y)
+{
+	bomb = power_up_spawn(id, targetID, x, y);
+	bomb = entity_load(bomb, "images/bomb_pickup.png", 32, 32, 1);
+	bomb->touch = &power_up_bomb_touch;
+}
+
+void power_up_bomb_touch(Entity *bomb, Entity *other)
+{
+	if(other == bomb->target)
+	{
+		other->inventory[BOMB_SLOT]++;
+		bomb->free(bomb);
+	}
+}
+
+/*
+Spread Code
+*/
+
+void power_up_spread(Entity *spread, int id, int targetID, float x, float y)
+{
+	spread = power_up_spawn(id, targetID, x, y);
+	spread = entity_load(spread, "images/heat_shield.png", 32, 32, 1);
+	spread->touch = &power_up_spread_touch;
+}
+
+void power_up_spread_touch(Entity *spread, Entity *other)
+{
+	if(other == spread->target)
+	{
+		other->inventory[SPREAD_SLOT]++;
+		spread->free(spread);
+	}
+}
