@@ -12,11 +12,18 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 
+/** @brief example macro to return the largest of two values.
+ * can be read as: if a greater than b then a, else b
+ */
 #define MAX(a,b) (a>b?a:b)
+
+/** @brief example macro to return the smallest of two values.
+ * can be read as: if a less than b then a, else b
+ */
 #define MIN(a,b) (a<b?a:b)
 
 /**
- * @brief	initializes the .
+ * @brief	initializes the main window and the main renderer.
  * @param [in,out]	windowName	If non-null, name of the window, will be displayed at the top of the window.
  * @param	viewWidth		  	Width of the view.
  * @param	viewHeight		  	Height of the view.
@@ -31,7 +38,7 @@ void graphics_init(
     int viewHeight,
     int renderWidth,
     int renderHeight,
-    float bgcolor[4],
+    float bgcolor[4], //
     int fullscreen);
 
 /**
@@ -44,7 +51,7 @@ void graphics_init(
 void graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
 
 
-/** @brief	delay's frame rate so the screen isn't ahead of the of the code. */
+/** @brief	delay's frame rate so the screen and code are synched up properly */
 void graphics_frame_delay();
 
 

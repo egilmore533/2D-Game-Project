@@ -10,13 +10,13 @@ typedef struct Particles
 {
 	Vect2d position;				/**< the position of the particle */
 	int inUse;						/**< the usage flag */
-	int frame;						/**< frame number of teh particle */
+	int frame;						/**< frame number of the particle, dies after the frame excceds 30 */
 	Sprite *sprite;					/**< the particle's sprite */
 
 }Particle;
 
 /**
- * @brief	free's the particle's sprite and then frees the pointer to the particle.
+ * @brief	frees the particle's sprite and then frees the pointer to the particle.
  * @param [in,out]	particle	If non-null, the particle.
  */
 void particle_free(Particle **particle);
@@ -32,13 +32,13 @@ void particle_close_system();
 void particle_initialize_system(int maxParticle);
 
 /**
- * @brief	allocates memory for a particle creates a particle in the first free space in particleList.
+ * @brief	creates a particle in the first free space in particleList, ends execution if there isn't room for another particle.
  * @return	null if it fails, else a Particle pointer.
  */
 Particle *particle_new();
 
 /**
- * @brief	randomly generates a particle in a position near the generator.
+ * @brief	generates a particle in a random position near the generator with a random frame number and a random particle sprite.
  * @param [in,out]	particle 	If non-null, the particle that needs to be generated.
  * @param [in,out]	generator	If non-null, the source that the particle is coming from.
  * @param	offsets			 	offsets defined by each generator as needed to make the particles look visually correct.
@@ -50,17 +50,17 @@ Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets);
 /**
  * @brief	checks if the particle has reached it's last frame
  * @param [in,out]	particle	If non-null, the particle to check.
- * @return	An int.
+ * @return	true if the particle is at or above its last frame, else false.
  */
 int particle_dead(Particle *particle);
 
 
-/** @brief	checks every partile in particleList with particle_dead. */
+/** @brief	checks every particle in particleList with particle_dead. */
 void particle_check_all_dead();
 
 
 /** @brief	draws every particle in particleList (in its relative position to the camera the same way entities are drawn)
-			that is in use and iterates goes to the next frame. */
+			that is in use and iterates the frame. */
 void particle_draw_all();
 
 #endif

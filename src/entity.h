@@ -8,9 +8,10 @@
 #define MAX_INVENTORY	12
 
 
-/** @brief	entity structure w/ flag to know if that entity is being used, position, velocity, bounding box,   
-/**			flag to know if it is the camera, sprite, current frame, inventory array, current state of the entity,   
-/**			and min/max health  
+/** @brief	entity structure with in use flag, id#, position, velocity, direction, bounding box, 
+ *			sprite, frame#, inventory array, state, health, maxHealth
+ *			owner entity, target entity, projectile entity,
+ *			nextThink, and thinkRate(higher the thinkRate the less it thinks)
 /**			function pointers - for drawing, thinking, updating, touching, and freeing */
 typedef struct Entity_s
 {
@@ -47,13 +48,13 @@ typedef struct Entity_s
 }Entity;
 
 /**
- * @brief	creates a new entity int the entity list, allocates memory for it and returns it
- * @return	A pointer to the new entity.
+ * @brief	creates a new entity in the entity list, allocates memory for it and returns a pointer to that position in the entity list
+ * @return	A pointer to the new entity in entityList.
  */
 Entity *entity_new();
 
 /**
- * @brief	Free's the entity from memory and then free's the pointer to that entity.
+ * @brief	Frees the entity from memory and then frees the pointer to that entity.
  * @param [in,out]	double pointer to the entity.
  */
 void entity_free(Entity **entity);

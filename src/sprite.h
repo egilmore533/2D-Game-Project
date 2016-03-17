@@ -6,7 +6,7 @@
 #include "vector.h"
 
 /**
- * @brief	Sprite structure used to hold texture, filename, frame dimensions, image
+ * @brief	Sprite structure used to hold entire texture, filename, frame dimensions, texture
  * 			dimensions and the number of frames per line, and a reference count.
  */
 typedef struct Sprite_t
@@ -32,16 +32,18 @@ void sprite_free(Sprite **sprite);
 void sprite_close_system();
 
 
-/** @brief	initializes the sprite system by allocating memory for the sprite list and setting each sprite's image to NULL */
+/** @brief	initializes the sprite system by allocating memory for the sprite list and setting each sprite's image to NULL 
+ *	@param maxSprite	the maximum number of sprite allowed in the game at a time
+ */
 void sprite_initialize_system(int maxSprite);
 
 /**
  * @brief	loads a given file to be a sprite, unless already loaded which it will then raise the reference count and
  * 			 and reuse the Sprite, ends execution if the sprite limit has been reached.
- * @param	file  	The file to be used as a sprite.
+ * @param	file  	The filepath to be used to load a sprite.
  * @param	frameW	Width of each sprite in the image.
  * @param	frameH	Height of each sprite in the image.
- * @param	fpl   	number of frames per line (usually 16)
+ * @param	fpl   	number of frames per line 
  * @return	null if it fails, else a Sprite pointer.
  */
 Sprite *sprite_load(char file[], int frameW, int frameH, int fpl);
@@ -50,9 +52,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl);
  * @brief	draws the sprite to the given position on the renderer used by all entities for their draw function pointer.
  * @param [in,out]	sprite  	If non-null, the sprite from the spriteList that will be rendered.
  * @param	frame				The frame that the sprite is currently on.
- * @param [in,out]	renderer	If non-null, the renderer that the sprite will be rendered to.
- * @param	drawx				The x coordinate that the sprite will be rendered to.
- * @param	drawy				The y coordinate that the sprite will be rendered to.
+ * @param	drawPos				The x and y coordinates that the sprite will be rendered to.
  */
 void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos);
 
