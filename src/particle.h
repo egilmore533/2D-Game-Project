@@ -59,8 +59,7 @@ int particle_dead(Particle *particle);
 void particle_check_all_dead();
 
 
-/** @brief	draws every particle in particleList (in its relative position to the camera the same way entities are drawn)
-			that is in use and iterates the frame. */
+/** @brief	draws every particle in particleList that is in use, and iterates the frame of that particle. */
 void particle_draw_all();
 
 #endif

@@ -85,7 +85,6 @@ void melt_touch(Entity *melt, Entity *other)
 	}
 	else if(other->owner == melt->target)
 	{
-		other->free(other);
 		melt->free(melt);
 	}
 }

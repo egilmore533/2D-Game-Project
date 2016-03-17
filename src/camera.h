@@ -21,7 +21,7 @@ void camera_initialize(Vect2d position, Vect2d dimensions, int id);
 void camera_think(Entity *camera);
 
 /**
- * @brief	performs the intersect all to check what entities are inside the camera's bounds, then it will draw them reative tot he camera.
+ * @brief	performs the intersect all to check what entities are inside the camera's bounds, then it will draw them reative to the camera.
  * @param [in,out]	self	If non-null, the camera entity.
  */
 void camera_update(Entity *self);

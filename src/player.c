@@ -26,10 +26,12 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->owner = camera_get();
 	player->health = 1;
 	player->maxHealth = 1;
+	player->inventory[0] = 2; //position 0 for player's inventory is the player's bombs
 }
 
 void player_think(Entity *player)
 {
+	const Uint8 *keys;
 	SDL_Event click_event;
 	static Uint32 clicked = 0;
 	if(!player)
@@ -38,6 +40,15 @@ void player_think(Entity *player)
 		return;
 	}
 	SDL_PollEvent(&click_event);
+	keys = SDL_GetKeyboardState(NULL);
+	if(keys[SDL_SCANCODE_SPACE])
+	{
+		if(player->inventory[0] > 0)
+		{
+			weapon_pep_bomb(player);
+			player->inventory[0]--;
+		}
+	}
 	if(click_event.type == SDL_MOUSEBUTTONDOWN)
 	{
 		clicked = 1;

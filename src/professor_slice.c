@@ -103,7 +103,6 @@ void professor_slice_touch(Entity *professor_slice, Entity *other)
 	}
 	else if(other->owner == professor_slice->target)
 	{
-		other->free(other);
 		professor_slice->free(professor_slice);
 		return;
 	}

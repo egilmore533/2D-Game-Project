@@ -30,6 +30,11 @@ void weapon_free(Entity *shot);
  */
 void weapon_update(Entity *shot);
 
+
+/*
+Player specific weapon code
+*/
+
 /**
  * @brief	loads the bullet to pep's position with offsets specific for pep, loads the sprite, and sets its think and touch to pep's specific weapon think and weapon touch.
  * @param [in,out]	player	If non-null, the player.
@@ -49,7 +54,8 @@ void weapon_pep_think_particle(Entity *spice);
  */
 void weapon_pep_touch(Entity *spice, Entity *other);
 
-
+void weapon_pep_bomb(Entity *player);
+void weapon_pep_bomb_think(Entity *bomb);
 
 
  /*

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "simple_logger.h"
 #include "graphics.h"
+#include "camera.h"
 
 static Sprite *spriteList = NULL;
 static int spriteNum;
@@ -156,6 +157,10 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 
 void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 {
+	Vect2d positionRelative;
+	Entity *cam;
+	cam = camera_get();
+	vect2d_subtract(drawPos, cam->position, positionRelative); 
 	if(!sprite)
 	{
 		slog("sprite doesn't point to anything");
@@ -168,8 +173,8 @@ void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 	source.w = sprite->frameSize.x;
 	source.h = sprite->frameSize.y;
 	
-	destination.x = drawPos.x;
-	destination.y = drawPos.y;
+	destination.x = positionRelative.x;
+	destination.y = positionRelative.y;
 	destination.w = sprite->frameSize.x;
 	destination.h = sprite->frameSize.y;
 	SDL_RenderCopy(renderer, sprite->image, &source, &destination);

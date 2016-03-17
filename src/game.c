@@ -19,7 +19,7 @@ extern SDL_Surface *screen;
 extern SDL_Surface *buffer; /*pointer to the draw buffer*/
 extern SDL_Rect Camera;
 
-void Init_All();
+void initialize_all();
 
 int getImagePathFromFile(char *filepath,char * filename);
 int getCoordinatesFromFile(int *x, int *y,char * filename);
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	pos = vect2d_new(0,0);
 	SDL_Rect srcRect={0,0,1024,768};
 
-	Init_All();
+	initialize_all();
 	level = level_get();
 	
 	done = 0;
@@ -78,21 +78,13 @@ void CleanUpAll()
 	/*any other cleanup functions can be added here*/ 
 }
 
-void Init_All()
+void initialize_all()
 {
-	float bgcolor[] = {1,1,1,1};
 	int width = 1366;
 	int height = 768;
 	Vect2d cameraPosition, cameraDimensions;
 
-	graphics_init(
-		"Pep's Spicy Adventure",
-		width,
-		height,
-		width,
-		height,
-		bgcolor,
-		0);
+	graphics_initialize("Pep's Spicy Adventure", width, height, width, height, 0);
 
   
 	init_logger("text/log.txt"); //init simple logger from DJ's source code

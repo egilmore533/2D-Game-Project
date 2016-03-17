@@ -1,0 +1,39 @@
+image: images/background.png
+width: 2732
+height: 768
+
+
+entity: player
+id: 1
+position: 200 400
+~
+
+entity: celery_stalker
+id: 3
+target: 1
+position: 2000 200
+~
+
+entity: melt
+id: 4
+target: 1
+position: 5000 400
+~
+
+entity: clarence
+id: 5
+target: 1
+position: 3000 10
+~
+
+entity: celery_stalker
+id: 6
+target: 1
+position: 4000 400
+~
+
+entity: celery_stalker
+id: 7
+target: 1
+position: 1300 400
+~

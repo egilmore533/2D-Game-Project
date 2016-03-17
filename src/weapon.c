@@ -119,6 +119,29 @@ void weapon_pep_touch(Entity *spice, Entity *other)
 	}
 }
 
+void weapon_pep_bomb(Entity *player)
+{
+	Entity *bomb = weapon_fire(player);
+	Entity *cam;
+	Vect2d pos;
+
+	cam = camera_get();
+	vect2d_set(pos, cam->position.x, cam->position.y);
+	bomb = entity_load(bomb, "images/pep_bomb.png", 1366, 768, 1);
+	bomb->thinkRate = 300;
+	bomb->nextThink = bomb->thinkRate + SDL_GetTicks();
+	bomb->position = pos;
+	bomb->think = &weapon_pep_bomb_think;
+}
+
+void weapon_pep_bomb_think(Entity *bomb)
+{
+	if(SDL_GetTicks() >= bomb->nextThink)
+	{
+		bomb->free(bomb);
+	}
+}
+
 /*
 weapon stuff for melt
  */

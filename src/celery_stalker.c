@@ -46,7 +46,8 @@ void celery_stalker_think_moving(Entity *celery_stalker)
 
 void celery_stalker_update(Entity *celery_stalker)
 {
-	if(celery_stalker->think)
+	//this checks if the celery_stalker is using the moving think function
+	if(celery_stalker->think == &celery_stalker_think_moving)
 	{
 		vect2d_add(celery_stalker->position, celery_stalker->velocity, celery_stalker->position);
 		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
@@ -72,7 +73,6 @@ void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
 	}
 	else if(other->owner == celery_stalker->target)
 	{
-		other->free(other);
 		celery_stalker->free(celery_stalker);
 	}
 }

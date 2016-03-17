@@ -49,7 +49,7 @@ void sprite_initialize_system(int maxSprite);
 Sprite *sprite_load(char file[], int frameW, int frameH, int fpl);
 
 /**
- * @brief	draws the sprite to the given position on the renderer used by all entities for their draw function pointer.
+ * @brief	draws a sprite to the renderer, finding its relative position to the camera, and the specific frame to draw on its texture
  * @param [in,out]	sprite  	If non-null, the sprite from the spriteList that will be rendered.
  * @param	frame				The frame that the sprite is currently on.
  * @param	drawPos				The x and y coordinates that the sprite will be rendered to.

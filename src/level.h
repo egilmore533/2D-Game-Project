@@ -6,9 +6,8 @@
 /** @brief the maximum length of level name
  */
 #define LEVEL_NAME_LENGTH	80
-#define MAX_ENTITIES		50 //limit on enemies that can appear in a scripted level
 
-/** @brief simple level struct that has a loaded flag, file path, background sprite, bounds for the level, and an entityCount
+/** @brief simple level struct that has a loaded flag, file path, background sprite, and bounds for the level
  */
 typedef struct
 {
@@ -16,7 +15,6 @@ typedef struct
 	char *file;
 	Sprite *background;
 	SDL_Rect bounds;
-	int entityCount; //number of entities that will appear in this level
 }Level;
 
 /** @brief the code that parses the level file and creates the background sprite along with the player, enemies, and power_ups for the level

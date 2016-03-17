@@ -60,7 +60,6 @@ void milk_tank_touch(Entity *milk_tank, Entity *other)
 	}
 	else if(other->owner == milk_tank->target) //if the other entity is owned by milk_tank's entity then it is attacking milk_tank
 	{
-		other->free(other);
 		milk_tank->health--;
 	}
 }

@@ -59,7 +59,6 @@ void clarence_touch(Entity *clarence, Entity *other)
 	}
 	else if(other->owner == clarence->target)
 	{
-		other->free(other);
 		clarence->free(clarence);
 	}
 }

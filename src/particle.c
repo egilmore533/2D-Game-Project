@@ -173,9 +173,6 @@ void particle_check_all_dead()
 
 void particle_draw_all()
 {
-	Entity *cam;
-	Vect2d positionRelative;
-	cam = camera_get();
 	int i;
 	if(!particleList)
 	{
@@ -188,8 +185,7 @@ void particle_draw_all()
 		{
 			continue;
 		}
-		vect2d_subtract(particleList[i].position, cam->position, positionRelative); 
-		sprite_draw(particleList[i].sprite, particleList[i].frame, positionRelative);
+		sprite_draw(particleList[i].sprite, particleList[i].frame, particleList[i].position);
 		particleList[i].frame++;
 	}
 }

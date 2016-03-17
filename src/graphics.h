@@ -32,14 +32,7 @@
  * @param	bgcolor			  	The bgcolor.
  * @param	fullscreen		  	flag to use fullscreen or not.
  */
-void graphics_init(
-	char *windowName,
-    int viewWidth,
-    int viewHeight,
-    int renderWidth,
-    int renderHeight,
-    float bgcolor[4], //
-    int fullscreen);
+void graphics_initialize(char *windowName, int viewWidth, int viewHeight, int renderWidth, int renderHeight, int fullscreen);
 
 /**
  * @brief	render SDL surface to screen.
@@ -57,6 +50,9 @@ void graphics_frame_delay();
 
 /** @brief	goes to the next frame then holds for a frame delay. */
 void graphics_next_frame();
+
+/** @brief closes the window and the renderer at exit */
+void g_graphics_close();
 
 /**
  * @brief	getter for the game's renderer so the rest of the code can use it.

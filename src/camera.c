@@ -11,7 +11,6 @@ void camera_initialize(Vect2d position, Vect2d dimensions, int id)
 	camera->id = id;
 	camera->bounds = bounds;
 	camera->position = position;
-	camera->cameraEnt = 1;
 	camera->think = &camera_think;
 	camera->thinkRate = 33;
 	camera->nextThink = 0;
@@ -30,6 +29,7 @@ void camera_think(Entity *self)
 	{
 		return;
 	}
+	//move this so camera has it's own velocity, and moves in update like enemies
 	self->position.x += 3;
 	self->nextThink = SDL_GetTicks() + self->thinkRate;
 }

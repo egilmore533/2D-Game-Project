@@ -22,17 +22,13 @@ typedef struct Entity_s
 	Vect2d direction;					/**< normalized vector of which way the  entity will be moving */
 	SDL_Rect bounds;					/**< the bounding box of the entity */
 	
-	int cameraEnt;						/**< flag that is set to 1 if the entity is a camera*/
-	
 	Sprite *sprite;						/**< sprite component of the entity */
 	int frame;							/**< frame numebr the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
-	int state;							/**< what state the enemy is in, states will need to be enumerated */
 	int health, maxHealth;				/**< the current healt and total health of the entity */
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
 	struct Entity_s *target;			/**< the target of this struct (entity will be chasing player) */
-	struct Entity_s *projectile;
 
 	void (*draw)(Sprite *sprite,
 				 int frame, 
@@ -83,7 +79,7 @@ void entity_think_all();
 void entity_close_system();
 
 
-/** @brief	draws an entity to the screen using the camera's position and the enities position to find where the entity would be on the screen.   
+/** @brief	draws an entity to the screen using sprite_draw   
 /** @param	entity	the entity in question*/
 void entity_draw(Entity *entity);
 
