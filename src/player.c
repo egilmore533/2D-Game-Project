@@ -27,7 +27,7 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->health = 1;
 	player->maxHealth = 1;
 	player->inventory[BOMB_SLOT] = 2;
-	player->inventory[SPREAD_SLOT] = 1;
+	player->inventory[SPREAD_SLOT] = 0;
 }
 
 void player_think(Entity *player)
@@ -70,8 +70,7 @@ void player_think(Entity *player)
 		}
 		else
 		{
-			//weapon_pep_big_spice_fire(player);
-			weapon_pep_spice_fire(player);
+			weapon_pep_charge_fire(player);
 			player->nextThink = SDL_GetTicks() + player->thinkRate;
 		}
 		clicked = 0;

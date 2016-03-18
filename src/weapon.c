@@ -6,6 +6,14 @@
 #define PEP_WEAPON_OFFSET_X	128
 #define PEP_WEAPON_OFFSET_Y	40
 
+#define PEP_CHARGE_BULLET_VEL_X		20
+#define PEP_CHARGE_BULLET_VEL_Y		20
+
+#define PEP_SPREAD_BULLET_VEL_X		15
+#define PEP_SPREAD_BULLET_VEL_Y		15
+
+extern Entity *make_spread_bullet(Entity *owner);
+
 /*
 universal weapon functions
 */
@@ -63,58 +71,82 @@ void weapon_update(Entity *shot)
 Pep firing functions
 */
 
+///////////////////////Spread shot///////////////////////////////////
 void weapon_pep_spread_fire(Entity *player)
 {
 	Entity *spice_temp;
+	Vect2d upPos, downPos; //used to calculate the velocity of each spread shot bullet by normalizing the distance between the bullets start position and this point
 	Uint8 shots;
 	Vect2d pos, vel;
 	int i;
 
 	//need to set default SPREAD_SLOT value to 0 so it will fire once for 0 instead of twice for 1
 	shots = player->inventory[SPREAD_SLOT];
-	for(i = 0; i < shots; i++)
+	for(i = 0; i <= shots; i++)
 	{
-		/*
-		check if i == 0
-		then 
-			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y);
-			//set velocity to be normal like charge shot
-		else
-			set position once, fire then set new position opposite and fire again
-			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y - (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
-			set velocities to make it go at an angle? 
-			//fire code
-			
-			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
-			set velocities to make it go at an angle? 
-			//fire code again?
-		*/
-		
-		spice_temp = weapon_fire(player);
-		pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
-		spice_temp = entity_load(spice_temp, "images/spice.png", 32, 16, 1); 
-		spice_temp->think = &weapon_pep_spice_think;
-		spice_temp->touch = &weapon_pep_spice_touch;
-		spice_temp->thinkRate = 30;
-		spice_temp->nextThink = 0;
-		spice_temp->position = pos;
-		vel = vect2d_new(15, 0);
-		spice_temp->velocity = vel;
+		if(i == 0) //will always fire one shot straight forward
+		{
+			//this is the center bullet
+			spice_temp = make_spread_bullet(player);
+			vect2d_set(spice_temp->velocity, PEP_SPREAD_BULLET_VEL_X, 0);//will always be moving straight accross the screen horizontally
+		}
+		else // each extra spread shot pickup gives one extra top and bottom bullet
+		{
+			//bottom bullet
+			spice_temp = make_spread_bullet(player);
+			upPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y + shots * shots);
+			vect2d_subtract(upPos, spice_temp->position, spice_temp->direction);
+			vect2d_normalize(&spice_temp->direction);
+			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
+
+			//top bullet
+			spice_temp = make_spread_bullet(player);
+			downPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y - shots * 2);
+			vect2d_subtract(downPos, spice_temp->position, spice_temp->direction);
+			vect2d_normalize(&spice_temp->direction);
+			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
+		}
 	}
 }
 
+void weapon_pep_spread_touch(Entity *spread, Entity *other)//if other is an enemy deplete its health, if its a power_up nothing will happen to it, but enemies will die
+{
+	if(other->target == spread->owner)
+	{
+		other->health--; // one damage for normal bullets
+		spread->free(spread);
+	}
+}
 
-void weapon_pep_spice_fire(Entity *player)
+Entity *make_spread_bullet(Entity *owner)
+{
+	Entity *spread_bullet;
+	Vect2d pos, vel;
+	spread_bullet = weapon_fire(owner);
+	spread_bullet = entity_load(spread_bullet, "images/spice.png", 32, 16, 1); 
+	spread_bullet->think = &weapon_pep_think;
+	spread_bullet->touch = &weapon_pep_spread_touch;
+	spread_bullet->thinkRate = 30;
+	spread_bullet->nextThink = 0;
+	pos = vect2d_new(owner->position.x + PEP_WEAPON_OFFSET_X, owner->position.y + PEP_WEAPON_OFFSET_Y); 
+	spread_bullet->position = pos;
+	vel = vect2d_new(PEP_SPREAD_BULLET_VEL_X, PEP_SPREAD_BULLET_VEL_Y);
+	spread_bullet->velocity = vel;
+	return spread_bullet;
+}
+
+////////////////////Charge Shot////////////////////////////////
+void weapon_pep_charge_fire(Entity *player)
 {
 	Entity *spice;
 	spice = weapon_fire(player);
 	Vect2d pos, vel;
 	
 	pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y); 
-	vel = vect2d_new(15, 0); 
+	vel = vect2d_new(PEP_CHARGE_BULLET_VEL_X, 0); 
 	spice = entity_load(spice, "images/pep_charge_shot.png", 64, 64, 1); 
-	spice->think = &weapon_pep_spice_think;
-	spice->touch = &weapon_pep_spice_touch;
+	spice->think = &weapon_pep_think;
+	spice->touch = &weapon_pep_charge_touch;
 	spice->thinkRate = 30;
 	spice->nextThink = 0;
 	spice->position = pos;
@@ -122,7 +154,7 @@ void weapon_pep_spice_fire(Entity *player)
 
 }
 
-void weapon_pep_spice_think(Entity *spice)
+void weapon_pep_think(Entity *spice) //this is used for spread shot and charge shot so all spiciness 
 {
 	Particle *part;
 	Vect2d offset;
@@ -148,7 +180,7 @@ void weapon_pep_spice_think(Entity *spice)
 
 }
 
-void weapon_pep_spice_touch(Entity *spice, Entity *other)
+void weapon_pep_charge_touch(Entity *spice, Entity *other)
 {
 	if(!spice)
 	{
@@ -160,21 +192,30 @@ void weapon_pep_spice_touch(Entity *spice, Entity *other)
 		slog("other doesn't point to anything");
 		return;
 	}
+	if(other->target == spice->owner)
+	{
+		other->health -= 5; //five damage is fairly big considering most enemies only have 1 health
+		//charge shot is so sick it blows up the baddies and keeps going looking for more baddies to tear up
+	}
 }
 
+//////////////////Bomb////////////////////////////////
 void weapon_pep_bomb(Entity *player)
 {
 	Entity *bomb = weapon_fire(player);
 	Entity *cam;
-	Vect2d pos;
+	Vect2d pos, vel;
 
 	cam = camera_get();
 	vect2d_set(pos, cam->position.x, cam->position.y);
+	vect2d_set(vel, cam->velocity.x, cam->velocity.y);
 	bomb = entity_load(bomb, "images/pep_bomb.png", 1366, 768, 1);
 	bomb->thinkRate = 300;
 	bomb->nextThink = bomb->thinkRate + SDL_GetTicks();
 	bomb->position = pos;
+	bomb->velocity = vel;
 	bomb->think = &weapon_pep_bomb_think;
+	bomb->touch = &weapon_pep_bomb_touch;
 }
 
 void weapon_pep_bomb_think(Entity *bomb)
@@ -182,6 +223,14 @@ void weapon_pep_bomb_think(Entity *bomb)
 	if(SDL_GetTicks() >= bomb->nextThink)
 	{
 		bomb->free(bomb);
+	}
+}
+
+void weapon_pep_bomb_touch(Entity *bomb, Entity *other)
+{
+	if(other->target == bomb->owner)//if other is an enemy deplete its health, if its a power_up nothing will happen to it, but enemies will die
+	{
+		other->health -= 10; //ten damage should kill anything, but leave health If I made a boss
 	}
 }
 

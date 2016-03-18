@@ -25,6 +25,8 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 	clarence->direction = dir;
 	clarence->velocity = vel;
 	clarence->position = pos;
+	clarence->maxHealth = 1;
+	clarence->health = 1;
 }
 
 void clarence_think_start(Entity *clarence)
@@ -48,6 +50,10 @@ void clarence_update(Entity *clarence)
 	vect2d_add(clarence->position, clarence->velocity, clarence->position);
 	vect2d_set(clarence->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	entity_intersect_all(clarence);
+	if(clarence->health <= 0)
+	{
+		clarence->free(clarence);
+	}
 }
 
 void clarence_touch(Entity *clarence, Entity *other)
@@ -55,10 +61,6 @@ void clarence_touch(Entity *clarence, Entity *other)
 	if(other == clarence->target)
 	{
 		other->health--;
-		clarence->free(clarence);
-	}
-	else if(other->owner == clarence->target)
-	{
 		clarence->free(clarence);
 	}
 }

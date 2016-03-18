@@ -25,6 +25,8 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 	celery_stalker->direction = dir;
 	celery_stalker->velocity = vel;
 	celery_stalker->position = pos;
+	celery_stalker->health = 1;
+	celery_stalker->maxHealth = 1;
 }
 
 void celery_stalker_think_start(Entity *celery_stalker)
@@ -57,6 +59,10 @@ void celery_stalker_update(Entity *celery_stalker)
 		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(celery_stalker);
+	if(celery_stalker->health <= 0)
+	{
+		celery_stalker->free(celery_stalker);
+	}
 }
 
 void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
@@ -73,10 +79,6 @@ void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
 	else if(other == celery_stalker->target)
 	{
 		other->health--;
-		celery_stalker->free(celery_stalker);
-	}
-	else if(other->owner == celery_stalker->target)
-	{
 		celery_stalker->free(celery_stalker);
 	}
 }

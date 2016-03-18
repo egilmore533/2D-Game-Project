@@ -36,28 +36,31 @@ Player specific weapon code
 */
 
 void weapon_pep_spread_fire(Entity *player);
+void weapon_pep_spread_touch(Entity *spread, Entity *other);
+
 
 /**
  * @brief	loads the bullet to pep's position with offsets specific for pep, loads the sprite, and sets its think and touch to pep's specific weapon think and weapon touch.
  * @param [in,out]	player	If non-null, the player.
  */
-void weapon_pep_spice_fire(Entity *player);
+void weapon_pep_charge_fire(Entity *player);
 
 /**
  * @brief	think that creates a particle for pep's spice shot and test's if the shot is out of the camera's bounds, deletes if so.
  * @param [in,out]	spice	the bullet.
  */
-void weapon_pep_spice_think(Entity *spice);
+void weapon_pep_think(Entity *spice);
 
 /**
  * @brief	collision behavior for pep's bullet with other ents.
  * @param [in,out]	spice	the bullet.
  * @param [in,out]	other	whats touching the bullet.
  */
-void weapon_pep_spice_touch(Entity *spice, Entity *other);
+void weapon_pep_charge_touch(Entity *spice, Entity *other);
 
 void weapon_pep_bomb(Entity *player);
 void weapon_pep_bomb_think(Entity *bomb);
+void weapon_pep_bomb_touch(Entity *bomb, Entity *other);
 
 
  /*
@@ -94,5 +97,11 @@ void weapon_professor_slice_fire(Entity *professor_slice);
  * @param  other			what the bread collided with
  */
 void weapon_professor_slice_touch(Entity *bread, Entity *other);
+
+/**
+ * @brief slows the breads velocity, according to the think rate, until it stops
+ * @param [in, out] bread			the bread
+ */
+void weapon_professor_slice_think(Entity *bread);
 
 #endif

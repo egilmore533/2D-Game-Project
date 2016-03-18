@@ -28,6 +28,8 @@ void professor_slice_load(Entity *professor_slice, int id, int target, float x, 
 	professor_slice->position = pos;
 	professor_slice->thinkRate = 2000;
 	professor_slice->nextThink = 0;
+	professor_slice->maxHealth = 3;
+	professor_slice->health = 3;
 }
 
 void professor_slice_think(Entity *professor_slice)
@@ -61,6 +63,10 @@ void professor_slice_update(Entity *professor_slice)
 		vect2d_set(professor_slice->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(professor_slice);
+	if(professor_slice->health <= 0)
+	{
+		professor_slice->free(professor_slice);
+	}
 }
 
 void professor_slice_free(Entity *professor_slice)
@@ -89,7 +95,8 @@ void professor_slice_touch(Entity *professor_slice, Entity *other)
 		slog("Professor slice is hitting something that doesn't exist");
 		return;
 	}
-	else if(!professor_slice->think)
+	
+	if(!professor_slice->think)
 	{
 		if(other == camera_get())
 		{
@@ -100,10 +107,5 @@ void professor_slice_touch(Entity *professor_slice, Entity *other)
 	{
 		other->health--;
 		professor_slice->free(professor_slice);
-	}
-	else if(other->owner == professor_slice->target)
-	{
-		professor_slice->free(professor_slice);
-		return;
 	}
 }

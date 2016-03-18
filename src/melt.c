@@ -29,6 +29,8 @@ void melt_load(Entity *melt, int id, int target, float x, float y)
 	melt->velocity = vel;
 	melt->thinkRate = 800;
 	melt->nextThink = 0;
+	melt->maxHealth = 1;
+	melt->health = 1;
 }
 
 void melt_think(Entity *melt)
@@ -53,6 +55,10 @@ void melt_update(Entity *melt)
 		vect2d_set(melt->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(melt);
+	if(melt->health <= 0)
+	{
+		melt->free(melt);
+	}
 }
 
 void melt_free(Entity *melt)
@@ -81,10 +87,6 @@ void melt_touch(Entity *melt, Entity *other)
 	else if(other == melt->target)
 	{
 		other->health--;
-		melt->free(melt);
-	}
-	else if(other->owner == melt->target)
-	{
 		melt->free(melt);
 	}
 }
