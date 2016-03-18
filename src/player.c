@@ -8,6 +8,9 @@
 #define RESPAWN_RATE		1000
 
 Uint32	respawn_moment;
+Uint8	lives = 3;
+
+extern void player_death(int id, Vect2d pos);
 
 void player_load(Entity *player, int id, int target, float x, float y)
 {
@@ -30,7 +33,7 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->health = 1;
 	player->state = NORMAL_STATE;
 	player->bullet_state = NORMAL_SHOT_STATE;
-	player->inventory[LIVES_SLOT] = 3;
+	player->inventory[LIVES_SLOT] = lives;
 	player->inventory[BOMB_SLOT] = 2;
 	player->inventory[SPREAD_SLOT] = 0;
 }
@@ -84,6 +87,8 @@ void player_think(Entity *player)
 
 void player_update(Entity *player)
 {
+	int tempID;
+	Vect2d tempPos;
 	const Uint8 *keys;
 	if(!player)
 	{
@@ -108,8 +113,18 @@ void player_update(Entity *player)
 	//if the player's health is less than 1 then kill
 	else if(player->health <= 0)
 	{
-		//put player_dead_think here if thats the route I go for this problem
+		if(lives == 0)
+		{
+			//game over code here
+			player->free(player);
+			return;
+		}
+		lives--;
+		tempID = player->id;
+		tempPos = player->position;
 		player->free(player);
+		respawn_moment = SDL_GetTicks() + RESPAWN_RATE;
+		player_death(tempID, tempPos);
 		return;
 	}
 	keys = SDL_GetKeyboardState(NULL);
@@ -187,4 +202,18 @@ void player_free(Entity *player)
 	player->draw = NULL;
 	player->think = NULL;
 	entity_free(&player);
+}
+
+void player_death(int id, Vect2d pos)
+{
+	Entity *new_player = NULL;
+
+	while(1)
+	{
+		if(SDL_GetTicks() >= respawn_moment)
+		{
+			player_load(new_player, id, 0, camera_get()->position.x, pos.y); //spwans the player up against the camera's leftmost wall at the y point they were on when they died
+			return;
+		}
+	}
 }
