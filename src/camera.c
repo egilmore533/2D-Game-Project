@@ -18,7 +18,6 @@ void camera_initialize(Vect2d position, Vect2d dimensions, int id)
 	camera->velocity = vel;
 	camera->think = &camera_think;
 	camera->update = &camera_update;
-	camera->touch = &camera_touch;
 }
 
 void camera_think(Entity *self)
@@ -42,7 +41,11 @@ void camera_update(Entity *self)
 		return;
 	}
 	vect2d_add(self->position, self->velocity, self->position);
+
+	//only draw things once, if I left camera touch always on it would draw twice 
+	self->touch = &camera_touch;
 	entity_intersect_all(self);
+	self->touch = NULL;
 }
 
 void camera_touch(Entity *self, Entity *other)

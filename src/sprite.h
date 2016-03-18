@@ -1,7 +1,6 @@
 #ifndef _SPRITE_H__
 #define _SPRITE_H__
 
-#include "SDL.h"
 #include "SDL_image.h"
 #include "vector.h"
 

@@ -33,4 +33,6 @@ void player_update(Entity *player);
  */
 void player_free(Entity *player);
 
+void player_add_life();
+
 #endif 

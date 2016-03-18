@@ -1,7 +1,8 @@
 #include "power_ups.h"
 #include "simple_logger.h"
+#include "player.h"
 
-#define MOVEMENT_SPEED_X	-3
+#define MOVEMENT_SPEED_X	0
 #define MOVEMENT_SPEED_Y	0
 
 Entity *power_up_spawn(int id, int targetID, float x, float y)
@@ -10,20 +11,17 @@ Entity *power_up_spawn(int id, int targetID, float x, float y)
 	Vect2d vel, pos;
 
 	vect2d_set(pos, x, y);
-	vect2d_set(vel, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	power_up = entity_new(); 
 	power_up->draw = &sprite_draw;
 	power_up->update = &power_up_update;
 	power_up->free = &power_up_free;
 	power_up->target = entity_get_by_id(targetID);
-	power_up->velocity = vel;
 	power_up->position = pos;
 	return power_up;
 }
 
 void power_up_update(Entity *power_up)
 {
-	vect2d_add(power_up->position, power_up->velocity, power_up->position);
 	entity_intersect_all(power_up);
 }
 
@@ -141,4 +139,23 @@ void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other)
 		sticky_shot->free(sticky_shot);
 	}
 
+}
+
+/*
+Extra Life Code
+*/
+
+void power_up_extra_life(Entity *extra_life, int id, int targetID, float x, float y)
+{
+	extra_life = power_up_spawn(id, targetID, x, y);
+	extra_life = entity_load(extra_life, "images/life_pickup.png", 32, 32, 1);
+	extra_life->touch = &power_up_extra_life_touch;
+}
+void power_up_extra_life_touch(Entity *extra_life, Entity *other)
+{
+	if(other == extra_life->target)
+	{
+		player_add_life();
+		extra_life->free(extra_life);
+	}
 }

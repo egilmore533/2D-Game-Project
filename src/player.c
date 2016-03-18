@@ -33,7 +33,7 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->health = 1;
 	player->state = NORMAL_STATE;
 	player->bullet_state = NORMAL_SHOT_STATE;
-	player->inventory[LIVES_SLOT] = lives;
+	player->inventory[LIVES_SLOT] = lives; //this is never really used, so I should probably change this or something
 	player->inventory[BOMB_SLOT] = 2;
 	player->inventory[SPREAD_SLOT] = 0;
 }
@@ -216,4 +216,9 @@ void player_death(int id, Vect2d pos)
 			return;
 		}
 	}
+}
+
+void player_add_life()
+{
+	lives++;
 }

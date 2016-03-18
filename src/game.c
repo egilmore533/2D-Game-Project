@@ -1,23 +1,11 @@
-#include <stdlib.h>
-#include "SDL.h"
-#include "SDL_image.h"
-#include "graphics.h"
-#include <string.h>
 #include <stdio.h>
-#include <math.h>
-#include "sprite.h"
+
+#include "graphics.h"
 #include "simple_logger.h"
-#include "vector.h"
-#include "entity.h"
-#include "player.h"
-#include "mouse.h"
 #include "particle.h"
 #include "camera.h"
 #include "level.h"
 
-extern SDL_Surface *screen;
-extern SDL_Surface *buffer; /*pointer to the draw buffer*/
-extern SDL_Rect Camera;
 
 void initialize_all();
 
@@ -31,27 +19,22 @@ int main(int argc, char *argv[])
 {
 	int done;
 	Level *level;
-	int tx = 0,ty = 0;
 	const Uint8 *keys;
-
-	Entity *celery_stalker = NULL;
-	Entity *celery_stalker2 = NULL;
-	Entity *celery_stalker3 = NULL;
-	Entity *celery_stalker4 = NULL;
-	Entity *celery_stalker5 = NULL;
+	SDL_Renderer *the_renderer;
   
-	Vect2d pos, vel;
+	Vect2d pos;
 	pos = vect2d_new(0,0);
-	SDL_Rect srcRect={0,0,1024,768};
 
 	initialize_all();
 	level = level_get();
 	
+	the_renderer = graphics_get_renderer();
+
 	done = 0;
 	do
 	{
-		SDL_RenderClear(graphics_get_renderer());
-		level->background = sprite_load("images/background.png", 2732, 768, 1);
+		SDL_RenderClear(the_renderer);
+		level->background = sprite_load("images/background.png", 2732, 768, 1); //this doesn't cause any sprites to become the background
 		sprite_draw(level->background, 0, pos);
 		entity_think_all();
 		entity_update_all();
@@ -75,6 +58,9 @@ int main(int argc, char *argv[])
 void CleanUpAll()
 {
 	sprite_close_system();
+	entity_close_system();
+	particle_close_system();
+	level_close();
 	/*any other cleanup functions can be added here*/ 
 }
 

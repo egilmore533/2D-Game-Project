@@ -1,9 +1,8 @@
 #ifndef _GRAPHICS_
 #define _GRAPHICS_
 
-#include "SDL.h"
 #include "SDL_image.h"
-#include "SDL_ttf.h"
+#include "SDL_ttf.h" //not used yet
 
 /** 
  *  @brief example macro to return the largest of two values.

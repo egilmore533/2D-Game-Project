@@ -116,4 +116,11 @@ Sticky Goo Code
 void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, float y);
 void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other);
 
+/*
+Extra Life Code
+*/
+
+void power_up_extra_life(Entity *extra_life, int id, int targetID, float x, float y);
+void power_up_extra_life_touch(Entity *extra_life, Entity *other);
+
 #endif

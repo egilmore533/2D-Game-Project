@@ -8,7 +8,7 @@ id: 1
 position: 200 400
 ~
 
-entity: sticky_shot
+entity: extra_life
 id: 10
 target: 1
 position: 450 400

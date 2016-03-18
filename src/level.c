@@ -15,17 +15,14 @@
 static Level level;
 extern SDL_Surface *screen;
 
-/** @brief the total number of entities the level code is prepared to load
- */
-#define ENTITIES_NUM	11
+/** @brief the total number of entities the level code is prepared to load */
+#define ENTITIES_NUM	12
 
-/** @brief array of function pointers that load entities, used in conjuction with the entity_types array to determine which entity to load and how to load it
- */
+/** @brief array of function pointers that load entities, used in conjuction with the entity_types array to determine which entity to load and how to load it */
 static void (*entity_load_array[ENTITIES_NUM]) (Entity *entity, int id, int target, float x, float y);
 
-/** @breif array of char arrays that is used to help determine what type of entity the level file wants to load, and then corresponds to a specific load function in entity_load_array
- */
-char entity_types[ENTITIES_NUM][16] = {"player", "melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield", "bomb", "spread_shot", "sticky_shot"};
+/** @breif array of char arrays that is used to help determine what type of entity the level file wants to load, and then corresponds to a specific load function in entity_load_array */
+char entity_types[ENTITIES_NUM][16] = {"player", "melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield", "bomb", "spread_shot", "sticky_shot", "extra_life"};
 
 void level_load(char filename[])
 {
@@ -154,6 +151,7 @@ void level_initialize_system()
 	entity_load_array[8] = &power_up_bomb;
 	entity_load_array[9] = &power_up_spread_shot;
 	entity_load_array[10]= &power_up_sticky_shot;
+	entity_load_array[11]= &power_up_extra_life;
 	atexit(level_close);
 }
 
