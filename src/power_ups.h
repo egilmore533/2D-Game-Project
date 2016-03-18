@@ -99,13 +99,21 @@ Spread Code
  *  @param  x		  	the x coordinate of the spread entity
  *  @param  y		  	the y coordinate of the spread entity
  */
-void power_up_spread(Entity *spread, int id, int targetID, float x, float y);
+void power_up_spread_shot(Entity *spread, int id, int targetID, float x, float y);
 
 /**
  *  @brief  checks if the thing the spread is touching is its target (the player) and acts accordingly
  *  @param  spread 		the spread entity
  *  @param  other		the thing spread is touching
  */
-void power_up_spread_touch(Entity *spread, Entity *other);
+void power_up_spread_shot_touch(Entity *spread, Entity *other);
+
+
+/*
+Sticky Goo Code
+*/
+
+void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, float y);
+void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other);
 
 #endif

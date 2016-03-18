@@ -5,6 +5,9 @@
 #define MOVEMENT_SPEED_X	10
 #define MOVEMENT_SPEED_Y	10
 #define CHARGE_RATE			1000
+#define RESPAWN_RATE		1000
+
+Uint32	respawn_moment;
 
 void player_load(Entity *player, int id, int target, float x, float y)
 {
@@ -25,7 +28,9 @@ void player_load(Entity *player, int id, int target, float x, float y)
 	player->velocity = vel;
 	player->owner = camera_get();
 	player->health = 1;
-	player->maxHealth = 1;
+	player->state = NORMAL_STATE;
+	player->bullet_state = NORMAL_SHOT_STATE;
+	player->inventory[LIVES_SLOT] = 3;
 	player->inventory[BOMB_SLOT] = 2;
 	player->inventory[SPREAD_SLOT] = 0;
 }
@@ -88,16 +93,16 @@ void player_update(Entity *player)
 	//if the player picked up the shield power up it will get a health of 2
 	//using maxHealth purely to help implement the logic
 	//if maxHealth is less than 2, but the player health is 2 then the shield needs to be activated
-	if(player->health > 1 && player->maxHealth < 2)
+	if(player->health > 1 && player->state != SHIELDED_STATE)
 	{
-		player->maxHealth = 2;
+		player->state = SHIELDED_STATE;
 		player->frame++;
 	}
 	//if the player has a maxHealth of 2, but has a health of 1 then they lost their shield
 	//set the maxHEalth to 1 and reset the sprite to be the normal player sprite
-	else if(player->maxHealth >= 2 && player->health == 1)
+	else if(player->state == SHIELDED_STATE && player->health == 1)
 	{
-		player->maxHealth = 1;
+		player->state = NORMAL_STATE;
 		player->frame--;
 	}
 	//if the player's health is less than 1 then kill
@@ -105,6 +110,7 @@ void player_update(Entity *player)
 	{
 		//put player_dead_think here if thats the route I go for this problem
 		player->free(player);
+		return;
 	}
 	keys = SDL_GetKeyboardState(NULL);
 	if(keys[SDL_SCANCODE_A])

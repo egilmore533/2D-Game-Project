@@ -28,7 +28,7 @@ void professor_slice_load(Entity *professor_slice, int id, int target, float x, 
 	professor_slice->position = pos;
 	professor_slice->thinkRate = 2000;
 	professor_slice->nextThink = 0;
-	professor_slice->maxHealth = 3;
+	professor_slice->state = NORMAL_STATE;
 	professor_slice->health = 3;
 }
 
@@ -39,6 +39,14 @@ void professor_slice_think(Entity *professor_slice)
 		slog("professor slice hasn't been loaded");
 		return;
 	}
+	if(professor_slice->state == STICKIED_STATE)
+	{
+		professor_slice->think = &professor_slice_stickied_think;
+		vect2d_set(professor_slice->velocity, 0, 0);
+		professor_slice->nextThink = SDL_GetTicks() + professor_slice->thinkRate;
+		return;
+	}
+	camera_free_entity_outside_bounds(professor_slice);
 	vect2d_subtract(professor_slice->target->position, professor_slice->position, professor_slice->direction);
 	vect2d_normalize(&professor_slice->direction);
 	vect2d_mutiply(professor_slice->velocity, professor_slice->direction, professor_slice->velocity);
@@ -48,6 +56,17 @@ void professor_slice_think(Entity *professor_slice)
 	}
 	weapon_professor_slice_fire(professor_slice);
 	professor_slice->nextThink = SDL_GetTicks() + professor_slice->thinkRate;
+}
+
+void professor_slice_stickied_think(Entity *professor_slice)
+{
+	vect2d_set(professor_slice->velocity, 0, 0);
+	if(!(SDL_GetTicks() >= professor_slice->nextThink))
+	{
+		return;
+	}
+	professor_slice->state = NORMAL_STATE;
+	professor_slice->think = &professor_slice_think;
 }
 
 void professor_slice_update(Entity *professor_slice)

@@ -29,12 +29,13 @@ void melt_load(Entity *melt, int id, int target, float x, float y)
 	melt->velocity = vel;
 	melt->thinkRate = 800;
 	melt->nextThink = 0;
-	melt->maxHealth = 1;
+	melt->state = NORMAL_STATE;
 	melt->health = 1;
 }
 
 void melt_think(Entity *melt)
 {
+	//camera_free_entity_outside_bounds(melt);
 	vect2d_subtract(melt->target->position, melt->position, melt->direction);
 	vect2d_normalize(&melt->direction);
 	vect2d_set(melt->direction, -1, melt->direction.y);

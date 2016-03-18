@@ -57,7 +57,7 @@ void power_up_double_tap_touch(Entity *double_tap, Entity *other)
 {
 	if(other == double_tap->target)
 	{
-		other->thinkRate *= 0.5;
+		other->thinkRate /= 2;
 		double_tap->free(double_tap);
 	}
 }
@@ -106,18 +106,39 @@ void power_up_bomb_touch(Entity *bomb, Entity *other)
 Spread Code
 */
 
-void power_up_spread(Entity *spread, int id, int targetID, float x, float y)
+void power_up_spread_shot(Entity *spread, int id, int targetID, float x, float y)
 {
 	spread = power_up_spawn(id, targetID, x, y);
-	spread = entity_load(spread, "images/heat_shield.png", 32, 32, 1);
-	spread->touch = &power_up_spread_touch;
+	spread = entity_load(spread, "images/spread_pickup.png", 32, 32, 1);
+	spread->touch = &power_up_spread_shot_touch;
 }
 
-void power_up_spread_touch(Entity *spread, Entity *other)
+void power_up_spread_shot_touch(Entity *spread, Entity *other)
 {
 	if(other == spread->target)
 	{
 		other->inventory[SPREAD_SLOT]++;
 		spread->free(spread);
 	}
+}
+
+/*
+Sticky Goo Code
+*/
+
+void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, float y)
+{
+	sticky_shot = power_up_spawn(id, targetID, x, y);
+	sticky_shot = entity_load(sticky_shot, "images/goo_shot.png", 32, 32, 1);
+	sticky_shot->touch = &power_up_sticky_shot_touch;
+}
+
+void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other)
+{
+	if(other == sticky_shot->target)
+	{
+		other->bullet_state = GOO_SHOT_STATE;
+		sticky_shot->free(sticky_shot);
+	}
+
 }

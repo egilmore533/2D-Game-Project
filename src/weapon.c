@@ -32,6 +32,14 @@ Entity *weapon_fire(Entity *owner)
 	shot->update = &weapon_update;
 	shot->free = &weapon_free;
 	shot->target = owner->target;
+	if(owner->bullet_state == GOO_SHOT_STATE)
+	{
+		shot->state = GOO_SHOT_STATE;
+	}
+	else
+	{
+		shot->state = NORMAL_SHOT_STATE;
+	}
 	return shot;
 }
 
@@ -77,7 +85,6 @@ void weapon_pep_spread_fire(Entity *player)
 	Entity *spice_temp;
 	Vect2d upPos, downPos; //used to calculate the velocity of each spread shot bullet by normalizing the distance between the bullets start position and this point
 	Uint8 shots;
-	Vect2d pos, vel;
 	int i;
 
 	//need to set default SPREAD_SLOT value to 0 so it will fire once for 0 instead of twice for 1
@@ -101,7 +108,7 @@ void weapon_pep_spread_fire(Entity *player)
 
 			//top bullet
 			spice_temp = make_spread_bullet(player);
-			downPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y - shots * 2);
+			downPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y - shots * shots);
 			vect2d_subtract(downPos, spice_temp->position, spice_temp->direction);
 			vect2d_normalize(&spice_temp->direction);
 			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
@@ -114,6 +121,10 @@ void weapon_pep_spread_touch(Entity *spread, Entity *other)//if other is an enem
 	if(other->target == spread->owner)
 	{
 		other->health--; // one damage for normal bullets
+		if(spread->state == GOO_SHOT_STATE)
+		{
+			other->state = STICKIED_STATE;
+		}
 		spread->free(spread);
 	}
 }
@@ -195,6 +206,10 @@ void weapon_pep_charge_touch(Entity *spice, Entity *other)
 	if(other->target == spice->owner)
 	{
 		other->health -= 5; //five damage is fairly big considering most enemies only have 1 health
+		if(spice->state == GOO_SHOT_STATE)
+		{
+			other->state = STICKIED_STATE;
+		}
 		//charge shot is so sick it blows up the baddies and keeps going looking for more baddies to tear up
 	}
 }

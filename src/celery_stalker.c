@@ -26,7 +26,7 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 	celery_stalker->velocity = vel;
 	celery_stalker->position = pos;
 	celery_stalker->health = 1;
-	celery_stalker->maxHealth = 1;
+	celery_stalker->state = NORMAL_STATE;
 }
 
 void celery_stalker_think_start(Entity *celery_stalker)
@@ -37,26 +37,22 @@ void celery_stalker_think_start(Entity *celery_stalker)
 		vect2d_normalize(&celery_stalker->direction);
 		//vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
 		celery_stalker->think = &celery_stalker_think_moving;
+		vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
 	}
 }
 
 void celery_stalker_think_moving(Entity *celery_stalker)
 {
-	vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
 	//kill the celery if it has left the camera's bounds
-	if(!entity_intersect(celery_stalker, camera_get()))
-	{
-		celery_stalker->free(celery_stalker);
-	}
+	camera_free_entity_outside_bounds(celery_stalker);
 }
 
 void celery_stalker_update(Entity *celery_stalker)
 {
-	//this checks if the celery_stalker is using the moving think function
+	//this checks if the celery_stalker has already took aim  on the player
 	if(celery_stalker->think == &celery_stalker_think_moving)
 	{
 		vect2d_add(celery_stalker->position, celery_stalker->velocity, celery_stalker->position);
-		vect2d_set(celery_stalker->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(celery_stalker);
 	if(celery_stalker->health <= 0)

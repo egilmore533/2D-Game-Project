@@ -19,6 +19,12 @@ void professor_slice_load(Entity *professor_slice, int id, int target, float x, 
  */
 void professor_slice_think(Entity *professor_slice);
 
+/**
+ *  @brief	professor_slice will be stickied until the nextThink, then will reset the think function back to normal
+ *  @param	professor_slice	the professor_slice
+ */
+void professor_slice_stickied_think(Entity *professor_slice);
+
 /** 
  *  @brief	adds professor_slice's velocity to its position 
  *  @param	professor_slice the professor_slice

@@ -22,15 +22,35 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 	milk_tank = entity_load(milk_tank, "images/milk_tank.png", 128, 128, 1);
 	milk_tank->velocity = vel;
 	milk_tank->position = pos;
-	milk_tank->maxHealth = 5;
+	milk_tank->thinkRate = 2000; //only used for stickied thinking
+	milk_tank->state = NORMAL_STATE;
 	milk_tank->health = 5;
 }
 
 void milk_tank_think(Entity *milk_tank)
 {
+	if(milk_tank->state == STICKIED_STATE)
+	{
+		milk_tank->think = &milk_tank_stickied_think;
+		vect2d_set(milk_tank->velocity, 0, 0);
+		milk_tank->nextThink = SDL_GetTicks() + milk_tank->thinkRate;
+		return;
+	}
 	vect2d_subtract(milk_tank->target->position, milk_tank->position, milk_tank->direction);
 	vect2d_normalize(&milk_tank->direction);
 	vect2d_mutiply(milk_tank->velocity, milk_tank->direction, milk_tank->velocity);
+	camera_free_entity_outside_bounds(milk_tank);
+}
+
+void milk_tank_stickied_think(Entity *milk_tank)
+{
+	vect2d_set(milk_tank->velocity, 0, 0);
+	if(!(SDL_GetTicks() >= milk_tank->nextThink))
+	{
+		return;
+	}
+	milk_tank->state = NORMAL_STATE;
+	milk_tank->think = &milk_tank_think;
 }
 
 void milk_tank_update(Entity *milk_tank)

@@ -4,14 +4,28 @@
 #include "vector.h"
 #include "sprite.h"
 
+
+
 /** @brief	A macro that defines maximum inventory. */
 #define MAX_INVENTORY	12
 
+/** @brief A macro that defines which slot is the the lives in the player's inventory */
+#define LIVES_SLOT		0
+
 /** @brief  A macro that defines which slot is the bomb slot in the player's inventory */
-#define BOMB_SLOT		0
+#define BOMB_SLOT		1
 
 /** @brief A macro that defines which slot is the the spread shots in the player's inventory */
-#define SPREAD_SLOT		1 
+#define SPREAD_SLOT		2 
+
+
+#define NORMAL_STATE	0
+#define SHIELDED_STATE	1
+#define STICKIED_STATE	2
+
+#define NORMAL_SHOT_STATE	0
+#define GOO_SHOT_STATE		1
+
 
 
 /** 
@@ -29,7 +43,9 @@ typedef struct Entity_s
 	Sprite *sprite;						/**< sprite component of the entity */
 	int frame;							/**< frame number the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
-	int health, maxHealth;				/**< the current health and total health of the entity */
+	int health;							/**< the current health of the entity */
+	Uint8  state;						/**< special states for each entity type (ie: stickied enemy, shielded player)*/
+	Uint8  bullet_state;
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
 	struct Entity_s *target;			/**< the target of this struct (ie: entity will be chasing player, power_up gives player a shield) */

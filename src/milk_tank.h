@@ -16,6 +16,12 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y);
 void milk_tank_think(Entity *milk_tank);
 
 /**
+ *  @brief	 milk_tank will be stickied until the nextThink, then will reset the think function back to normal
+ *  @param	 milk_tank	the  milk_tank
+ */
+void  milk_tank_stickied_think(Entity * milk_tank);
+
+/**
  * @brief	adds milk_tank's velocity to its position, and kills milk_tnak if it has left the camera's bounds
  * @param [in,out]	milk_tank	If non-null, the milk tank entity.
  */
