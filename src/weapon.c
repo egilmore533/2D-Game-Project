@@ -70,9 +70,26 @@ void weapon_pep_spread_fire(Entity *player)
 	Vect2d pos, vel;
 	int i;
 
+	//need to set default SPREAD_SLOT value to 0 so it will fire once for 0 instead of twice for 1
 	shots = player->inventory[SPREAD_SLOT];
 	for(i = 0; i < shots; i++)
 	{
+		/*
+		check if i == 0
+		then 
+			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y);
+			//set velocity to be normal like charge shot
+		else
+			set position once, fire then set new position opposite and fire again
+			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y - (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
+			set velocities to make it go at an angle? 
+			//fire code
+			
+			pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
+			set velocities to make it go at an angle? 
+			//fire code again?
+		*/
+		
 		spice_temp = weapon_fire(player);
 		pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + (shots + i * 64) + PEP_WEAPON_OFFSET_Y);
 		spice_temp = entity_load(spice_temp, "images/spice.png", 32, 16, 1); 

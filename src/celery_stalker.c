@@ -41,7 +41,11 @@ void celery_stalker_think_start(Entity *celery_stalker)
 void celery_stalker_think_moving(Entity *celery_stalker)
 {
 	vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
-	return;
+	//kill the celery if it has left the camera's bounds
+	if(!entity_intersect(celery_stalker, camera_get()))
+	{
+		celery_stalker->free(celery_stalker);
+	}
 }
 
 void celery_stalker_update(Entity *celery_stalker)

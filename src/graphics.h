@@ -1,19 +1,13 @@
 #ifndef _GRAPHICS_
 #define _GRAPHICS_
-/*
- *			graphics.h
- *			Originaly written by Donald Kehoe for the NJIT Introduction to game development class
- *			This file contains data structures, constants and function prototypes needed to initialize SDL and
- *			to handle sprites and graphics.
- */
-
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 
-/** @brief example macro to return the largest of two values.
- * can be read as: if a greater than b then a, else b
+/** 
+ *  @brief example macro to return the largest of two values.
+ *         can be read as: if a greater than b then a, else b
  */
 #define MAX(a,b) (a>b?a:b)
 

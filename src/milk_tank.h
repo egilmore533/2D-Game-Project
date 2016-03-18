@@ -3,30 +3,28 @@
 
 #include "entity.h"
 
-/**
- * @brief	load's a milk tank by allocating memory for it then, 
- * 			giving it a touch, think, update, sprite, position, velocity.
- * @param [in,out]	milk_tank	pointer to the milk tank that needs to be created.
+/** 
+ *  @brief	loads a milk_tank entity, milk_tank will move towards the player slowly trying to touch the player, it takes multiple hits to kill
+ *  @param [in,out]	milk_tank	pointer to the milk tank that needs to be created.
  */
 void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y);
 
 /**
- * @brief	how the milk tank will behave in game, it will chase the player and just try to touch him.
+ * @brief	calculates the magnitude of the separation between milk_tank and player, then normalizes that magnitude to get the direction milk_tank should move to go straight towards the player, then multiplies that direction by the defined velocity
  * @param [in,out]	milk_tank the milk tank that will be thinking.
  */
 void milk_tank_think(Entity *milk_tank);
 
 /**
- * @brief	Milk tank update moves the entity and resets the velocity to the defined movement speed.
+ * @brief	adds milk_tank's velocity to its position, and kills milk_tnak if it has left the camera's bounds
  * @param [in,out]	milk_tank	If non-null, the milk tank entity.
  */
 void milk_tank_update(Entity *milk_tank);
 
 /**
- * @brief	frees the milk tank's entity data.
+ * @brief	frees the milk tank's function pointers and uses entity_free to handle the rest of the freeing
  * @param [in,out]	milk_tank	If non-null, the milk tank.
  */
-
 void milk_tank_free(Entity *milk_tank);
 
 /**

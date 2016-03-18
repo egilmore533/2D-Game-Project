@@ -70,3 +70,12 @@ Entity *camera_get()
 	}
 	return camera;
 }
+
+//use this for all bullets, power_ups, and enemies after they have reached the screen
+void camera_free_entity_outside_bounds(Entity *ent)
+{
+	if(!entity_intersect(camera, ent))
+	{
+		ent->free(ent);
+	}
+}

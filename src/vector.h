@@ -16,7 +16,7 @@ typedef struct
 }Vect2d;
 
 /**
-* @brief a simple 3d vector structure containg three floats
+* @brief a simple 3d vector structure containing three floats
 */
 typedef struct
 {
@@ -239,7 +239,7 @@ void vect3d_cross_product(Vect3d *out, Vect3d v1, Vect3d v2);
 /**
  * @brief	Vect 3D angle to vector.
  * @param	angles		  	The angles.
- * @param [in,out]	foward	If non-null, the foward.
+ * @param [in,out]	forward	If non-null, the forward.
  * @param [in,out]	right 	If non-null, the right.
  * @param [in,out]	up	  	If non-null, the up.
  */

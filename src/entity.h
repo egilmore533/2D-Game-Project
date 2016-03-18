@@ -7,15 +7,16 @@
 /** @brief	A macro that defines maximum inventory. */
 #define MAX_INVENTORY	12
 
-#define BOMB_SLOT		0 /**< bomb slot for the entities inventory */
-#define SPREAD_SLOT		1 /**< how many spread shot's the player has */
+/** @brief  A macro that defines which slot is the bomb slot in the player's inventory */
+#define BOMB_SLOT		0
+
+/** @brief A macro that defines which slot is the the spread shots in the player's inventory */
+#define SPREAD_SLOT		1 
 
 
-/** @brief	entity structure with in use flag, id#, position, velocity, direction, bounding box, 
- *			sprite, frame#, inventory array, state, health, maxHealth
- *			owner entity, target entity, projectile entity,
- *			nextThink, and thinkRate(higher the thinkRate the less it thinks)
-/**			function pointers - for drawing, thinking, updating, touching, and freeing */
+/** 
+ *  @brief	anything that can act or be acted upon (Enemies, players, power_ups, weapons, etc.)
+ */
 typedef struct Entity_s
 {
 	int inUse;							/**< flag to know if the entity is currently active */
@@ -26,18 +27,18 @@ typedef struct Entity_s
 	SDL_Rect bounds;					/**< the bounding box of the entity */
 	
 	Sprite *sprite;						/**< sprite component of the entity */
-	int frame;							/**< frame numebr the entity is on */
+	int frame;							/**< frame number the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
-	int health, maxHealth;				/**< the current healt and total health of the entity */
+	int health, maxHealth;				/**< the current health and total health of the entity */
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
-	struct Entity_s *target;			/**< the target of this struct (entity will be chasing player) */
+	struct Entity_s *target;			/**< the target of this struct (ie: entity will be chasing player, power_up gives player a shield) */
 
 	void (*draw)(Sprite *sprite,
 				 int frame, 
 				 Vect2d drawPos);			/**< draw function for the entity, most if not all entities will just be using sprite_draw */
-	Uint32 nextThink;							/**< stuff for thinking and the think rate */
-	Uint32 thinkRate;							/**< rate of thinking */
+	Uint32 nextThink;						/**< stuff for thinking and the think rate */
+	Uint32 thinkRate;						/**< rate of thinking */
 	void (*think) (struct Entity_s *self);	/**< behavior of the entity will be defined in the think function */
 	void (*update) (struct Entity_s *self);	/**< update function for changing the entity's data */
 	void (*touch) (struct Entity_s *self,	
@@ -77,17 +78,21 @@ void entity_update_all();
 void entity_think_all();
 
 
-/** @brief	closes the entity system by freeing the entire entityList and setting the number   
-/**			of entities in the list to 0. */
+/** 
+ *  @brief	closes the entity system by freeing the entire entityList and setting the number   
+ *	   		 of entities in the list to 0. 
+ */
 void entity_close_system();
 
 
-/** @brief	draws an entity to the screen using sprite_draw   
-/** @param	entity	the entity in question*/
+/** 
+ *  @brief	draws an entity to the screen using sprite_draw   
+ *  @param	entity	the entity in question
+ */
 void entity_draw(Entity *entity);
 
 /**
- * @brief	loads the entitie's sprite and creates the bounding box based on the size of the frame.
+ * @brief	loads the entity's sprite and creates the bounding box based on the size of the frame.
  * @param [in,out]	entity	If non-null, the entity.
  * @param	file		  	The filename for the entity's sprite.
  * @param	frameW		  	The frame width.
@@ -98,7 +103,7 @@ void entity_draw(Entity *entity);
 Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl);
 
 /**
- * @brief	check's if the two given entities are inside each other's bounding box's using rect_intersect defined in vector.h.
+ * @brief	checks if the two given entities are inside each other's bounding box's using rect_intersect defined in vector.h.
  * @param [in,out]	a	If non-null, the Entity to process.
  * @param [in,out]	b	If non-null, the Entity to process.
  * @return	1 if the entities are intersecting, else 0.

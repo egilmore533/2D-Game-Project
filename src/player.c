@@ -86,15 +86,15 @@ void player_update(Entity *player)
 		slog("player not yet initialized");
 		return;
 	}
-	//if the player picked up the sheild power up it will get a health of 2
+	//if the player picked up the shield power up it will get a health of 2
 	//using maxHealth purely to help implement the logic
-	//if maxHealth is less than 2, but the player health is 2 then the sheild needs to be activated
+	//if maxHealth is less than 2, but the player health is 2 then the shield needs to be activated
 	if(player->health > 1 && player->maxHealth < 2)
 	{
 		player->maxHealth = 2;
 		player->frame++;
 	}
-	//if the player has a maxHealth of 2, but has a health of 1 then they lost their sheild
+	//if the player has a maxHealth of 2, but has a health of 1 then they lost their shield
 	//set the maxHEalth to 1 and reset the sprite to be the normal player sprite
 	else if(player->maxHealth >= 2 && player->health == 1)
 	{

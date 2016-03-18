@@ -15,7 +15,7 @@
 void camera_initialize(Vect2d position, Vect2d dimensions, int id);
 
 /**
- * @brief	moves the camera's position on the screen, runs according to think rate.
+ * @brief	runs according to think rate. does nothing, maybe delete, maybe use to test if the player has reached the end of stage and stop moving
  * @param [in,out]	camera	If non-null, the camera.
  */
 void camera_think(Entity *camera);
@@ -38,5 +38,11 @@ void camera_touch(Entity *self, Entity *other);
  * @return	null if it fails, else an Entity*.
  */
 Entity *camera_get();
+
+/** 
+ *  @brief runs the entities free function if they are out of the camera's bounds
+ *  @param ent	the entity in question
+ */
+void camera_free_entity_outside_bounds(Entity *ent);
 
 #endif

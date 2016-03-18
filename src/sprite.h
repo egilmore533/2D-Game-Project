@@ -32,7 +32,8 @@ void sprite_free(Sprite **sprite);
 void sprite_close_system();
 
 
-/** @brief	initializes the sprite system by allocating memory for the sprite list and setting each sprite's image to NULL 
+/** 
+ *  @brief	initializes the sprite system by allocating memory for the sprite list and setting each sprite's image to NULL 
  *	@param maxSprite	the maximum number of sprite allowed in the game at a time
  */
 void sprite_initialize_system(int maxSprite);
