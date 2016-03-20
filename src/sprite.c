@@ -90,7 +90,7 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 	int i;
 	SDL_Surface *tempSurface;
 	SDL_Texture *tempTexture;
-
+	Sprite *sprite = NULL;
 	SDL_Renderer *renderer = graphics_get_renderer();
 
 	if(!spriteList)
@@ -99,10 +99,12 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 		return NULL;
 	}
 	/*first search to see if the requested sprite image is alreday loaded*/
-	for(i = 0; i < spriteNum; i++)
+	for(i = 0; i < spriteMax; i++)
 	{
 		if(spriteList[i].refCount == 0)
 		{
+			if(sprite == NULL)
+				sprite = &spriteList[i];
 			continue;
 		}
 		if(strncmp(file, spriteList[i].filename, 128) ==0)
@@ -141,17 +143,17 @@ Sprite *sprite_load(char file[], int frameW, int frameH, int fpl)
 		}
 	}
 	
-	spriteList[i].image = tempTexture;
+	sprite->image = tempTexture;
 	/*then copy the given information to the sprite*/
 	strncpy(spriteList[i].filename,file,128);
 	
 	/*now sprites don't have to be 16 frames per line, but most will be.*/
-	spriteList[i].framesPerLine = fpl;
-	spriteList[i].frameSize.x = frameW;
-	spriteList[i].frameSize.y = frameH;
-	spriteList[i].refCount++;
+	sprite->framesPerLine = fpl;
+	sprite->frameSize.x = frameW;
+	sprite->frameSize.y = frameH;
+	sprite->refCount++;
 	SDL_FreeSurface(tempSurface);
-	return &spriteList[i];
+	return sprite;
 }
 
 

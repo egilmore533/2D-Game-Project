@@ -1,6 +1,7 @@
 #include "particle.h"
 #include "simple_logger.h"
 #include "camera.h"
+#include "files.h"
 #include <stdlib.h>
 
 static Particle *particleList = NULL;	/**< the list of active particles */
@@ -68,9 +69,9 @@ void particle_initialize_system(int maxParticle)
 		particleList[i].sprite = NULL;
 	}
 	particleMax = maxParticle;
-	red_particle = sprite_load("images/redSpark.png", 32, 32, 16);
-	green_particle = sprite_load("images/greenSpark.png", 32, 32, 16);
-	blue_particle = sprite_load("images/blueSpark.png", 32, 32, 16);
+	red_particle = sprite_load(SPICE_PARTICLE_1_SPRITE, 32, 32, 16);
+	green_particle = sprite_load(SPICE_PARTICLE_2_SPRITE, 32, 32, 16);
+	blue_particle = sprite_load(SPICE_PARTICLE_3_SPRITE, 32, 32, 16);
 	atexit(particle_close_system);
 }
 

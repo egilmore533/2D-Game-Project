@@ -1,6 +1,7 @@
 #include "weapon.h"
 #include "particle.h"
 #include "camera.h"
+#include "files.h"
 #include <stdlib.h>
 
 #define PEP_WEAPON_OFFSET_X	128
@@ -101,14 +102,14 @@ void weapon_pep_spread_fire(Entity *player)
 		{
 			//bottom bullet
 			spice_temp = make_spread_bullet(player);
-			upPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y + shots * shots);
+			upPos = vect2d_new(spice_temp->position.x + 10, spice_temp->position.y + (shots * 2));
 			vect2d_subtract(upPos, spice_temp->position, spice_temp->direction);
 			vect2d_normalize(&spice_temp->direction);
 			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
 
 			//top bullet
 			spice_temp = make_spread_bullet(player);
-			downPos = vect2d_new(spice_temp->position.x + 100, spice_temp->position.y - shots * shots);
+			downPos = vect2d_new(spice_temp->position.x + 10, spice_temp->position.y - (shots * 2));
 			vect2d_subtract(downPos, spice_temp->position, spice_temp->direction);
 			vect2d_normalize(&spice_temp->direction);
 			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
@@ -134,7 +135,7 @@ Entity *make_spread_bullet(Entity *owner)
 	Entity *spread_bullet;
 	Vect2d pos, vel;
 	spread_bullet = weapon_fire(owner);
-	spread_bullet = entity_load(spread_bullet, "images/spice.png", 32, 16, 1); 
+	spread_bullet = entity_load(spread_bullet, SPICE_SPREAD_SHOT_SPRITE, 32, 16, 1); 
 	spread_bullet->think = &weapon_pep_think;
 	spread_bullet->touch = &weapon_pep_spread_touch;
 	spread_bullet->thinkRate = 30;
@@ -155,7 +156,7 @@ void weapon_pep_charge_fire(Entity *player)
 	
 	pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y); 
 	vel = vect2d_new(PEP_CHARGE_BULLET_VEL_X, 0); 
-	spice = entity_load(spice, "images/pep_charge_shot.png", 64, 64, 1); 
+	spice = entity_load(spice, SPICE_CHARGE_SHOT_SPRITE, 64, 64, 1); 
 	spice->think = &weapon_pep_think;
 	spice->touch = &weapon_pep_charge_touch;
 	spice->thinkRate = 30;
@@ -224,7 +225,7 @@ void weapon_pep_bomb(Entity *player)
 	cam = camera_get();
 	vect2d_set(pos, cam->position.x, cam->position.y);
 	vect2d_set(vel, cam->velocity.x, cam->velocity.y);
-	bomb = entity_load(bomb, "images/pep_bomb.png", 1366, 768, 1);
+	bomb = entity_load(bomb, BOMB_EXPLODE_SPRITE, 1366, 768, 1);
 	bomb->thinkRate = 300;
 	bomb->nextThink = bomb->thinkRate + SDL_GetTicks();
 	bomb->position = pos;
@@ -268,7 +269,7 @@ void weapon_melt_fire(Entity *melt)
 
 	pos = vect2d_new(melt->position.x + offsetX, melt->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
-	cream = entity_load(cream, "images/cream.png", 32, 16, 1); //make a new sprite for cream
+	cream = entity_load(cream, CREAM_SPRITE, 32, 16, 1); //make a new sprite for cream
 	cream->think = &weapon_think; //same think until i have a seperate particle effect for cream
 	cream->touch = &weapon_melt_touch;
 	cream->thinkRate = 200;
@@ -304,7 +305,7 @@ void weapon_professor_slice_fire(Entity *professor_slice)
 
 	pos = vect2d_new(professor_slice->position.x + offsetX, professor_slice->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
-	bread = entity_load(bread, "images/bread_crumb.png", 32, 32, 1); //make a new sprite for bread
+	bread = entity_load(bread, BREAD_CRUMB_SPRITE, 32, 32, 1); //make a new sprite for bread
 	bread->think = &weapon_professor_slice_think; 
 	bread->touch = &weapon_professor_slice_touch;
 	bread->thinkRate = rand() % 200; // randomly decides how fast it will think, which means it slows down at different rates

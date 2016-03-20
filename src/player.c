@@ -1,6 +1,7 @@
 #include "player.h"
 #include "weapon.h"
 #include "camera.h"
+#include "files.h"
 
 #define MOVEMENT_SPEED_X	10
 #define MOVEMENT_SPEED_Y	10
@@ -28,7 +29,7 @@ void player_load(Entity *ent, int id, int target, float x, float y)
 	player->free = &player_free;
 	player->thinkRate = 200;
 	player->nextThink = 0;
-	player = entity_load(player, "images/pep3.png", 128, 64, 2);
+	player = entity_load(player, PEP_SPRITE, 128, 64, 2);
 	player->position = pos;
 	player->velocity = vel;
 	player->owner = camera_get();

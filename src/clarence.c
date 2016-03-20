@@ -2,6 +2,7 @@
 #include "simple_logger.h"
 #include "weapon.h"
 #include "camera.h"
+#include "files.h"
 
 /** @brief	A macro that defines the factor that all clarences will fall at. */
 #define MOVEMENT_SPEED_X	0
@@ -22,7 +23,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 	clarence->free = &clarence_free;
 	clarence->touch = &clarence_touch;
 	clarence->update = &clarence_update;
-	clarence = entity_load(clarence, "images/clarence.png", 128, 128, 16);
+	clarence = entity_load(clarence, CLARENCE_SPRITE, 128, 128, 16);
 	clarence->direction = dir;
 	clarence->velocity = vel;
 	clarence->position = pos;
@@ -33,7 +34,7 @@ void clarence_load(Entity *clarence, int id, int target, float x, float y)
 void clarence_think_start(Entity *clarence)
 {
 	Vect2d dir = vect2d_new(0, 0);
-	Vect2d vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_X);
+	Vect2d vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	if(clarence->target->position.x + clarence->target->sprite->frameSize.x * 0.5 >= clarence->position.x)
 	{
 		dir = vect2d_new(0, 1);

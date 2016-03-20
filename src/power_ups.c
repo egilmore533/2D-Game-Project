@@ -1,6 +1,7 @@
 #include "power_ups.h"
 #include "simple_logger.h"
 #include "player.h"
+#include "files.h"
 
 #define MOVEMENT_SPEED_X	0
 #define MOVEMENT_SPEED_Y	0
@@ -47,7 +48,7 @@ Double tap code
 void power_up_double_tap(Entity *double_tap, int id, int targetID, float x, float y)
 {
 	double_tap = power_up_spawn(id, targetID, x, y);
-	double_tap = entity_load(double_tap, "images/double_tap.png", 32, 32, 1);
+	double_tap = entity_load(double_tap, DOUBLE_TAP_PICKUP_SPRITE, 32, 32, 1);
 	double_tap->touch = &power_up_double_tap_touch;
 }
 
@@ -67,7 +68,7 @@ Heat Shield Code
 void power_up_heat_shield(Entity *heat_shield, int id, int targetID, float x, float y)
 {
 	heat_shield = power_up_spawn(id, targetID, x, y);
-	heat_shield = entity_load(heat_shield, "images/heat_shield.png", 32, 32, 1);
+	heat_shield = entity_load(heat_shield, HEAT_SHIELD_PICKUP_SPRITE, 32, 32, 1);
 	heat_shield->touch = &power_up_heat_shield_touch;
 }
 
@@ -87,7 +88,7 @@ Bomb pickup code
 void power_up_bomb(Entity *bomb, int id, int targetID, float x, float y)
 {
 	bomb = power_up_spawn(id, targetID, x, y);
-	bomb = entity_load(bomb, "images/bomb_pickup.png", 32, 32, 1);
+	bomb = entity_load(bomb, BOMB_PICKUP_SPRITE, 32, 32, 1);
 	bomb->touch = &power_up_bomb_touch;
 }
 
@@ -107,7 +108,7 @@ Spread Code
 void power_up_spread_shot(Entity *spread, int id, int targetID, float x, float y)
 {
 	spread = power_up_spawn(id, targetID, x, y);
-	spread = entity_load(spread, "images/spread_pickup.png", 32, 32, 1);
+	spread = entity_load(spread, SPREAD_SHOT_PICKUP_SPRITE, 32, 32, 1);
 	spread->touch = &power_up_spread_shot_touch;
 }
 
@@ -127,7 +128,7 @@ Sticky Goo Code
 void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, float y)
 {
 	sticky_shot = power_up_spawn(id, targetID, x, y);
-	sticky_shot = entity_load(sticky_shot, "images/goo_shot.png", 32, 32, 1);
+	sticky_shot = entity_load(sticky_shot, GOO_SHOT_PICKUP_SPRITE, 32, 32, 1);
 	sticky_shot->touch = &power_up_sticky_shot_touch;
 }
 
@@ -148,7 +149,7 @@ Extra Life Code
 void power_up_extra_life(Entity *extra_life, int id, int targetID, float x, float y)
 {
 	extra_life = power_up_spawn(id, targetID, x, y);
-	extra_life = entity_load(extra_life, "images/life_pickup.png", 32, 32, 1);
+	extra_life = entity_load(extra_life, EXTRA_LIFE_PICKUP_SPRITE, 32, 32, 1);
 	extra_life->touch = &power_up_extra_life_touch;
 }
 void power_up_extra_life_touch(Entity *extra_life, Entity *other)

@@ -3,6 +3,7 @@
 #include "camera.h"
 #include "weapon.h"
 #include "melt.h"
+#include "files.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	2
@@ -23,7 +24,7 @@ void melt_load(Entity *melt, int id, int target, float x, float y)
 	melt->update = &melt_update;
 	melt->free = &melt_free;
 	melt->touch = &melt_touch;
-	melt = entity_load(melt, "images/melt.png", 128, 128, 1);
+	melt = entity_load(melt, MELT_SPRITE, 128, 128, 1);
 	melt->direction = dir;
 	melt->position = pos;
 	melt->velocity = vel;

@@ -9,7 +9,7 @@ id: 1
 position: 0 400
 ~
 
-entity: melt
+entity: milk_tank
 id: 2
 target: 1
 position: 1500 400

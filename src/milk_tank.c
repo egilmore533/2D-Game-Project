@@ -1,6 +1,7 @@
 #include "milk_tank.h"
 #include "simple_logger.h"
 #include "camera.h"
+#include "files.h"
 
 /** @brief	A macro that defines the factor that all milk_tank will be moving by. */
 #define MOVEMENT_SPEED_X	4
@@ -19,7 +20,7 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 	milk_tank->update = &milk_tank_update;
 	milk_tank->free = &milk_tank_free;
 	milk_tank->touch = &milk_tank_touch;
-	milk_tank = entity_load(milk_tank, "images/milk_tank.png", 128, 128, 1);
+	milk_tank = entity_load(milk_tank, MILK_TANK_SPRITE, 128, 128, 1);
 	milk_tank->velocity = vel;
 	milk_tank->position = pos;
 	milk_tank->thinkRate = 2000; //only used for stickied thinking
@@ -33,13 +34,18 @@ void milk_tank_think(Entity *milk_tank)
 	{
 		milk_tank->think = &milk_tank_stickied_think;
 		vect2d_set(milk_tank->velocity, 0, 0);
+		milk_tank->thinkRate = 2000;
 		milk_tank->nextThink = SDL_GetTicks() + milk_tank->thinkRate;
+		return;
+	}
+	if(!(SDL_GetTicks() >= milk_tank->nextThink))
+	{
 		return;
 	}
 	vect2d_subtract(milk_tank->target->position, milk_tank->position, milk_tank->direction);
 	vect2d_normalize(&milk_tank->direction);
 	vect2d_mutiply(milk_tank->velocity, milk_tank->direction, milk_tank->velocity);
-	camera_free_entity_outside_bounds(milk_tank);
+	//7camera_free_entity_outside_bounds(milk_tank);
 }
 
 void milk_tank_stickied_think(Entity *milk_tank)
@@ -51,6 +57,8 @@ void milk_tank_stickied_think(Entity *milk_tank)
 	}
 	milk_tank->state = NORMAL_STATE;
 	milk_tank->think = &milk_tank_think;
+	milk_tank->thinkRate = 40;
+	milk_tank->nextThink = milk_tank->thinkRate + SDL_GetTicks();
 }
 
 void milk_tank_update(Entity *milk_tank)
@@ -65,6 +73,7 @@ void milk_tank_update(Entity *milk_tank)
 	{
 		milk_tank->free(milk_tank);
 	}
+	
 }
 
 void milk_tank_touch(Entity *milk_tank, Entity *other)

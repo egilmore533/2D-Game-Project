@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	{
 		if(player->position.x > level->end)
 		{
-			if(levelnum >= LEVEL_NUM)
+			if(levelnum > LEVEL_NUM)
 			{
 				//you did it, if I have a score system I would show that before exiting or something along those lines but for now exit
 				exit(0);
@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
 			initialize_next_level(levelnum++);
 		}
 		SDL_RenderClear(the_renderer);
-		level->background = sprite_load("images/background.png", 2732, 768, 1); //this doesn't cause any sprites to become the background
 		sprite_draw(level->background, 0, pos);
 		entity_think_all();
 		entity_update_all();

@@ -2,6 +2,7 @@
 #include "simple_logger.h"
 #include "weapon.h"
 #include "camera.h"
+#include "files.h"
 #include <stdlib.h>
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
@@ -23,7 +24,7 @@ void professor_slice_load(Entity *professor_slice, int id, int target, float x, 
 	professor_slice->update = &professor_slice_update;
 	professor_slice->free = &professor_slice_free;
 	professor_slice->touch = &professor_slice_touch;
-	professor_slice = entity_load(professor_slice, "images/professor_slice.png", 128, 128, 1);
+	professor_slice = entity_load(professor_slice, PROFESSOR_SLICE_SPRITE, 128, 128, 1);
 	professor_slice->direction = dir;
 	professor_slice->velocity = vel;
 	professor_slice->position = pos;

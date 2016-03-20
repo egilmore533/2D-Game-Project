@@ -1,6 +1,7 @@
 #include "celery_stalker.h"
 #include "simple_logger.h"
 #include "camera.h"
+#include "files.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	15
@@ -21,7 +22,7 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 	celery_stalker->update = &celery_stalker_update;
 	celery_stalker->free = &celerly_stalker_free;
 	celery_stalker->touch = &celerly_stalker_touch;
-	celery_stalker = entity_load(celery_stalker, "images/celery_stalker.png", 128, 128, 1);
+	celery_stalker = entity_load(celery_stalker, CELERY_STALKER_SPRITE, 128, 128, 1);
 	celery_stalker->direction = dir;
 	celery_stalker->velocity = vel;
 	celery_stalker->position = pos;

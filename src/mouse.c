@@ -1,4 +1,5 @@
 #include "mouse.h"
+#include "files.h"
 
 static Entity *mouse = NULL;
 
@@ -8,7 +9,7 @@ void mouse_initialize()
 	pos = vect2d_new(0, 0);
 	vel = vect2d_new(0, 0);
 	mouse = entity_new();
-	mouse = entity_load(mouse, "images/mouse.png", 16, 16, 16);
+	mouse = entity_load(mouse, MOUSE_SPRITE, 16, 16, 16);
 	if(mouse->sprite == NULL)
 	{
 		slog("Mouse didn't load");
