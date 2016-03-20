@@ -69,6 +69,9 @@
     <ClCompile Include="..\src\power_ups.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\files.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\power_ups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\files.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

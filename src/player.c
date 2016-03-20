@@ -10,9 +10,11 @@
 Uint32	respawn_moment;
 Uint8	lives = 3;
 
+Entity *player = NULL;
+
 extern void player_death(int id, Vect2d pos);
 
-void player_load(Entity *player, int id, int target, float x, float y)
+void player_load(Entity *ent, int id, int target, float x, float y)
 {
 	Vect2d pos, vel;
 
@@ -221,4 +223,9 @@ void player_death(int id, Vect2d pos)
 void player_add_life()
 {
 	lives++;
+}
+
+Entity *player_get()
+{
+	return player;
 }

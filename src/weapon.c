@@ -257,8 +257,8 @@ void weapon_melt_fire(Entity *melt)
 {
 	Entity *cream;
 	Vect2d pos, vel;
-	int offsetX = 0; //change the cream sprite and then change this
-	int offsetY = 64; 
+	int offsetX = 0; 
+	int offsetY = 55; 
 	if(!melt)
 	{
 		slog("No entity to fire from");

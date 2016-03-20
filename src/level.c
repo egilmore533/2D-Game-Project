@@ -12,6 +12,8 @@
 #include "clarence.h"
 #include "power_ups.h"
 
+#include "files.h"
+
 static Level level;
 extern SDL_Surface *screen;
 
@@ -24,7 +26,7 @@ static void (*entity_load_array[ENTITIES_NUM]) (Entity *entity, int id, int targ
 /** @breif array of char arrays that is used to help determine what type of entity the level file wants to load, and then corresponds to a specific load function in entity_load_array */
 char entity_types[ENTITIES_NUM][16] = {"player", "melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield", "bomb", "spread_shot", "sticky_shot", "extra_life"};
 
-void level_load(char filename[])
+void level_load(Uint8 level_number)
 {
 	FILE *levelfile = NULL;
 	char buf[128];
@@ -36,6 +38,8 @@ void level_load(char filename[])
 	int i;
 	Sprite * temp;
 
+	Uint32 end;
+
 	//entity loading storage 
 	char entity_type[30];
 	Entity *ent = NULL;
@@ -43,10 +47,10 @@ void level_load(char filename[])
 	int targetID;
 	float x, y;
 
-	levelfile = fopen(filename,"r");
+	levelfile = fopen(files_get_level(level_number),"r");
 	if (levelfile == NULL)
 	{
-		slog("could not open file: %s",filename);
+		slog("could not open file: %s",files_get_level(level_number));
 		return;
 	}
 	while(fscanf(levelfile, "%s", buf) != EOF)
@@ -60,17 +64,19 @@ void level_load(char filename[])
 		else if (strncmp(buf,"image:",128)==0)
 		{
 			fscanf(levelfile,"%s",background_file);
-			slog("backgroundfile %s", background_file);
 		}
 		else if (strncmp(buf,"width:",128)==0)
 		{
 			fscanf(levelfile,"%i",&width); 
-			slog("width %i",width);
 		}
 		else if (strncmp(buf,"height:",128)==0)
 		{
 			fscanf(levelfile,"%i",&height);
-			slog("height %i",height);
+		}
+		else if (strncmp(buf, "end:", 128)==0)
+		{
+			fscanf(levelfile,"%i",&end);
+			slog("end: %i", end);
 		}
 
 		else if(strncmp(buf,"entity:",128) == 0)
@@ -122,7 +128,9 @@ void level_load(char filename[])
 	level_close();
 	level.loaded = 1;
 	level.background = temp;
-	level.file = filename;
+	level.file = files_get_level(level_number);
+	level.end = end;
+	return;
 }
 
 void level_close()

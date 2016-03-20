@@ -1,0 +1,11 @@
+image: images/background.png
+width: 2732
+height: 768
+
+end: 100
+
+
+entity: player
+id: 1
+position: 0 400
+~

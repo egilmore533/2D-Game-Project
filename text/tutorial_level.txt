@@ -2,6 +2,7 @@ image: images/background.png
 width: 2732
 height: 768
 
+end: 13000
 
 entity: player
 id: 1
@@ -95,11 +96,11 @@ position: 10500 400
 entity: extra_life
 id: 16
 target: 1
-position: 12000 400
+position: 11500 400
 ~
 
 entity: bomb
 id: 17
 target: 1
-position: 12000 500
+position: 11500 500
 ~

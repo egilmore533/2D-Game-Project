@@ -12,14 +12,16 @@ typedef struct
 	int loaded;			/**< the flag to know if the level has been loaded */
 	char *file;			/**< filepath for the level file */
 	Sprite *background; /**< background sprite */
-	SDL_Rect bounds;    /**< bounds of the level */
+	Uint32 end;			/**< the x point the player needs to reach to make it to the next level */
+	Uint8 level_number;
+
 }Level;
 
 /** 
  *  @brief the code that parses the level file and creates the background sprite along with the player, enemies, and power_ups for the level
- *  @param filename	 the file's path
+ *  @param level_number	 the level number
  */
-void level_load(char filename[LEVEL_NAME_LENGTH]);
+void level_load(Uint8 level_number);
 
 /** @brief frees the level's background if it is loaded */
 void level_close();

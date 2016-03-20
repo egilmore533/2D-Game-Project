@@ -4,8 +4,8 @@
 #include "camera.h"
 
 /** @brief	A macro that defines the factor that all clarences will fall at. */
-#define MOVEMENT_SPEED_X	15
-#define MOVEMENT_SPEED_Y	15
+#define MOVEMENT_SPEED_X	0
+#define MOVEMENT_SPEED_Y	20
 
 
 void clarence_load(Entity *clarence, int id, int target, float x, float y)

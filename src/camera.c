@@ -2,7 +2,7 @@
 #include "simple_logger.h"
 
 static Entity *camera = NULL;
-#define MOVEMENT_SPEED_X	1
+#define MOVEMENT_SPEED_X	3
 #define MOVEMENT_SPEED_Y	0
 
 void camera_initialize(Vect2d position, Vect2d dimensions, int id)

@@ -2,6 +2,8 @@ image: images/background.png
 width: 2732
 height: 768
 
+end: 15000
+
 
 entity: player
 id: 1

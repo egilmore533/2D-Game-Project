@@ -12,7 +12,7 @@
  *  @param  x		the x coordinate of the player
  *  @param  y		the y coordinate of the player
  */
-void player_load(Entity *player, int id, int target, float x, float y);
+void player_load(Entity *ent, int id, int target, float x, float y);
 
 /**
  * @brief	fires by clicking, holding click for a certain amount of time will result in a charged attack, press space to use a bomb to clear the screen of enemies
@@ -34,5 +34,7 @@ void player_update(Entity *player);
 void player_free(Entity *player);
 
 void player_add_life();
+
+Entity *player_get();
 
 #endif 
