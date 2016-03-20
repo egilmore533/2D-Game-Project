@@ -1,0 +1,135 @@
+image: images/background.png
+width: 2732
+height: 768
+
+
+entity: player
+id: 1
+position: 0 400
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 1500 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 3000 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 3200 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 4500 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 4800 10
+~
+
+entity: milk_tank
+id: 2
+target: 1
+position: 4900 100
+~
+
+entity: bomb
+id: 2
+target: 1
+position: 6000 300
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 7000 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 7000 200
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 7000 400
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 7000 600
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 8500 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 8700 10
+~
+
+entity: celery_stalker
+id: 2
+target: 1
+position: 8900 700
+~
+
+entity: melt
+id: 2
+target: 1
+position: 9100 500
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 9200 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 10500 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 10700 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 10900 10
+~
+
+entity: clarence
+id: 2
+target: 1
+position: 11100 10
+~
+
+entity: professor_slice
+id: 2
+target: 1
+position: 11500 300
+~

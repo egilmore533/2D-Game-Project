@@ -5,41 +5,101 @@ height: 768
 
 entity: player
 id: 1
-position: 200 400
-~
-
-entity: extra_life
-id: 10
-target: 1
-position: 450 400
-~
-
-entity: professor_slice
-id: 3
-target: 1
-position: 2000 200
+position: 0 400
 ~
 
 entity: melt
-id: 4
+id: 2
 target: 1
-position: 5000 400
+position: 1500 400
 ~
 
-entity: clarence
-id: 5
+entity: heat_shield
+id: 3
 target: 1
-position: 3000 10
-~
-
-entity: celery_stalker
-id: 6
-target: 1
-position: 4000 400
+position: 3000 200
 ~
 
 entity: milk_tank
+id: 4
+target: 1
+position: 3000 400
+~
+
+entity: celery_stalker
+id: 5
+target: 1
+position: 4500 100
+~
+
+entity: spread_shot
+id: 6
+target: 1
+position: 4500 200
+~
+
+entity: heat_shield
 id: 7
 target: 1
-position: 1300 400
+position: 5500 600
+~
+
+entity: melt
+id: 8
+target: 1
+position: 5700 550
+~
+
+entity: melt
+id: 9
+target: 1
+position: 5700 700
+~
+
+entity: clarence
+id: 10
+target: 1
+position: 7500 10
+~
+
+entity: clarence
+id: 11
+target: 1
+position: 7700 10
+~
+
+entity: sticky_shot
+id: 12
+target: 1
+position: 7800 100
+~
+
+entity: professor_slice
+id: 13
+target: 1
+position: 9000 400
+~
+
+entity: milk_tank
+id: 14
+target: 1
+position: 10500 200
+~
+
+entity: milk_tank
+id: 15
+target: 1
+position: 10500 400
+~
+
+entity: extra_life
+id: 16
+target: 1
+position: 12000 400
+~
+
+entity: bomb
+id: 17
+target: 1
+position: 12000 500
 ~

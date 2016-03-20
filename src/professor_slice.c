@@ -2,10 +2,11 @@
 #include "simple_logger.h"
 #include "weapon.h"
 #include "camera.h"
+#include <stdlib.h>
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	0
-#define MOVEMENT_SPEED_Y	5
+#define MOVEMENT_SPEED_Y	10
 
 void professor_slice_load(Entity *professor_slice, int id, int target, float x, float y)
 {
@@ -46,14 +47,16 @@ void professor_slice_think(Entity *professor_slice)
 		professor_slice->nextThink = SDL_GetTicks() + professor_slice->thinkRate;
 		return;
 	}
-	camera_free_entity_outside_bounds(professor_slice);
-	vect2d_subtract(professor_slice->target->position, professor_slice->position, professor_slice->direction);
-	vect2d_normalize(&professor_slice->direction);
-	vect2d_mutiply(professor_slice->velocity, professor_slice->direction, professor_slice->velocity);
 	if(!(SDL_GetTicks() >= professor_slice->nextThink))
 	{
 		return;
 	}
+	vect2d_set(professor_slice->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
+	camera_free_entity_outside_bounds(professor_slice);
+	vect2d_subtract(professor_slice->target->position, professor_slice->position, professor_slice->direction);
+	vect2d_normalize(&professor_slice->direction);
+	vect2d_negate(professor_slice->direction, professor_slice->direction);
+	vect2d_mutiply(professor_slice->velocity, professor_slice->direction, professor_slice->velocity);
 	weapon_professor_slice_fire(professor_slice);
 	professor_slice->nextThink = SDL_GetTicks() + professor_slice->thinkRate;
 }
@@ -71,6 +74,7 @@ void professor_slice_stickied_think(Entity *professor_slice)
 
 void professor_slice_update(Entity *professor_slice)
 {
+	Entity *cam = camera_get();
 	if(!professor_slice)
 	{
 		slog("professor slice hasn't been loaded");
@@ -78,8 +82,22 @@ void professor_slice_update(Entity *professor_slice)
 	}
 	if(professor_slice->think)
 	{
+		if(professor_slice->position.y <= cam->bounds.x)
+		{
+			if(professor_slice->velocity.y < 0)
+			{
+				professor_slice->velocity.y = rand() % 2;
+			}
+		}
+
+		if(professor_slice->position.y + professor_slice->sprite->frameSize.y >= cam->bounds.x + cam->bounds.h)
+		{
+			if(professor_slice->velocity.y > 0)
+			{
+				professor_slice->velocity.y = -(rand() % 2);
+			}
+		}
 		vect2d_add(professor_slice->position, professor_slice->velocity, professor_slice->position);
-		vect2d_set(professor_slice->velocity, MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
 	}
 	entity_intersect_all(professor_slice);
 	if(professor_slice->health <= 0)

@@ -245,7 +245,7 @@ void weapon_pep_bomb_touch(Entity *bomb, Entity *other)
 {
 	if(other->target == bomb->owner)//if other is an enemy deplete its health, if its a power_up nothing will happen to it, but enemies will die
 	{
-		other->health -= 10; //ten damage should kill anything, but leave health If I made a boss
+		other->health -= 1000000; //might have to change this if I add bosses
 	}
 }
 

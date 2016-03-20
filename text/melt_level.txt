@@ -1,0 +1,159 @@
+image: images/background.png
+width: 2732
+height: 768
+
+
+entity: player
+id: 1
+position: 0 400
+~
+
+entity: melt
+id: 2
+target: 1
+position: 1500 200
+~
+
+entity: melt
+id: 3
+target: 1
+position: 1500 600
+~
+
+entity: double_tap
+id: 4
+target: 1
+position: 1700 300
+~
+
+entity: celery_stalker
+id: 5
+target: 1
+position: 3100 100
+~
+
+entity: melt
+id: 6
+target: 1
+position: 3100 300
+~
+
+entity: melt
+id: 7
+target: 1
+position: 3100 600
+~
+
+entity: clarence
+id: 8
+target: 1
+position: 5000 10
+~
+
+entity: melt
+id: 9
+target: 1
+position: 5400 350
+~
+
+entity: melt
+id: 10
+target: 1
+position: 5200 600
+~
+
+entity: spread_shot
+id: 11
+target: 1
+position: 6000 400
+~
+
+entity: melt
+id: 12
+target: 1
+position: 7500 100
+~
+
+entity: melt
+id: 13
+target: 1
+position: 7500 300
+~
+
+entity: melt
+id: 14
+target: 1
+position: 8000 500
+~
+
+entity: melt
+id: 15
+target: 1
+position: 8000 700
+~
+
+entity: melt
+id: 16
+target: 1
+position: 9000 100
+~
+
+entity: professor_slice
+id: 17
+target: 1
+position: 9000 300
+~
+
+entity: melt
+id: 18
+target: 1
+position: 9000 500
+~
+
+entity: melt
+id: 19
+target: 1
+position: 9500 100
+~
+
+entity: melt
+id: 20
+target: 1
+position: 9800 300
+~
+
+entity: melt
+id: 21
+target: 1
+position: 10000 500
+~
+
+entity: heat_shield
+id: 22
+target: 1
+position: 11000 350
+~
+
+entity: melt
+id: 23
+target: 1
+position: 12500 200
+~
+
+entity: milk_tank
+id: 24
+target: 1
+position: 12300 400
+~
+
+entity: melt
+id: 25
+target: 1
+position: 12000 600
+~
+
+entity: extra_life
+id: 26
+target: 1
+position: 14000 400
+~
