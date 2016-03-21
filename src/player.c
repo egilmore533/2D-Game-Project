@@ -70,14 +70,20 @@ void player_think(Entity *player)
 	{
 		if(full_charge >= SDL_GetTicks())
 		{
-			//this needs to be the spread version
-			weapon_pep_spread_fire(player);
-			player->nextThink = SDL_GetTicks() + player->thinkRate;
+			if(SDL_GetTicks() >= player->nextThink)
+			{
+				//this needs to be the spread version
+				weapon_pep_spread_fire(player);
+				player->nextThink = SDL_GetTicks() + player->thinkRate;
+			}
 		}
 		else
 		{
-			weapon_pep_charge_fire(player);
-			player->nextThink = SDL_GetTicks() + player->thinkRate;
+			if(SDL_GetTicks() >= player->nextThink)
+			{
+				weapon_pep_charge_fire(player);
+				player->nextThink = SDL_GetTicks() + player->thinkRate;
+			}
 		}
 		clicked = 0;
 	}
