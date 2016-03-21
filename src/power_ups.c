@@ -12,7 +12,11 @@ Entity *power_up_spawn(int id, int targetID, float x, float y)
 	Vect2d vel, pos;
 
 	vect2d_set(pos, x, y);
-	power_up = entity_new(); 
+	power_up = entity_new();
+	if(!power_up)
+	{
+		return NULL;
+	}
 	power_up->draw = &sprite_draw;
 	power_up->update = &power_up_update;
 	power_up->free = &power_up_free;
@@ -30,7 +34,7 @@ void power_up_free(Entity *power_up)
 {
 	if(!power_up)
 	{
-		slog("professor slice hasn't been loaded");
+		slog("power_up hasn't been loaded");
 		return;
 	}
 	power_up->draw = NULL;
@@ -54,6 +58,11 @@ void power_up_double_tap(Entity *double_tap, int id, int targetID, float x, floa
 
 void power_up_double_tap_touch(Entity *double_tap, Entity *other)
 {
+	if(!double_tap->target)
+	{
+		slog("no double_tap target");
+		return;
+	}
 	if(other == double_tap->target)
 	{
 		other->thinkRate /= 2;
@@ -74,6 +83,11 @@ void power_up_heat_shield(Entity *heat_shield, int id, int targetID, float x, fl
 
 void power_up_heat_shield_touch(Entity *heat_shield, Entity *other)
 {
+	if(!heat_shield->target)
+	{
+		slog("no heat_shield target");
+		return;
+	}
 	if(other == heat_shield->target)
 	{
 		other->health = 2;
@@ -94,6 +108,11 @@ void power_up_bomb(Entity *bomb, int id, int targetID, float x, float y)
 
 void power_up_bomb_touch(Entity *bomb, Entity *other)
 {
+	if(!bomb->target)
+	{
+		slog("no bomb target");
+		return;
+	}
 	if(other == bomb->target)
 	{
 		other->inventory[BOMB_SLOT]++;
@@ -114,6 +133,11 @@ void power_up_spread_shot(Entity *spread, int id, int targetID, float x, float y
 
 void power_up_spread_shot_touch(Entity *spread, Entity *other)
 {
+	if(!spread->target)
+	{
+		slog("no spread target");
+		return;
+	}
 	if(other == spread->target)
 	{
 		other->inventory[SPREAD_SLOT]++;
@@ -134,6 +158,11 @@ void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, fl
 
 void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other)
 {
+	if(!sticky_shot->target)
+	{
+		slog("no sticky_shot target");
+		return;
+	}
 	if(other == sticky_shot->target)
 	{
 		other->bullet_state = GOO_SHOT_STATE;
@@ -154,6 +183,11 @@ void power_up_extra_life(Entity *extra_life, int id, int targetID, float x, floa
 }
 void power_up_extra_life_touch(Entity *extra_life, Entity *other)
 {
+	if(!extra_life->target)
+	{
+		slog("no extra_life target");
+		return;
+	}
 	if(other == extra_life->target)
 	{
 		player_add_life();

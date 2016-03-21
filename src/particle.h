@@ -33,7 +33,7 @@ void particle_initialize_system(int maxParticle);
 
 /**
  * @brief	creates a particle in the first free space in particleList, ends execution if there isn't room for another particle.
- * @return	null if it fails, else a Particle pointer.
+ * @return	null if it fails, else a pointer to the first available particle in the particle list.
  */
 Particle *particle_new();
 
@@ -48,7 +48,7 @@ Particle *particle_new();
 Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets);
 
 /**
- * @brief	checks if the particle has reached it's last frame
+ * @brief	checks if a particle has reached it's last frame
  * @param [in,out]	particle	If non-null, the particle to check.
  * @return	true if the particle is at or above its last frame, else false.
  */
@@ -59,7 +59,7 @@ int particle_dead(Particle *particle);
 void particle_check_all_dead();
 
 
-/** @brief	draws every particle in particleList that is in use, and iterates the frame of that particle. */
+/** @brief	draws every particle to the screen using sprite draw, this needs to be used because particles aren't entities and camera won't draw them */
 void particle_draw_all();
 
 #endif

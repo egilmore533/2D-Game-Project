@@ -4,7 +4,7 @@
 #include "entity.h"
 
 /** 
- *  @brief  loads the clarence enemy entity, clarence will spike down onto the player once clarence is over him
+ *  @brief  loads the clarence enemy entity, clarence will be invulnearable until the player is under him then clarence will spike down onto the player
  *  @param 	clarence	the entity that will become a clarence
  *  @param	id			this clarence's id
  *	@param	target		clarence's targetID, used to get a pointer to the target, usually the player
@@ -14,19 +14,19 @@
 void clarence_load(Entity *clarence, int id, int target, float x, float y);
 
 /** 
- *  @brief  checks if clarence's target is directly below him, if so then sets the direction to be straight down and change to the other think
+ *  @brief  checks if clarence's target is directly below him, if so then sets the direction to be straight down and change to the other think, also allow clarence to die
  *  @param	clarence	the clarence
  */
 void clarence_think_start(Entity *clarence);
 
 /** 
- *  @brief  multiplies the velocity by the direction
+ *  @brief  check if clarence has left the camera's bounds, if so kill clarence
  *  @param	clarence	the clarence
  */
 void clarence_think_moving(Entity *clarence);
 
 /** 
- *  @brief  adds clarence's velocity to his position, then resets his velocity
+ *  @brief  adds clarence's velocity to his position, kills clarence if he is out of health
  *  @param	clarence	the clarence 
  */
 void clarence_update(Entity *clarence);

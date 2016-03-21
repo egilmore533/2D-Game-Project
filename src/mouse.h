@@ -9,7 +9,7 @@
 void mouse_initialize();
 
 /**
- * @brief	does nothing, but is where the click behaviour would be handled.
+ * @brief	does nothing, but is where the click behaviour would be handled. (Click behavior in a menu system, clicking is used in game for pep's firing)
  * @param [in,out]	mouse	If non-null, the mouse.
  */
 void mouse_think(Entity *mouse);

@@ -15,13 +15,7 @@
 void camera_initialize(Vect2d position, Vect2d dimensions, int id);
 
 /**
- * @brief	runs according to think rate. does nothing, maybe delete, maybe use to test if the player has reached the end of stage and stop moving
- * @param [in,out]	camera	If non-null, the camera.
- */
-void camera_think(Entity *camera);
-
-/**
- * @brief	performs the intersect all to check what entities are inside the camera's bounds, then it will draw them reative to the camera.
+ * @brief	moves the camera, performs the intersect all to check what entities are inside the camera's bounds, then camera_touch will draw them, be sure to remove camera_touch after runnign intersect all that way nothing is drawn twice.
  * @param [in,out]	self	If non-null, the camera entity.
  */
 void camera_update(Entity *self);
@@ -40,9 +34,14 @@ void camera_touch(Entity *self, Entity *other);
 Entity *camera_get();
 
 /** 
- *  @brief runs the entities free function if they are out of the camera's bounds
+ *  @brief	runs the entities free function if they are out of the camera's bounds
  *  @param ent	the entity in question
  */
 void camera_free_entity_outside_bounds(Entity *ent);
+
+/** 
+ *  @brief	stops the camera from moving, used when there is a game over
+ */
+void camera_stop();
 
 #endif

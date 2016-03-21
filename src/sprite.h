@@ -39,7 +39,7 @@ void sprite_initialize_system(int maxSprite);
 
 /**
  * @brief	loads a given file to be a sprite, unless already loaded which it will then raise the reference count and
- * 			 and reuse the Sprite, ends execution if the sprite limit has been reached.
+ * 			 and reuse the Sprite, ends execution if the sprite limit has been reached, uses the first available slot in the spriteList.
  * @param	file  	The filepath to be used to load a sprite.
  * @param	frameW	Width of each sprite in the image.
  * @param	frameH	Height of each sprite in the image.

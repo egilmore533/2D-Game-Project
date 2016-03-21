@@ -19,7 +19,7 @@ void particle_free(Particle **particle)
 		slog("particle isn't pointing to anything");
 		return;
 	}
-	if(!*particle) 
+	else if(!*particle) 
 	{
 		slog("particle pointer isn't pointing to anything");
 		return;
@@ -45,7 +45,6 @@ void particle_close_system()
 		particle = &particleList[i];
 		particle_free(&particle);
 	}
-//	free(particleList);
 	particleList = NULL;
 }
 
@@ -110,7 +109,7 @@ Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets)
 		slog("particle doesn't point to anything");
 		return NULL;
 	}
-	if(!generator)
+	else if(!generator)
 	{
 		slog("generator doesn't point to anything");
 		return NULL;

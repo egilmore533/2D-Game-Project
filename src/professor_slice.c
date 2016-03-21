@@ -36,9 +36,9 @@ void professor_slice_load(Entity *professor_slice, int id, int target, float x, 
 
 void professor_slice_think(Entity *professor_slice)
 {
-	if(!professor_slice)
+	if(!professor_slice->target)
 	{
-		slog("professor slice hasn't been loaded");
+		slog("no professor slice target");
 		return;
 	}
 	if(professor_slice->state == STICKIED_STATE)
@@ -76,9 +76,8 @@ void professor_slice_stickied_think(Entity *professor_slice)
 void professor_slice_update(Entity *professor_slice)
 {
 	Entity *cam = camera_get();
-	if(!professor_slice)
+	if(!cam)
 	{
-		slog("professor slice hasn't been loaded");
 		return;
 	}
 	if(professor_slice->think)
@@ -109,11 +108,6 @@ void professor_slice_update(Entity *professor_slice)
 
 void professor_slice_free(Entity *professor_slice)
 {
-	if(!professor_slice)
-	{
-		slog("professor slice hasn't been loaded");
-		return;
-	}
 	professor_slice->update = NULL;
 	professor_slice->touch = NULL;
 	professor_slice->draw = NULL;
@@ -123,14 +117,9 @@ void professor_slice_free(Entity *professor_slice)
 
 void professor_slice_touch(Entity *professor_slice, Entity *other)
 {
-	if(!professor_slice)
+	if(!professor_slice->target)
 	{
-		slog("professor slice hasn't been loaded");
-		return;
-	}
-	else if(!other)
-	{
-		slog("Professor slice is hitting something that doesn't exist");
+		slog("no professor slice target");
 		return;
 	}
 	

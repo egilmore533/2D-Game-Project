@@ -35,6 +35,12 @@ void clarence_think_start(Entity *clarence)
 {
 	Vect2d dir = vect2d_new(0, 0);
 	Vect2d vel = vect2d_new(MOVEMENT_SPEED_X, MOVEMENT_SPEED_Y);
+
+	if(!clarence->target)
+	{
+		slog("no clarence target");
+		return;
+	}
 	if(clarence->target->position.x + clarence->target->sprite->frameSize.x * 0.5 >= clarence->position.x)
 	{
 		dir = vect2d_new(0, 1);
@@ -42,6 +48,7 @@ void clarence_think_start(Entity *clarence)
 		clarence->direction = dir;
 		clarence->velocity = vel;
 		vect2d_mutiply(clarence->velocity, clarence->direction, clarence->velocity);
+		clarence->health = 1;
 	}
 	else
 	{
@@ -52,7 +59,6 @@ void clarence_think_start(Entity *clarence)
 
 void clarence_think_moving(Entity *clarence)
 {
-	clarence->health = 1;
 	camera_free_entity_outside_bounds(clarence);
 }
 
@@ -72,6 +78,11 @@ void clarence_update(Entity *clarence)
 
 void clarence_touch(Entity *clarence, Entity *other)
 {
+	if(!clarence->target)
+	{
+		slog("no clarence target");
+		return;
+	}
 	if(!clarence->think)
 	{
 		if(entity_intersect(clarence, camera_get()))
@@ -88,11 +99,6 @@ void clarence_touch(Entity *clarence, Entity *other)
 
 void clarence_free(Entity *clarence)
 {
-	if(!clarence)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
 	clarence->update = NULL;
 	clarence->touch = NULL;
 	clarence->draw = NULL;

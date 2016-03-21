@@ -5,7 +5,7 @@
 #include "sprite.h"
 
 
-
+////////////////////Inventory/////////////////////
 /** @brief	A macro that defines maximum inventory. */
 #define MAX_INVENTORY	12
 
@@ -15,37 +15,45 @@
 /** @brief  A macro that defines which slot is the bomb slot in the player's inventory */
 #define BOMB_SLOT		1
 
-/** @brief A macro that defines which slot is the the spread shots in the player's inventory */
+/** @brief A macro that defines which slot is the the spread shots in the player's inventory 0 means normal firing, each one added gives two extra shots */
 #define SPREAD_SLOT		2 
 
 
+//////////////////////Entity States///////////////////////////////////
+/** @brief entity is in the normal state */
 #define NORMAL_STATE	0
+
+/** @brief player is being shielded by the heat_shield*/
 #define SHIELDED_STATE	1
+
+/** @brief enemy has been stickied by the goo shot */
 #define STICKIED_STATE	2
 
+//////////////////Bullet States//////////////////////////////
+/** @brief bullet is in the normal state*/
 #define NORMAL_SHOT_STATE	0
+
+/** @brief bullet will sticky the enemy it strikes*/
 #define GOO_SHOT_STATE		1
 
 
 
-/** 
- *  @brief	anything that can act or be acted upon (Enemies, players, power_ups, weapons, etc.)
- */
+/** @brief	anything that can act or be acted upon (Enemies, players, power_ups, weapons, etc.) */
 typedef struct Entity_s
 {
 	int inUse;							/**< flag to know if the entity is currently active */
 	int id;								/**< id of the entity to find it */
 	Vect2d position;					/**< x and y coordinates of the entity */
 	Vect2d velocity;					/**< x and y velocities that the entity is moving */
-	Vect2d direction;					/**< normalized vector of which way the  entity will be moving */
-	SDL_Rect bounds;					/**< the bounding box of the entity */
+	Vect2d direction;					/**< normalized vector of which way the entity will be moving */
+	SDL_Rect bounds;					/**< the bounding box of the entity, determined by the sprite */
 	
 	Sprite *sprite;						/**< sprite component of the entity */
 	int frame;							/**< frame number the entity is on */
 	int inventory[MAX_INVENTORY];		/**< count of how many each item the entity is holding */
 	int health;							/**< the current health of the entity */
-	Uint8  state;						/**< special states for each entity type (ie: stickied enemy, shielded player)*/
-	Uint8  bullet_state;
+	Uint8  state;						/**< special states for each entity type (ie: stickied enemy, shielded player, goo bullet)*/
+	Uint8  bullet_state;				/**< the state an entities bullets will be in*/
 
 	struct Entity_s *owner;				/**< the owner of the entity, such as the entity that fired the bullet */
 	struct Entity_s *target;			/**< the target of this struct (ie: entity will be chasing player, power_up gives player a shield) */
@@ -53,18 +61,18 @@ typedef struct Entity_s
 	void (*draw)(Sprite *sprite,
 				 int frame, 
 				 Vect2d drawPos);			/**< draw function for the entity, most if not all entities will just be using sprite_draw */
-	Uint32 nextThink;						/**< stuff for thinking and the think rate */
-	Uint32 thinkRate;						/**< rate of thinking */
-	void (*think) (struct Entity_s *self);	/**< behavior of the entity will be defined in the think function */
-	void (*update) (struct Entity_s *self);	/**< update function for changing the entity's data */
+	Uint32 nextThink;						/**< the next moment the entity will think */
+	Uint32 thinkRate;						/**< how long the entity will wait to think again */
+	void (*think) (struct Entity_s *self);	/**< behavior of the entity */
+	void (*update) (struct Entity_s *self);	/**< update function for changing the entity's data and checking its status */
 	void (*touch) (struct Entity_s *self,	
 				   struct Entity_s *other); /**< collision behavior of the entity */
-	void (*free) (struct Entity_s *self);	/**< function to free the entity's structs */
+	void (*free) (struct Entity_s *self);	/**< function to free the entity */
 
 }Entity;
 
 /**
- * @brief	creates a new entity in the entity list, allocates memory for it and returns a pointer to that position in the entity list
+ * @brief	creates a new entity in the entity list, sets it to being used and returns a pointer to the entity in that position
  * @return	A pointer to the new entity in entityList.
  */
 Entity *entity_new();
@@ -82,7 +90,7 @@ void entity_free(Entity **entity);
 void entity_initialize_system(int maxEntity);
 
 
-/** @brief	go through entity list and draw them all to renderer. */
+/** @brief	go through entity list and draw them all to renderer. Not used anymore. */
 void entity_draw_all();
 
 
@@ -127,8 +135,7 @@ Entity *entity_load(Entity *entity, char file[], int frameW, int frameH, int fpl
 int entity_intersect(Entity *a, Entity *b);
 
 /**
- * @brief	go through entire entity list checking if the given ent is colliding with any others, perfroming touch functions if either entity has them.
- * 			used in the main game loop with camera entity so that only the entity's in the camera's bounding box are drawn
+ * @brief	go through all active entities checking if the given ent is colliding with any others, perfroming touch functions if either entity has them.
  * @param [in,out]	a	If non-null, the Entity to process.
  */
 void entity_intersect_all(Entity *a);

@@ -11,7 +11,7 @@
 #define MAX(a,b) (a>b?a:b)
 
 /** @brief example macro to return the smallest of two values.
- * can be read as: if a less than b then a, else b
+ *			can be read as: if a less than b then a, else b
  */
 #define MIN(a,b) (a<b?a:b)
 
@@ -27,19 +27,8 @@
  */
 void graphics_initialize(char *windowName, int viewWidth, int viewHeight, int renderWidth, int renderHeight, int fullscreen);
 
-/**
- * @brief	render SDL surface to screen.
- * @param [in,out]	surface	If non-null, the surface.
- * @param	srcRect		   	Source rectangle.
- * @param	x			   	The x coordinate.
- * @param	y			   	The y coordinate.
- */
-void graphics_render_surface_to_screen(SDL_Surface *surface,SDL_Rect srcRect,int x,int y);
-
-
 /** @brief	delay's frame rate so the screen and code are synched up properly */
 void graphics_frame_delay();
-
 
 /** @brief	goes to the next frame then holds for a frame delay. */
 void graphics_next_frame();

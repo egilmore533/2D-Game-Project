@@ -14,13 +14,13 @@
 void melt_load(Entity *melt, int id, int target, float x, float y);
 
 /** 
- *  @brief  fires projectiles according to the think rate and sets the melt's direction and velocity to be towards the player, kills melt if not touching the camera
+ *  @brief  fires projectiles according to the think rate and sets the melt's direction and velocity to be towards the player
  *  @param	melt	the melt
  */
 void melt_think(Entity *melt);
 
 /** 
- *  @brief	adds melt's velocity to its position 
+ *  @brief	adds melt's velocity to its position, kills melt if not touching the camera
  *  @param	melt	the melt
  */
 void melt_update(Entity *melt);
@@ -33,7 +33,7 @@ void melt_update(Entity *melt);
 void melt_free(Entity *melt);
 
 /** 
- *  @brief  checks if the melt is touching the player, or the player's weapons and acts according
+ *  @brief  checks if the melt is touching the player, or the camera and acts according
  *  @param	melt	the melt
  *  @param	other	the entity melt touched
  */

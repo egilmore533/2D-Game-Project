@@ -107,6 +107,11 @@ void level_load(Uint8 level_number)
 			{
 				if(strncmp(entity_type, entity_types[i], 16) == 0)
 				{
+					if(!entity_load_array[i])
+					{
+						slog("error finding entity's load function");
+						return;
+					}
 					entity_load_array[i](ent,id,targetID,x,y);
 				}
 			}

@@ -36,7 +36,7 @@ void player_load(Entity *ent, int id, int target, float x, float y)
 	player->health = 1;
 	player->state = NORMAL_STATE;
 	player->bullet_state = NORMAL_SHOT_STATE;
-	player->inventory[LIVES_SLOT] = lives; //this is never really used, so I should probably change this or something
+	player->inventory[LIVES_SLOT] = lives; //this is never really used, so I need to allow for the player's information to be saved between respawns and and level changes
 	player->inventory[BOMB_SLOT] = 2;
 	player->inventory[SPREAD_SLOT] = 0;
 }
@@ -47,11 +47,6 @@ void player_think(Entity *player)
 	const Uint8 *keys;
 	SDL_Event click_event;
 	static Uint8 clicked = 0;
-	if(!player)
-	{
-		slog("player not yet initialized");
-		return;
-	}
 	SDL_PollEvent(&click_event);
 	keys = SDL_GetKeyboardState(NULL);
 	if(keys[SDL_SCANCODE_SPACE])
@@ -93,21 +88,20 @@ void player_update(Entity *player)
 	int tempID;
 	Vect2d tempPos;
 	const Uint8 *keys;
-	if(!player)
+	if(!player->owner)
 	{
-		slog("player not yet initialized");
+		slog("player has no owner");
 		return;
 	}
 	//if the player picked up the shield power up it will get a health of 2
-	//using maxHealth purely to help implement the logic
-	//if maxHealth is less than 2, but the player health is 2 then the shield needs to be activated
+	//if STATE isn't SHIELDED, but the player health is 2 then the shield needs to be activated
 	if(player->health > 1 && player->state != SHIELDED_STATE)
 	{
 		player->state = SHIELDED_STATE;
 		player->frame++;
 	}
-	//if the player has a maxHealth of 2, but has a health of 1 then they lost their shield
-	//set the maxHEalth to 1 and reset the sprite to be the normal player sprite
+	//if the player has a SHIELD, but has a health of 1 then they lost their shield
+	//set the state to NORMAL and reset the sprite to be the normal player sprite
 	else if(player->state == SHIELDED_STATE && player->health == 1)
 	{
 		player->state = NORMAL_STATE;
@@ -120,6 +114,7 @@ void player_update(Entity *player)
 		{
 			//game over code here
 			player->free(player);
+			camera_stop();
 			return;
 		}
 		lives--;
@@ -195,11 +190,6 @@ void player_update(Entity *player)
 
 void player_free(Entity *player)
 {
-	if(!player)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
 	player->update = NULL;
 	player->touch = NULL;
 	player->draw = NULL;
@@ -210,7 +200,6 @@ void player_free(Entity *player)
 void player_death(int id, Vect2d pos)
 {
 	Entity *new_player = NULL;
-
 	while(1)
 	{
 		if(SDL_GetTicks() >= respawn_moment)

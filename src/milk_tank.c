@@ -30,6 +30,11 @@ void milk_tank_load(Entity *milk_tank, int id, int target, float x, float y)
 
 void milk_tank_think(Entity *milk_tank)
 {
+	if(!milk_tank->target)
+	{
+		slog("no milk_tank");
+		return;
+	}
 	if(milk_tank->state == STICKIED_STATE)
 	{
 		milk_tank->think = &milk_tank_stickied_think;
@@ -45,7 +50,7 @@ void milk_tank_think(Entity *milk_tank)
 	vect2d_subtract(milk_tank->target->position, milk_tank->position, milk_tank->direction);
 	vect2d_normalize(&milk_tank->direction);
 	vect2d_mutiply(milk_tank->velocity, milk_tank->direction, milk_tank->velocity);
-	//7camera_free_entity_outside_bounds(milk_tank);
+	//no camera free because pep is locked to the screen, and milk_tank will always go towards pep
 }
 
 void milk_tank_stickied_think(Entity *milk_tank)
@@ -78,6 +83,11 @@ void milk_tank_update(Entity *milk_tank)
 
 void milk_tank_touch(Entity *milk_tank, Entity *other)
 {
+	if(!milk_tank->target)
+	{
+		slog("no milk_tank target");
+		return;
+	}
 	if(other == milk_tank->target)
 	{
 		other->health--;
@@ -93,7 +103,7 @@ void milk_tank_free(Entity *milk_tank)
 {
 	if(!milk_tank)
 	{
-		slog("spice doesn't point to anything");
+		slog("milk_tank doesn't point to anything");
 		return;
 	}
 	milk_tank->update = NULL;

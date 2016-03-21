@@ -3,9 +3,12 @@
 #include "camera.h"
 #include "files.h"
 #include <stdlib.h>
+#include <math.h>
 
 #define PEP_WEAPON_OFFSET_X	128
 #define PEP_WEAPON_OFFSET_Y	40
+
+#define PI			3.141589
 
 #define PEP_CHARGE_BULLET_VEL_X		20
 #define PEP_CHARGE_BULLET_VEL_Y		20
@@ -21,13 +24,10 @@ universal weapon functions
 Entity *weapon_fire(Entity *owner)
 {
 	Entity *shot;
-	if(!owner)
-	{
-		slog("No entity to fire from");
-		return NULL;
-	}
+	//don't check for owner's target because not every entity that fires has a target (Player)
 
 	shot = entity_new(); 
+
 	shot->owner = owner; //the entity firing owns this projectile
 	shot->draw = &sprite_draw;
 	shot->update = &weapon_update;
@@ -57,7 +57,7 @@ void weapon_free(Entity *shot)
 {
 	if(!shot)
 	{
-		slog("spice doesn't point to anything");
+		slog("shot doesn't point to anything");
 		return;
 	}
 	shot->owner = NULL;
@@ -68,11 +68,6 @@ void weapon_free(Entity *shot)
 
 void weapon_update(Entity *shot)
 {
-	if(!shot)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
 	vect2d_add(shot->position, shot->velocity, shot->position);
 }
 
@@ -84,7 +79,7 @@ Pep firing functions
 void weapon_pep_spread_fire(Entity *player)
 {
 	Entity *spice_temp;
-	Vect2d upPos, downPos; //used to calculate the velocity of each spread shot bullet by normalizing the distance between the bullets start position and this point
+	Vect2d velocity;
 	Uint8 shots;
 	int i;
 
@@ -100,24 +95,22 @@ void weapon_pep_spread_fire(Entity *player)
 		}
 		else // each extra spread shot pickup gives one extra top and bottom bullet
 		{
-			//bottom bullet
-			spice_temp = make_spread_bullet(player);
-			upPos = vect2d_new(spice_temp->position.x + 10, spice_temp->position.y + (shots * 2));
-			vect2d_subtract(upPos, spice_temp->position, spice_temp->direction);
-			vect2d_normalize(&spice_temp->direction);
-			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
+			velocity.y = PEP_SPREAD_BULLET_VEL_X * sin(PI / 8 / i);
+			velocity.x = PEP_SPREAD_BULLET_VEL_X * cos(PI / 8 / i);
 
 			//top bullet
 			spice_temp = make_spread_bullet(player);
-			downPos = vect2d_new(spice_temp->position.x + 10, spice_temp->position.y - (shots * 2));
-			vect2d_subtract(downPos, spice_temp->position, spice_temp->direction);
-			vect2d_normalize(&spice_temp->direction);
-			vect2d_mutiply(spice_temp->velocity, spice_temp->direction, spice_temp->velocity);
+			spice_temp->velocity = velocity;
+
+			//bottom bullet
+			velocity.y *= -1;
+			spice_temp = make_spread_bullet(player);
+			spice_temp->velocity = velocity;
 		}
 	}
 }
 
-void weapon_pep_spread_touch(Entity *spread, Entity *other)//if other is an enemy deplete its health, if its a power_up nothing will happen to it, but enemies will die
+void weapon_pep_spread_touch(Entity *spread, Entity *other)//
 {
 	if(other->target == spread->owner)
 	{
@@ -134,6 +127,7 @@ Entity *make_spread_bullet(Entity *owner)
 {
 	Entity *spread_bullet;
 	Vect2d pos, vel;
+
 	spread_bullet = weapon_fire(owner);
 	spread_bullet = entity_load(spread_bullet, SPICE_SPREAD_SHOT_SPRITE, 32, 16, 1); 
 	spread_bullet->think = &weapon_pep_think;
@@ -151,8 +145,8 @@ Entity *make_spread_bullet(Entity *owner)
 void weapon_pep_charge_fire(Entity *player)
 {
 	Entity *spice;
-	spice = weapon_fire(player);
 	Vect2d pos, vel;
+	spice = weapon_fire(player);
 	
 	pos = vect2d_new(player->position.x + PEP_WEAPON_OFFSET_X, player->position.y + PEP_WEAPON_OFFSET_Y); 
 	vel = vect2d_new(PEP_CHARGE_BULLET_VEL_X, 0); 
@@ -170,16 +164,8 @@ void weapon_pep_think(Entity *spice) //this is used for spread shot and charge s
 {
 	Particle *part;
 	Vect2d offset;
-	if(!spice)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
 	//if the bullet isn't touching the camera free the entity
-	if(!entity_intersect(spice, camera_get()))
-	{
-		weapon_free(spice);
-	}
+	camera_free_entity_outside_bounds(spice);
 
 	if(!(SDL_GetTicks() >= spice->nextThink))
 	{
@@ -194,16 +180,6 @@ void weapon_pep_think(Entity *spice) //this is used for spread shot and charge s
 
 void weapon_pep_charge_touch(Entity *spice, Entity *other)
 {
-	if(!spice)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
-	if(!other)
-	{
-		slog("other doesn't point to anything");
-		return;
-	}
 	if(other->target == spice->owner)
 	{
 		other->health -= 5; //five damage is fairly big considering most enemies only have 1 health
@@ -244,6 +220,16 @@ void weapon_pep_bomb_think(Entity *bomb)
 
 void weapon_pep_bomb_touch(Entity *bomb, Entity *other)
 {
+	if(!bomb->owner)
+	{
+		slog("no bomb owner");
+		return;
+	}
+	else if(!other->target)
+	{
+		slog("no other target");
+		return;
+	}
 	if(other->target == bomb->owner)//if other is an enemy deplete its health, if its a power_up nothing will happen to it, but enemies will die
 	{
 		other->health -= 1000000; //might have to change this if I add bosses
@@ -260,13 +246,7 @@ void weapon_melt_fire(Entity *melt)
 	Vect2d pos, vel;
 	int offsetX = 0; 
 	int offsetY = 55; 
-	if(!melt)
-	{
-		slog("No entity to fire from");
-		return;
-	}
 	cream = weapon_fire(melt);
-
 	pos = vect2d_new(melt->position.x + offsetX, melt->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
 	cream = entity_load(cream, CREAM_SPRITE, 32, 16, 1); //make a new sprite for cream
@@ -280,6 +260,10 @@ void weapon_melt_fire(Entity *melt)
 
 void weapon_melt_touch(Entity *cream, Entity *other)
 {
+	if(!cream->target)
+	{
+		slog("no cream target");
+	}
 	if(other == cream->target)
 	{
 		other->health--;
@@ -296,13 +280,7 @@ void weapon_professor_slice_fire(Entity *professor_slice)
 	Vect2d pos, vel;
 	int offsetX = 0; //change the cream sprite and then change this
 	int offsetY = 64; 
-	if(!professor_slice)
-	{
-		slog("No entity to fire from");
-		return;
-	}
 	bread = weapon_fire(professor_slice);
-
 	pos = vect2d_new(professor_slice->position.x + offsetX, professor_slice->position.y + offsetY);
 	vel = vect2d_new(-15, 0);
 	bread = entity_load(bread, BREAD_CRUMB_SPRITE, 32, 32, 1); //make a new sprite for bread
@@ -316,6 +294,11 @@ void weapon_professor_slice_fire(Entity *professor_slice)
 
 void weapon_professor_slice_touch(Entity *bread, Entity *other)
 {
+	if(!bread->target)
+	{
+		slog("no bread target");
+		return;
+	}
 	if(other == bread->target)
 	{
 		other->health--;

@@ -17,7 +17,7 @@ void entity_free(Entity **entity)
 	{
 		return;
 	}
-	if(!*entity) 
+	else if(!*entity) 
 	{
 		return;
 	}

@@ -36,6 +36,11 @@ void melt_load(Entity *melt, int id, int target, float x, float y)
 
 void melt_think(Entity *melt)
 {
+	if(!melt->target)
+	{
+		slog("no melt target");
+		return;
+	}
 	//camera_free_entity_outside_bounds(melt);
 	vect2d_subtract(melt->target->position, melt->position, melt->direction);
 	vect2d_normalize(&melt->direction);
@@ -65,11 +70,6 @@ void melt_update(Entity *melt)
 
 void melt_free(Entity *melt)
 {
-	if(!melt)
-	{
-		slog("spice doesn't point to anything");
-		return;
-	}
 	melt->update = NULL;
 	melt->touch = NULL;
 	melt->draw = NULL;
@@ -79,6 +79,11 @@ void melt_free(Entity *melt)
 
 void melt_touch(Entity *melt, Entity *other)
 {
+	if(!melt->target)
+	{
+		slog("no melt target");
+		return;
+	}
 	if(!melt->think)
 	{
 		if(other == camera_get())

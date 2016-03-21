@@ -4,7 +4,7 @@
 #include "entity.h"
 
 /** 
- *  @brief load code for a celery_stalker enemy entity, the cleery stalker will appear on screen for a brief time then bolt towards where the player was when it started moving
+ *  @brief load code for a celery_stalker enemy entity, the celery stalker will appear on screen for a brief time then bolt straight towards the player 
  *  @param celery_stalker	the entity that will become a celery_stalker
  *  @param id				the celery_stalker's id
  *  @param target			the id of the celery_stalker's target, usually whatever the player's is
@@ -14,19 +14,19 @@
 void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, float y);
 
 /** 
- *  @brief waits for the specified number of ticks, then targets the player by setting the direction towards the plus
+ *  @brief waits for the specified number of ticks, then targets the player by setting the direction towards the player
  *  @param celery_stalker	the entity that is assumed to be a celery_stalker
  */
 void celery_stalker_think_start(Entity *celery_stalker);
 
 /** 
- *  @brief multiplies the velocity by direction and stores it in velocity, needs to check if celery_stalker is touching the camera and delete it otherwise
+ *  @brief check if celery_stalker is touching the camera and delete it otherwise
  *  @param celery_stalker	the entity that is assumed to be a celery_stalker
  */
 void celery_stalker_think_moving(Entity *celery_stalker);
 
 /** 
- *  @brief adds the velocity result to position, then resets the velocity to normal values that way you can run think again
+ *  @brief adds the velocity result to position, kills celery_stalker if out of health, also intersects all with celery_stalker
  *  @param celery_stalker	the entity that is assumed to be a celery_stalker
  */
 void celery_stalker_update(Entity *celery_stalker);

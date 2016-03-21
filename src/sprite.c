@@ -18,7 +18,7 @@ void sprite_free(Sprite **sprite)
 	{
 		return;
 	}
-	if(!*sprite)
+	else if(!*sprite)
 	{
 		return;
 	}
@@ -29,7 +29,6 @@ void sprite_free(Sprite **sprite)
 	{
 		strcpy(target->filename,"\0");
 		
-		/* anal */
 		if(target->image != NULL)
 		{
 			SDL_DestroyTexture(target->image); 

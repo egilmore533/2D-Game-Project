@@ -9,7 +9,7 @@ id: 1
 position: 0 400
 ~
 
-entity: milk_tank
+entity: melt
 id: 2
 target: 1
 position: 1500 400
@@ -39,7 +39,7 @@ target: 1
 position: 4500 200
 ~
 
-entity: heat_shield
+entity: spread_shot
 id: 7
 target: 1
 position: 5500 600

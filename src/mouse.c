@@ -13,6 +13,7 @@ void mouse_initialize()
 	if(mouse->sprite == NULL)
 	{
 		slog("Mouse didn't load");
+		return;
 	}
 	SDL_ShowCursor(SDL_DISABLE );
 	mouse->frame = 0;
@@ -36,18 +37,9 @@ void mouse_think(Entity *mouse)
 
 void mouse_update(Entity *self)
 {
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
-	if(!mouse)
-	{
-		slog("mouse hasn't been initialized");
-		return;
-	}
 	int mouseX, mouseY;
 	Vect2d mousePos;
+
 	SDL_GetMouseState(&mouseX, &mouseY);
 	mousePos = vect2d_new(mouseX, mouseY);
 	if(mouse != NULL)
@@ -58,14 +50,5 @@ void mouse_update(Entity *self)
 
 void mouse_touch(Entity *self, Entity *other)
 {
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
-	if(!other)
-	{
-		slog("other doesn't point to anything");
-		return;
-	}
+	return;
 }

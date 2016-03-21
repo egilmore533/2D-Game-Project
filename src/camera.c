@@ -16,30 +16,12 @@ void camera_initialize(Vect2d position, Vect2d dimensions, int id)
 	camera->bounds = bounds;
 	camera->position = position;
 	camera->velocity = vel;
-	camera->think = &camera_think;
 	camera->update = &camera_update;
 }
 
-void camera_think(Entity *self)
-{
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
-	if(!(SDL_GetTicks() >= self->nextThink))
-	{
-		return;
-	}
-}
 
 void camera_update(Entity *self)
 {
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
 	vect2d_add(self->position, self->velocity, self->position);
 
 	//only draw things once, if I left camera touch always on it would draw twice 
@@ -50,16 +32,6 @@ void camera_update(Entity *self)
 
 void camera_touch(Entity *self, Entity *other)
 {
-	if(!self)
-	{
-		slog("self doesn't point to anything");
-		return;
-	}
-	if(!other)
-	{
-		slog("other doesn't point to anything");
-		return;
-	}
 	//if an entity is touching the camera at all draw it
 	entity_draw(other);
 }
@@ -81,4 +53,14 @@ void camera_free_entity_outside_bounds(Entity *ent)
 	{
 		ent->free(ent);
 	}
+}
+
+void camera_stop()
+{
+	if(!camera)
+	{
+		slog("Camera not initialized");
+		return;
+	}
+	camera->velocity.x = 0;
 }

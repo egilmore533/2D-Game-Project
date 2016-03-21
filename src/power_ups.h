@@ -13,8 +13,8 @@
 Entity *power_up_spawn(int id, int targetID, float x, float y);
 
 /** 
- *  @brief  basic movement for each power_up, moves straight across the screen towards the player
- *  @param  power_up  	the power_up entity
+ *  @brief  basic update that only calls intersect all for the power_up
+ *  @param  power_up  	the power_up entity that is being checked for collisions
  */
 void power_up_update(Entity *power_up);
 
@@ -23,6 +23,10 @@ void power_up_update(Entity *power_up);
  *  @param  power_up  	the power_up entity
  */
 void power_up_free(Entity *power_up);
+
+
+
+
 
 /*
 Double Tap code
@@ -39,7 +43,7 @@ Double Tap code
 void power_up_double_tap(Entity *double_tap, int id, int targetID, float x, float y);
 
 /**
- *  @brief  checks if the thing the double_tap is touching is its target (the player) and acts accordingly
+ *  @brief  checks if the thing the double_tap is touching its target (the player) and acts accordingly
  *  @param  double_tap  the double_tap entity
  *  @param  other		the thing double_tap is touching
  */
@@ -60,7 +64,7 @@ Heat Shield Code
 void power_up_heat_shield(Entity *heat_shield, int id, int targetID, float x, float y);
 
 /**
- *  @brief  checks if the thing the heat_shield is touching is its target (the player) and acts accordingly
+ *  @brief  checks if the thing the heat_shield is touching its target (the player) and acts accordingly
  *  @param  heat_shield the heat_shield entity
  *  @param  other		the thing heat_shield is touching
  */
@@ -81,7 +85,7 @@ Bomb pickup code
 void power_up_bomb(Entity *bomb, int id, int targetID, float x, float y);
 
 /**
- *  @brief  checks if the thing the bomb is touching is its target (the player) and acts accordingly
+ *  @brief  checks if the thing the bomb is touching its target (the player) and acts accordingly
  *  @param  bomb 		the bomb entity
  *  @param  other		the thing bomb is touching
  */
@@ -102,7 +106,7 @@ Spread Code
 void power_up_spread_shot(Entity *spread, int id, int targetID, float x, float y);
 
 /**
- *  @brief  checks if the thing the spread is touching is its target (the player) and acts accordingly
+ *  @brief  checks if the thing the spread is touching its target (the player) and acts accordingly
  *  @param  spread 		the spread entity
  *  @param  other		the thing spread is touching
  */
@@ -113,14 +117,43 @@ void power_up_spread_shot_touch(Entity *spread, Entity *other);
 Sticky Goo Code
 */
 
+/**
+ *  @brief  loads a sticky shot power up entity, which will make the player's bullets freeze enemies temporarily
+ *  @param  spread  	the entity to become a sticky shot pick up
+ *  @param  id		  	the id of the sticky shot 
+ *  @param  targetID  	the sticky shot's target's id number (should be the player)
+ *  @param  x		  	the x coordinate of the sticky shot entity
+ *  @param  y		  	the y coordinate of the sticky shot entity
+ */
 void power_up_sticky_shot(Entity *sticky_shot, int id, int targetID, float x, float y);
+
+/**
+ *  @brief  checks if the thing the sticky shot is touching its target (the player) and acts accordingly
+ *  @param  spread 		the sticky shot entity
+ *  @param  other		the thing sticky shot is touching
+ */
 void power_up_sticky_shot_touch(Entity *sticky_shot, Entity *other);
 
 /*
 Extra Life Code
 */
 
+
+/**
+ *  @brief  loads a extra_life power up entity, which will give the player another life
+ *  @param  spread  	the entity to become a extra_life pick up
+ *  @param  id		  	the id of the extra_life 
+ *  @param  targetID  	the extra_life's target's id number (should be the player)
+ *  @param  x		  	the x coordinate of the extra_life entity
+ *  @param  y		  	the y coordinate of the extra_life entity
+ */
 void power_up_extra_life(Entity *extra_life, int id, int targetID, float x, float y);
+
+/**
+ *  @brief  checks if the thing the extra_life is touching its target (the player) and acts accordingly
+ *  @param  spread 		the extra_life entity
+ *  @param  other		the thing extra_life is touching
+ */
 void power_up_extra_life_touch(Entity *extra_life, Entity *other);
 
 #endif

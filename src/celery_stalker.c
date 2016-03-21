@@ -4,8 +4,8 @@
 #include "files.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
-#define MOVEMENT_SPEED_X	15
-#define MOVEMENT_SPEED_Y	15
+#define MOVEMENT_SPEED_X	20
+#define MOVEMENT_SPEED_Y	20
 
 void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, float y)
 {
@@ -32,11 +32,15 @@ void celery_stalker_load(Entity *celery_stalker, int id, int target, float x, fl
 
 void celery_stalker_think_start(Entity *celery_stalker)
 {
+	if(!celery_stalker->target)
+	{
+		slog("No celery_stalker target");
+		return;
+	}
 	if(SDL_GetTicks() >= celery_stalker->nextThink)
 	{
 		vect2d_subtract(celery_stalker->target->position, celery_stalker->position, celery_stalker->direction);
 		vect2d_normalize(&celery_stalker->direction);
-		//vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
 		celery_stalker->think = &celery_stalker_think_moving;
 		vect2d_mutiply(celery_stalker->velocity, celery_stalker->direction, celery_stalker->velocity);
 	}
@@ -64,12 +68,17 @@ void celery_stalker_update(Entity *celery_stalker)
 
 void celerly_stalker_touch(Entity *celery_stalker, Entity *other)
 {
+	if(!celery_stalker->target)
+	{
+		slog("No celery_stalker target");
+		return;
+	}
 	if(!celery_stalker->think)
 	{
 		if(other == camera_get())
 		{
 			celery_stalker->think = &celery_stalker_think_start;
-			celery_stalker->thinkRate = 1000;
+			celery_stalker->thinkRate = 2000;
 			celery_stalker->nextThink = SDL_GetTicks() + celery_stalker->thinkRate;
 		}
 	}
@@ -84,7 +93,7 @@ void celerly_stalker_free(Entity *celery_stalker)
 {
 	if(!celery_stalker)
 	{
-		slog("spice doesn't point to anything");
+		slog("No celery_stalker to be freed");
 		return;
 	}
 	celery_stalker->update = NULL;
