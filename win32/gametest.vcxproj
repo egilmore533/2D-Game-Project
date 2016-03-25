@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\backgrounds.c" />
     <ClCompile Include="..\src\camera.c" />
     <ClCompile Include="..\src\celery_stalker.c" />
     <ClCompile Include="..\src\clarence.c" />
@@ -32,6 +33,7 @@
     <ClCompile Include="..\src\weapon.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\backgrounds.h" />
     <ClInclude Include="..\src\camera.h" />
     <ClInclude Include="..\src\celery_stalker.h" />
     <ClInclude Include="..\src\clarence.h" />
@@ -87,7 +89,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../</OutDir>
-    <IncludePath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.13\include;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <IncludePath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.13\include;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
     <LibraryPath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(WindowsSdkDir)\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
     <ReferencePath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
   </PropertyGroup>

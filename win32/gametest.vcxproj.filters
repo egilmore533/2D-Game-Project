@@ -72,6 +72,9 @@
     <ClCompile Include="..\src\files.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\backgrounds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\graphics.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\files.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\backgrounds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

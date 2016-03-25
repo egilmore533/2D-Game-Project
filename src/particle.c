@@ -37,7 +37,7 @@ void particle_close_system()
 	Particle *particle;
 	if(!particleList)
 	{
-		slog("entityList not initialized");
+		slog("particleList not initialized");
 		return;
 	}
 	for(i = 0; i < particleMax; ++i)
@@ -186,6 +186,6 @@ void particle_draw_all()
 			continue;
 		}
 		sprite_draw(particleList[i].sprite, particleList[i].frame, particleList[i].position);
-		particleList[i].frame++;
+		particleList[i].frame++; //no update so handle frame changes here
 	}
 }
