@@ -6,7 +6,7 @@
 
 typedef struct Background_s
 {
-	Uint8		alive;
+	int			alive;
 	Sprite		*sprite;
 
 	Vect2d		mainPosition, chaserPosition;

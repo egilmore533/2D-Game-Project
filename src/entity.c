@@ -64,7 +64,7 @@ void entity_close_system()
 		slog("entityList not initialized");
 		return;
 	}
-	for(i = 0; i < entityMax; ++i)
+	for(i = 0; i < entityMax; i++)
 	{
 		entity = &entityList[i];
 		entity_free(&entity);
@@ -90,7 +90,7 @@ void entity_initialize_system(int maxEntity)
 	}
 	memset(entityList, 0, sizeof (Entity) * maxEntity);
 	entityNum = 0;
-	for(i = 0; i < maxEntity; ++i)
+	for(i = 0; i < maxEntity; i++)
 	{
 		entityList[i].sprite = NULL;
 	}

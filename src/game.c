@@ -8,6 +8,8 @@
 #include "player.h"
 #include "files.h"
 
+#include "backgrounds.h"
+
 
 void initialize_all(Uint8 level_number);
 void clean_up_all();
@@ -23,6 +25,10 @@ int main(int argc, char *argv[])
 	SDL_Renderer *the_renderer;
 	Entity *player;
 	Uint8 levelnum = 1;
+
+	Background *background1;
+	Background *background2;
+	Background *background3;
   
 	Vect2d pos;
 	pos = vect2d_new(0,0);
@@ -32,6 +38,9 @@ int main(int argc, char *argv[])
 	
 	the_renderer = graphics_get_renderer();
 	player = player_get();
+	background3 = background_load("images/background.png", 0, 2732, 768, 1);
+	background1 = background_load("images/background_top_bottom_border.png", 0, 2732, 768, 1);
+	background2 = background_load("images/rotating_peppers.png", 0.1, 2732, 768, 1);
 	done = 0;
 	do
 	{
@@ -47,7 +56,12 @@ int main(int argc, char *argv[])
 			initialize_next_level(levelnum++);
 		}
 		SDL_RenderClear(the_renderer);
+		
 		sprite_draw(level->background, 0, pos);
+
+		background_update_all();
+		background_draw_all();
+
 		entity_think_all();
 		entity_update_all();
 
@@ -73,7 +87,7 @@ void clean_up_all()
 	particle_close_system();
 	entity_close_system();
 	sprite_close_system();
-	
+	background_close_system();
 	/*any other cleanup functions can be added here*/ 
 }
 
@@ -95,6 +109,7 @@ void initialize_all(Uint8 level_number)
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
 	camera_initialize(cameraPosition, cameraDimensions, 0);
+	background_initialize_system(10);
 	level_load(level_number);
 	atexit(clean_up_all);
 }
@@ -110,5 +125,6 @@ void initialize_next_level(Uint8 level_number)
 	cameraPosition = vect2d_new(0,0);
 	cameraDimensions = vect2d_new(width, height);
 	camera_initialize(cameraPosition, cameraDimensions, 0);
+	background_initialize_system(10);
 	level_load(level_number);
 }
