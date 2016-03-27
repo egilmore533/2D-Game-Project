@@ -38,9 +38,6 @@ int main(int argc, char *argv[])
 	
 	the_renderer = graphics_get_renderer();
 	player = player_get();
-	background3 = background_load("images/background.png", 0, 2732, 768, 1);
-	background1 = background_load("images/background_top_bottom_border.png", 0, 2732, 768, 1);
-	background2 = background_load("images/rotating_peppers.png", 0.1, 2732, 768, 1);
 	done = 0;
 	do
 	{
@@ -84,10 +81,11 @@ int main(int argc, char *argv[])
 void clean_up_all()
 {
 	level_close();
+	background_close_system();
 	particle_close_system();
 	entity_close_system();
 	sprite_close_system();
-	background_close_system();
+	
 	/*any other cleanup functions can be added here*/ 
 }
 

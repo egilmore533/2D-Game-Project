@@ -4,6 +4,7 @@
 #include "weapon.h"
 #include "melt.h"
 #include "files.h"
+#include "particle.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	2
@@ -64,6 +65,7 @@ void melt_update(Entity *melt)
 	entity_intersect_all(melt);
 	if(melt->health <= 0)
 	{
+		particle_bundle_load(melt, 40);
 		melt->free(melt);
 	}
 }

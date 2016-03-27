@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "files.h"
 #include <stdlib.h>
+#include "particle.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	0
@@ -102,6 +103,7 @@ void professor_slice_update(Entity *professor_slice)
 	entity_intersect_all(professor_slice);
 	if(professor_slice->health <= 0)
 	{
+		particle_bundle_load(professor_slice, 40);
 		professor_slice->free(professor_slice);
 	}
 }

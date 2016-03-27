@@ -160,6 +160,8 @@ void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 {
 	Vect2d positionRelative;
 	Entity *cam;
+	SDL_Rect source, destination;
+	SDL_Renderer *renderer = graphics_get_renderer();
 	cam = camera_get();
 	vect2d_subtract(drawPos, cam->position, positionRelative); 
 	if(!sprite)
@@ -167,8 +169,6 @@ void sprite_draw(Sprite *sprite, int frame, Vect2d drawPos)
 		slog("sprite doesn't point to anything");
 		return;
 	}
-	SDL_Rect source, destination;
-	SDL_Renderer *renderer = graphics_get_renderer();
 	source.x = frame % sprite->framesPerLine * sprite->frameSize.x;
 	source.y = frame / sprite->framesPerLine * sprite->frameSize.y;
 	source.w = sprite->frameSize.x;

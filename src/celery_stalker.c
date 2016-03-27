@@ -2,6 +2,7 @@
 #include "simple_logger.h"
 #include "camera.h"
 #include "files.h"
+#include "particle.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	20
@@ -62,6 +63,7 @@ void celery_stalker_update(Entity *celery_stalker)
 	entity_intersect_all(celery_stalker);
 	if(celery_stalker->health <= 0)
 	{
+		particle_bundle_load(celery_stalker, 20);
 		celery_stalker->free(celery_stalker);
 	}
 }

@@ -6,12 +6,13 @@
 
 
 /** @brief	Defines the particles to be a sprite with a position, frame number, and usage flag. */
-typedef struct Particles
+typedef struct Particle_s
 {
-	Vect2d position;				/**< the position of the particle */
-	int inUse;						/**< the usage flag */
-	int frame;						/**< frame number of the particle, dies after the frame excceds 30 */
-	Sprite *sprite;					/**< the particle's sprite */
+	Vect2d position;					/**< the position of the particle */
+	int inUse;							/**< the usage flag */
+	int frame;							/**< frame number of the particle, dies after the frame excceds 30 */
+	Sprite *sprite;						/**< the particle's sprite */
+	void (*think) (Particle_s *self);	/**< the think function, if needed of the particle*/
 
 }Particle;
 
@@ -38,14 +39,11 @@ void particle_initialize_system(int maxParticle);
 Particle *particle_new();
 
 /**
- * @brief	generates a particle in a random position near the generator with a random frame number and a random particle sprite.
- * @param [in,out]	particle 	If non-null, the particle that needs to be generated.
- * @param [in,out]	generator	If non-null, the source that the particle is coming from.
- * @param	offsets			 	offsets defined by each generator as needed to make the particles look visually correct.
- * @return	null if it fails, else a Particle*.
+ * @brief loads a number of randomly created particles using a generator to give it a position and randomly changing it slightly based on frameSize of the generator
+ * @param [in,out]	generator	the entity that will be the basis for this particle's position generation
+ * @param numParticles			the number of particles that will be created
  */
-
-Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets);
+void particle_bundle_load(Entity *generator, int numParticles);
 
 /**
  * @brief	checks if a particle has reached it's last frame
@@ -61,5 +59,20 @@ void particle_check_all_dead();
 
 /** @brief	draws every particle to the screen using sprite draw, this needs to be used because particles aren't entities and camera won't draw them */
 void particle_draw_all();
+
+/**
+ * @brief generates a particle randomly based on its generators position and returns it if further use is required, used for broad particle effects where position is less important
+ * @param [in,out] generator		the particle's, generator
+ * @return null if it fails, else a pointer to a fully loaded particle.
+ */
+Particle *particle_assumed_position_load(Entity *generator);
+
+/**
+ * @brief generates a particle in a more precise location and returns it if further use is required, used for trail effects
+ * @param [in,out] generator		the particle's, generator
+ * @param offsets					the offset that will be used to position the particle slightly more accurately
+ * @return null if it fails, else a pointer to a fully loaded particle with a precise location.
+ */
+Particle *particle_exact_position_load(Entity *generator, Vect2d offsets);
 
 #endif

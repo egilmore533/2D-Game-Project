@@ -3,6 +3,7 @@
 #include "weapon.h"
 #include "camera.h"
 #include "files.h"
+#include "particle.h"
 
 /** @brief	A macro that defines the factor that all clarences will fall at. */
 #define MOVEMENT_SPEED_X	0
@@ -72,6 +73,7 @@ void clarence_update(Entity *clarence)
 	entity_intersect_all(clarence);
 	if(clarence->health <= 0)
 	{
+		particle_bundle_load(clarence, 40);
 		clarence->free(clarence);
 	}
 }

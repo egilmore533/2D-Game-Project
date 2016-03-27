@@ -102,18 +102,16 @@ Particle *particle_new()
 	return NULL;
 }
 
-Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets)
+
+Particle *particle_exact_position_load(Entity *generator, Vect2d offsets)
 {
-	if(!particle)
-	{
-		slog("particle doesn't point to anything");
-		return NULL;
-	}
-	else if(!generator)
+	Particle *particle;
+	if(!generator)
 	{
 		slog("generator doesn't point to anything");
 		return NULL;
 	}
+	particle = particle_new();
 	particle->position.x = (generator->position.x - 5 + ( rand() % 25)) + offsets.x;
 	particle->position.y = (generator->position.y - 5 + ( rand() % 25)) + offsets.y;
 	particle->frame = (rand() % 30); // make this number higher to make it appear slightly more random, and better looking overall, still need to slow down the generation in the think functions
@@ -132,6 +130,40 @@ Particle *particle_load(Particle *particle, Entity *generator, Vect2d offsets)
 	}
 
 	return particle;
+}
+
+Particle *particle_assumed_position_load(Entity *generator)
+{
+	Particle *particle;
+	particle = particle_new();
+	particle->position.x = (generator->position.x + (rand() % (int) (generator->sprite->frameSize.x)));
+	particle->position.y = (generator->position.y + (rand() % (int) (generator->sprite->frameSize.y)));
+	particle->frame = (rand() % 30);
+
+	switch( rand() % 3 )
+	{
+		case 1:
+			particle->sprite = red_particle; // this should be what it always is for pep's spice but why not do something dumb for no reason
+			break;
+		case 2:
+			particle->sprite = green_particle;
+			break;
+		case 0:
+			particle->sprite = blue_particle;
+			break;
+	}
+	return particle;
+}
+
+void particle_bundle_load(Entity *generator, int numParticles)
+{
+	Particle *particle;
+	int i;
+	for(i = 0; i < numParticles; i++)
+	{
+		particle = particle_assumed_position_load(generator);
+	}
+	return;
 }
 
 int particle_dead(Particle *particle)

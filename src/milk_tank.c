@@ -2,6 +2,7 @@
 #include "simple_logger.h"
 #include "camera.h"
 #include "files.h"
+#include "particle.h"
 
 /** @brief	A macro that defines the factor that all milk_tank will be moving by. */
 #define MOVEMENT_SPEED_X	4
@@ -76,6 +77,7 @@ void milk_tank_update(Entity *milk_tank)
 	entity_intersect_all(milk_tank);
 	if(milk_tank->health <= 0)
 	{
+		particle_bundle_load(milk_tank, 40);
 		milk_tank->free(milk_tank);
 	}
 	

@@ -2,7 +2,8 @@
 #include "simple_logger.h"
 #include <string.h>
 #include <stdio.h>
-#include "entity.h"
+
+#include "backgrounds.h"
 
 #include "player.h"
 #include "melt.h"
@@ -26,6 +27,14 @@ static void (*entity_load_array[ENTITIES_NUM]) (Entity *entity, int id, int targ
 /** @breif array of char arrays that is used to help determine what type of entity the level file wants to load, and then corresponds to a specific load function in entity_load_array */
 char entity_types[ENTITIES_NUM][16] = {"player", "melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield", "bomb", "spread_shot", "sticky_shot", "extra_life"};
 
+/**
+ * @brief loads a level by parsing a level file that it predefined in files.h
+ *			parses for entity data, background data, and level info
+ *			~ denotes the end of a entity's info and will load an entity with the information currently inside entity_type, id, targetID, x, and y
+ *			= denotes the end of a background's info and will load a background with the information currently inside background_file, width, height, velocityFactor, and frames_per_line
+ *			end is the end of a level and will be saved in the level struct
+ * @param level_num	the level number currently, this will be used to find the level filepath in the files.h
+ */
 void level_load(Uint8 level_number)
 {
 	FILE *levelfile = NULL;
@@ -35,6 +44,8 @@ void level_load(Uint8 level_number)
 	//background loading storage
 	char background_file[128];
 	int width, height;
+	float velocityFactor;
+	int frames_per_line;
 	int i;
 	Sprite * temp;
 
@@ -72,6 +83,19 @@ void level_load(Uint8 level_number)
 		else if (strncmp(buf,"height:",128)==0)
 		{
 			fscanf(levelfile,"%i",&height);
+		}
+		else if (strncmp(buf,"velocity:",128)==0)
+		{
+			fscanf(levelfile,"%f",&velocityFactor);
+		}
+		else if (strncmp(buf,"fpl:",128)==0)
+		{
+			fscanf(levelfile,"%i",&frames_per_line);
+		}
+
+		else if(buf[0] == '=')
+		{
+			background_load(background_file, velocityFactor, width, height, frames_per_line);
 		}
 		else if (strncmp(buf, "end:", 128)==0)
 		{
@@ -124,20 +148,16 @@ void level_load(Uint8 level_number)
 	}
 
 	fclose(levelfile);
-	temp = sprite_load(background_file, width, height, 1);
-	if (!temp)
-	{
-		slog("could not open sprite file: %s",background_file);
-		return;
-	}
 	level_close();
 	level.loaded = 1;
-	level.background = temp;
 	level.file = files_get_level(level_number);
 	level.end = end;
 	return;
 }
 
+/**
+ * @brief closes a level by setting it to be unloaded and freeing its background sprite if it has one (it shouldn't because backgroundList should handle this now)
+ */
 void level_close()
 {
 	if (!level.loaded)
@@ -150,6 +170,10 @@ void level_close()
 	}
 }
 
+/**
+ * @brief allocates memory for the level struct, and sets each function pointer inside the entity_load_array to be used for the corresponding entity_type 
+			in the entity_types char array so "player"'s position in the entity_types array is the same as the player_load function in entity_load_array
+ */
 void level_initialize_system()
 {
 	memset(&level,0,sizeof(Level));
@@ -168,6 +192,9 @@ void level_initialize_system()
 	atexit(level_close);
 }
 
+/**
+ * @brief getter for the level so the main game loop can use its data members like end to check if the player has passed it and act accordingly
+ */
 Level *level_get()
 {
 	return &level;

@@ -162,7 +162,6 @@ void weapon_pep_charge_fire(Entity *player)
 
 void weapon_pep_think(Entity *spice) //this is used for spread shot and charge shot so all spiciness 
 {
-	Particle *part;
 	Vect2d offset;
 	//if the bullet isn't touching the camera free the entity
 	camera_free_entity_outside_bounds(spice);
@@ -172,8 +171,7 @@ void weapon_pep_think(Entity *spice) //this is used for spread shot and charge s
 		return;
 	}
 	offset = vect2d_new(-30, -10);
-	part = particle_new();
-	part = particle_load(part, spice, offset);
+	particle_exact_position_load(spice, offset);
 	spice->nextThink = SDL_GetTicks() + spice->thinkRate;
 
 }
