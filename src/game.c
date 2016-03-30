@@ -25,10 +25,6 @@ int main(int argc, char *argv[])
 	SDL_Renderer *the_renderer;
 	Entity *player;
 	Uint8 levelnum = 1;
-
-	Background *background1;
-	Background *background2;
-	Background *background3;
   
 	Vect2d pos;
 	pos = vect2d_new(0,0);
@@ -63,6 +59,7 @@ int main(int argc, char *argv[])
 		entity_update_all();
 
 		particle_check_all_dead();
+		particle_think_all();
 		particle_draw_all();
 
 		graphics_next_frame();

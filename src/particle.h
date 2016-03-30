@@ -9,6 +9,7 @@
 typedef struct Particle_s
 {
 	Vect2d position;					/**< the position of the particle */
+	Vect2d velocity;					/**< the velocity of the particle (if needed) */
 	int inUse;							/**< the usage flag */
 	int frame;							/**< frame number of the particle, dies after the frame excceds 30 */
 	Sprite *sprite;						/**< the particle's sprite */
@@ -45,6 +46,8 @@ Particle *particle_new();
  */
 void particle_bundle_load(Entity *generator, int numParticles);
 
+void particle_think(Particle *particle);
+
 /**
  * @brief	checks if a particle has reached it's last frame
  * @param [in,out]	particle	If non-null, the particle to check.
@@ -59,6 +62,9 @@ void particle_check_all_dead();
 
 /** @brief	draws every particle to the screen using sprite draw, this needs to be used because particles aren't entities and camera won't draw them */
 void particle_draw_all();
+
+/** @brief checks all particles and makes them think if they have a think function */
+void particle_think_all();
 
 /**
  * @brief generates a particle randomly based on its generators position and returns it if further use is required, used for broad particle effects where position is less important

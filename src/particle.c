@@ -162,8 +162,30 @@ void particle_bundle_load(Entity *generator, int numParticles)
 	for(i = 0; i < numParticles; i++)
 	{
 		particle = particle_assumed_position_load(generator);
+		particle->think = &particle_think;
 	}
 	return;
+}
+
+void particle_think(Particle *particle)
+{
+	if(particle->velocity.x == 0 && particle->velocity.y)
+	{
+		particle->velocity = vect2d_new(rand() % 10, rand() % 10);
+		switch(rand() % 3)
+		{
+			case 0:
+				particle->velocity.x = -particle->velocity.x;
+				break;
+			case 1:
+				particle->velocity.y = -particle->velocity.y;
+				break;
+			case 2:
+				vect2d_negate(particle->velocity, particle->velocity);
+				break;
+		}
+	}
+	vect2d_add(particle->position, particle->velocity, particle->position);
 }
 
 int particle_dead(Particle *particle)
@@ -219,5 +241,27 @@ void particle_draw_all()
 		}
 		sprite_draw(particleList[i].sprite, particleList[i].frame, particleList[i].position);
 		particleList[i].frame++; //no update so handle frame changes here
+	}
+}
+
+void particle_think_all()
+{
+	int i;
+	if(!particleList)
+	{
+		slog("particleList not yet initialized");
+		return;
+	}
+	for(i = 0; i < particleMax; i++)
+	{
+		if(!particleList[i].inUse)
+		{
+			continue;
+		}
+		if(!particleList[i].think)
+		{
+			continue;
+		}
+		particleList[i].think(&particleList[i]);
 	}
 }

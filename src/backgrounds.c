@@ -127,7 +127,7 @@ void background_draw_all()
 	}
 }
 
-Background *background_load(char background_file_path[128], float velocityFactor, int width, int height, int fpl)
+Background *background_load(char background_file_path[128], float velocityFactor, int width, int height, int fpl, int frames)
 {
 	Background *background;
 	background = background_new();
@@ -148,9 +148,12 @@ Background *background_load(char background_file_path[128], float velocityFactor
 	mainPos = vect2d_new(cam->position.x, cam->position.y);
 	chaserPos = vect2d_new(cam->position.x + width, cam->position.y);
 	background->sprite = sprite_load(background_file_path, width, height, fpl);
+	background->totalFrames = frames;
 	background->velocity = vel;
 	background->mainPosition = mainPos;
 	background->chaserPosition = chaserPos;
+	background->thinkRate = 200;
+	background->nextThink = SDL_GetTicks() + background->thinkRate;
 	return background;
 }
 
@@ -165,6 +168,18 @@ void background_update(Background *background)
 		background->mainPosition = background->chaserPosition;
 		background->chaserPosition = vect2d_new(background->mainPosition.x + background->sprite->frameSize.x, 0);
 
+	}
+	if(SDL_GetTicks() > background->nextThink)
+	{
+		if(background->frame + 1 < background->totalFrames)
+		{
+			background->frame++;
+		}
+		else
+		{
+			background->frame = 0;
+		}
+		background->nextThink = SDL_GetTicks() + background->thinkRate;
 	}
 }
 

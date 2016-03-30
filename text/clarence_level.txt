@@ -3,6 +3,7 @@ width: 2732
 height: 768
 velocity: 0.1
 fpl: 1
+frames: 1
 =
 
 image: images/background_top_bottom_border.png
@@ -10,6 +11,7 @@ width: 2732
 height: 768
 velocity: 0.7
 fpl: 1
+frames: 1
 =
 
 image: images/rotating_peppers.png
@@ -17,6 +19,7 @@ width: 2732
 height: 768
 velocity: 0.4
 fpl: 1
+frames: 4
 =
 
 end: 12500

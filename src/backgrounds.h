@@ -11,8 +11,9 @@ typedef struct Background_s
 	Sprite		*sprite;
 
 	Vect2d		mainPosition, chaserPosition;
-	int			frame;
+	int			frame, totalFrames;
 	Vect2d		velocity;
+	Uint32		nextThink, thinkRate;
 
 	void (*draw)	(Sprite *sprite, int frame, Vect2d drawPosition);
 	void (*update)	(struct Background_s *self);
@@ -61,7 +62,7 @@ void background_update_all();
  * @param height			the height of a frame of the background
  * @param fpl				the frames per line for the background's sprite
  */
-Background *background_load(char background_file_path[128], float velocityFactor, int width, int height, int fpl);
+Background *background_load(char background_file_path[128], float velocityFactor, int width, int height, int fpl, int frames);
 
 /**
  * @brief	updates the background's main and chaser positions according to the background's velocity

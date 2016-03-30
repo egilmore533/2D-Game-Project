@@ -46,8 +46,8 @@ void level_load(Uint8 level_number)
 	int width, height;
 	float velocityFactor;
 	int frames_per_line;
+	int frames;
 	int i;
-	Sprite * temp;
 
 	Uint32 end;
 
@@ -92,10 +92,14 @@ void level_load(Uint8 level_number)
 		{
 			fscanf(levelfile,"%i",&frames_per_line);
 		}
+		else if (strncmp(buf,"frames:",128)==0)
+		{
+			fscanf(levelfile,"%i",&frames);
+		}
 
 		else if(buf[0] == '=')
 		{
-			background_load(background_file, velocityFactor, width, height, frames_per_line);
+			background_load(background_file, velocityFactor, width, height, frames_per_line, frames);
 		}
 		else if (strncmp(buf, "end:", 128)==0)
 		{
