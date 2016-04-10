@@ -4,6 +4,7 @@
 #include "files.h"
 #include <stdlib.h>
 #include <math.h>
+#include "audio.h"
 
 #define PEP_WEAPON_OFFSET_X	128
 #define PEP_WEAPON_OFFSET_Y	40
@@ -195,6 +196,7 @@ void weapon_pep_bomb(Entity *player)
 	Entity *bomb = weapon_fire(player);
 	Entity *cam;
 	Vect2d pos, vel;
+	Sound *sound = NULL;
 
 	cam = camera_get();
 	vect2d_set(pos, cam->position.x, cam->position.y);
@@ -206,6 +208,8 @@ void weapon_pep_bomb(Entity *player)
 	bomb->velocity = vel;
 	bomb->think = &weapon_pep_bomb_think;
 	bomb->touch = &weapon_pep_bomb_touch;
+	sound = audio_load_sound("sounds/Burp_Short.ogg", 0, FX_Bullets);
+	audio_play_sound(sound);
 }
 
 void weapon_pep_bomb_think(Entity *bomb)

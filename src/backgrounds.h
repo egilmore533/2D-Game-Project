@@ -4,7 +4,13 @@
 #include "sprite.h"
 #include "simple_logger.h"
 
-/** @brief the struct for background layers so that they can be drawn infinitely at a unique speed */
+/** @file	backgrounds.h
+ *	@brief	Parallax Scrolling system used to contain and handle backgrounds
+ */
+
+/** @struct Background structure
+ *	@brief the struct for background layers so that they can be drawn infinitely at a unique speed 
+ */
 typedef struct Background_s
 {
 	int			alive;

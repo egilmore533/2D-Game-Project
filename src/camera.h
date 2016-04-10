@@ -5,6 +5,10 @@
 #include "vector.h"
 #include "entity.h"
 
+/** @file	camera.h
+ *	@brief	camera handling, camera in this case is a entity, camera is always moving right slowly
+ */
+
 /**
  * @brief	initializes the camera entity with given information, needs to be initialized after
  * 			all the systems are started, but before the level is loaded.

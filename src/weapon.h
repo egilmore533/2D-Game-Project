@@ -4,6 +4,10 @@
 #include "entity.h"
 #include "simple_logger.h"
 
+/** @file	weapon.h
+ *	@brief	Weapon firing, handles enemy bullets, player charge, spread and bombs
+ */
+
 /**
  * @brief	sets up the weapon for use by the entity specific weapon function.
  * @param [in,out]	owner	the weapon's owner entity.

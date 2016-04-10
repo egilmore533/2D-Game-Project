@@ -7,6 +7,7 @@
 #include "level.h"
 #include "player.h"
 #include "files.h"
+#include "audio.h"
 
 #include "backgrounds.h"
 
@@ -25,13 +26,20 @@ int main(int argc, char *argv[])
 	SDL_Renderer *the_renderer;
 	Entity *player;
 	Uint8 levelnum = 1;
+	Music *background_music = NULL;
   
 	Vect2d pos;
 	pos = vect2d_new(0,0);
 
 	initialize_all(levelnum++);
 	level = level_get();
+
 	
+	audio_initialize(128, 3);
+	background_music = audio_load_music("music/HotSalsa.ogg", -1);
+	audio_play_music(background_music);
+	
+
 	the_renderer = graphics_get_renderer();
 	player = player_get();
 	done = 0;

@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	milk_tank.h
+ *	@brief	Milk Tank enemy handling
+ */
+
 /** 
  *  @brief	loads a milk_tank entity, milk_tank will move towards the player slowly trying to hit the player, it takes has 5 health
  *  @param [in,out]	milk_tank	pointer to the milk tank that needs to be created.

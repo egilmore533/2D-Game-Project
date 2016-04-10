@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\2D Games\cJSON\cJSON.c" />
+    <ClCompile Include="..\src\audio.c" />
     <ClCompile Include="..\src\backgrounds.c" />
     <ClCompile Include="..\src\camera.c" />
     <ClCompile Include="..\src\celery_stalker.c" />
@@ -33,6 +35,9 @@
     <ClCompile Include="..\src\weapon.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\2D Games\cJSON\cJSON.h" />
+    <ClInclude Include="..\..\..\2D Games\glib-2.28\include\glib-2.0\glib.h" />
+    <ClInclude Include="..\src\audio.h" />
     <ClInclude Include="..\src\backgrounds.h" />
     <ClInclude Include="..\src\camera.h" />
     <ClInclude Include="..\src\celery_stalker.h" />
@@ -89,9 +94,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../</OutDir>
-    <IncludePath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.13\include;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
-    <LibraryPath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(WindowsSdkDir)\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <ReferencePath>C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <IncludePath>C:\Users\User\Desktop\2D Games\cJSON;C:\Users\User\Desktop\2D Games\glib-2.28\include\glib-2.0;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\include;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.13\include;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <LibraryPath>C:\Users\User\Desktop\2D Games\glib-2.28\bin;C:\Users\User\Desktop\2D Games\glib-2.28\lib;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(WindowsSdkDir)\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <ReferencePath>C:\Users\User\Desktop\2D Games\glib-2.28\bin;C:\Users\User\Desktop\2D Games\glib-2.28\lib;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_mixer-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_ttf-2.0.1\lib\x86;C:\Users\User\Desktop\2D Games\SDL2_image-2.0.13\lib\x86;C:\Users\User\Desktop\2D Games\SDL2-2.0.4\lib\x86;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\djkehoe\Ironsoft Studios\libs\include;$(IncludePath)</IncludePath>
@@ -115,7 +120,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

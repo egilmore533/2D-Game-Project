@@ -4,6 +4,10 @@
 #include "entity.h"
 #include "simple_logger.h"
 
+/** @file	mouse.h
+ *	@brief	Mouse entity handling
+ */
+
 
 /** @brief	initializes the mouse (which is an entity) by loading the sprite, disabling the real cursor, and setting the draw, think, touch, and update. All of which do nothing for now (except update) */
 void mouse_initialize();

@@ -4,6 +4,10 @@
 #include "vector.h"
 #include "sprite.h"
 
+/** @file	entity.h
+ *	@brief	Entity System, handles how each entity updates, thinks, collides with other entities, and is drawn
+ */
+
 
 ////////////////////Inventory/////////////////////
 /** @brief	A macro that defines maximum inventory. */
@@ -38,7 +42,10 @@
 
 
 
-/** @brief	anything that can act or be acted upon (Enemies, players, power_ups, weapons, etc.) */
+/** 
+ * @struct	Entity structure
+ * @brief	anything that can act or be acted upon (Enemies, players, power_ups, weapons, etc.) 
+ */
 typedef struct Entity_s
 {
 	int inUse;							/**< flag to know if the entity is currently active */

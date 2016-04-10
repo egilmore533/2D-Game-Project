@@ -4,6 +4,10 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h" //not used yet
 
+/** @file	graphics.h
+ *	@brief	graphics system handling, used to create the window and renderer, also handles the frame rate
+ */
+
 /** 
  *  @brief example macro to return the largest of two values.
  *         can be read as: if a greater than b then a, else b

@@ -3,6 +3,7 @@
 #include "camera.h"
 #include "files.h"
 #include "particle.h"
+#include "audio.h"
 
 /** @brief	A macro that defines the factor that all celery stalker will be moving by. */
 #define MOVEMENT_SPEED_X	20

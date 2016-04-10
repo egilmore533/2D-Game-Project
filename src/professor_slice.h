@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	professor_slice.h
+ *	@brief	Professor Slice enemy handling
+ */
+
 /** 
  *  @brief  loads a professor_slice entity, professor_slice will try to run away from the player (on the y axis, and will remain inside the camera's bounds) and will throw bread crumb bombs on the screen, which will move a random distance towards the player
  *  @param	professor_slice	the entity that will become a professor_slice

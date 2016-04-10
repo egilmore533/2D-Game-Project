@@ -1,12 +1,21 @@
 #ifndef _FILES_H__
 #define _FILES_H__
 
+/** @file	files.h
+ *	@brief	def file for easy filepaths
+ */
+
 #define LEVEL_NUM	3
 
 #define LEVEL_1							"text/tutorial_level.txt"
 #define LEVEL_2							"text/melt_level.txt"
 #define LEVEL_3							"text/clarence_level.txt"
 
+/**
+ *	@brief	given a level number select and return the appropriate level path
+ *	@param	num		the level number
+ *	@return char pointer for the level's filepath
+ */
 char *files_get_level(int num);
 
 #define PEP_SPRITE						"images/pep3.png"

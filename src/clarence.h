@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	clarence.h
+ *	@brief	Clarence enemy handling
+ */
+
 /** 
  *  @brief  loads the clarence enemy entity, clarence will be invulnearable until the player is under him then clarence will spike down onto the player
  *  @param 	clarence	the entity that will become a clarence

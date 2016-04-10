@@ -4,8 +4,15 @@
 #include "sprite.h"
 #include "entity.h"
 
+/** @file	particle.h
+ *	@brief	Particle System, handles randomly loading particles and killing them after cycling through their animation
+ */
 
-/** @brief	Defines the particles to be a sprite with a position, frame number, and usage flag. */
+
+/**
+ * @struct	Particle structure
+ * @brief	Defines the particles to be a sprite with a position, frame number, and usage flag. 
+ */
 typedef struct Particle_s
 {
 	Vect2d position;					/**< the position of the particle */

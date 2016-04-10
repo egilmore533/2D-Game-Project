@@ -2,6 +2,7 @@
 #include "simple_logger.h"
 #include <string.h>
 #include <stdio.h>
+#include "cJSON.h"
 
 #include "backgrounds.h"
 
@@ -27,16 +28,14 @@ static void (*entity_load_array[ENTITIES_NUM]) (Entity *entity, int id, int targ
 /** @breif array of char arrays that is used to help determine what type of entity the level file wants to load, and then corresponds to a specific load function in entity_load_array */
 char entity_types[ENTITIES_NUM][16] = {"player", "melt", "celery_stalker", "professor_slice", "milk_tank", "clarence", "double_tap", "heat_shield", "bomb", "spread_shot", "sticky_shot", "extra_life"};
 
-/**
- * @brief loads a level by parsing a level file that it predefined in files.h
- *			parses for entity data, background data, and level info
- *			~ denotes the end of a entity's info and will load an entity with the information currently inside entity_type, id, targetID, x, and y
- *			= denotes the end of a background's info and will load a background with the information currently inside background_file, width, height, velocityFactor, and frames_per_line
- *			end is the end of a level and will be saved in the level struct
- * @param level_num	the level number currently, this will be used to find the level filepath in the files.h
- */
+//void level_load(Uint8 level_number)
+//{
+//
+//}
+
 void level_load(Uint8 level_number)
 {
+	cJSON *json; 
 	FILE *levelfile = NULL;
 	char buf[128];
 	int linenum = 0;
@@ -57,6 +56,7 @@ void level_load(Uint8 level_number)
 	int id;
 	int targetID;
 	float x, y;
+	
 
 	levelfile = fopen(files_get_level(level_number),"r");
 	if (levelfile == NULL)

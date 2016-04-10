@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	celery_stalker.h
+ *	@brief	Celery Stalker enemy handling
+ */
+
 /** 
  *  @brief load code for a celery_stalker enemy entity, the celery stalker will appear on screen for a brief time then bolt straight towards the player 
  *  @param celery_stalker	the entity that will become a celery_stalker

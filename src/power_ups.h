@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	power_ups.h
+ *	@brief	Spread Shot, Goo Shot, Heat Shield, Extra Life, Extra Bomb, Double Tap all handled
+ */
+
 /** 
  *  @brief  the basic power_up entity set up that is used by all power_ups/pick ups
  *  @param 	id			the id of the power_up entity that is being created

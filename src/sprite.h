@@ -4,7 +4,12 @@
 #include "SDL_image.h"
 #include "vector.h"
 
+/** @file	sprite.h
+ *	@brief	Sprite System, handles loading and drawing of each sprite for the game's entities, particles, and backgrounds
+ */
+
 /**
+ * @struct	Sprite structure
  * @brief	Sprite structure used to hold entire texture, filename, frame dimensions, texture
  * 			dimensions and the number of frames per line, and a reference count.
  */

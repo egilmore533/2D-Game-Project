@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	melt.h
+ *	@brief	Melt enemy handling
+ */
+
 /** 
  *  @brief  loads a melt entity, melt will slowly move towards the player firing projectiles periodically
  *  @param	melt	the entity that will become a melt

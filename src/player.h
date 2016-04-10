@@ -3,6 +3,10 @@
 
 #include "entity.h"
 
+/** @file	player.h
+ *	@brief	Player handling, also handles deaths and respawns
+ */
+
 
 /** 
  *  @brief	loads the player entity, Pep, who is trying to spread the spiciness

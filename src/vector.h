@@ -3,21 +3,27 @@
 
 #include <SDL.h>
 
+/** @file	vector.h
+ *	@brief	2D, 3D, 4D, vectors and their functions
+ */
+
 
 /** @brief	A macro that defines degrees to radians from DJ's MoGUL types file. */
 #define ERIC_DEGTORAD	 0.017453292519943295769236907684886
 
 /**
-* @brief a simple 2d vector structure containing two floats
-*/
+ * @struct the vector 2d structure, it contains 2 floats
+ * @brief a simple 2d vector structure containing two floats
+ */
 typedef struct
 {
 	float x,y;	/**< the x and y components of the vector */
 }Vect2d;
 
 /**
-* @brief a simple 3d vector structure containing three floats
-*/
+ * @struct the vector 3d structure, it contains 3 floats
+ * @brief a simple 3d vector structure containing three floats
+ */
 typedef struct
 {
 	union {
@@ -35,8 +41,9 @@ typedef struct
 }Vect3d;
 
 /**
-* @brief a simple 4d vector structure containing four floats
-*/
+ * @struct the vector 4d structure, it contains 4 floats
+ * @brief a simple 4d vector structure containing four floats
+ */
 typedef struct
 {
 	union {

@@ -3,7 +3,14 @@
 
 #include "sprite.h"
 
-/** @brief simple level struct that is used to store the background sprite and the end of the level */
+/** @file	level.h
+ *	@brief	level system, handles initializing, loading, and closing levels.
+ */
+
+/** 
+ * @struct	Level struct
+ * @brief simple level struct that is used to store the background sprite and the end of the level 
+ */
 typedef struct
 {
 	int loaded;			/**< the flag to know if the level has been loaded */
